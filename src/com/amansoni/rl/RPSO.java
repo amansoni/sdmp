@@ -44,7 +44,7 @@ public class RPSO extends LearningAlgorithm {
     @Override
     public Action selectAction() {
         initPopulation();
-        int evaluationCount=0;
+        int evaluationCount = 0;
         Individual bestOfGeneration;
         double bestFitness;
         if (action != null) {
@@ -53,11 +53,11 @@ public class RPSO extends LearningAlgorithm {
             bestOfGeneration = new Individual(10);
         }
         bestFitness = environment.getReward(bestOfGeneration.getAction());
-        while (true){
-            for (Individual i: population) {
+        while (true) {
+            for (Individual i : population) {
                 double fitness = environment.getReward(i.getAction());
                 evaluationCount++;
-                if (fitness >= bestFitness){
+                if (fitness >= bestFitness) {
                     bestFitness = fitness;
                     bestOfGeneration = i;
                 }
@@ -76,12 +76,16 @@ public class RPSO extends LearningAlgorithm {
         }
     }
 
-    public void printPolicy() {}
+    public void printPolicy() {
+    }
 
-        class Individual {
+    class Individual {
         int action = 0;
 
-        public Individual(int action) {this.action = action;}
+        public Individual(int action) {
+            this.action = action;
+        }
+
         public Individual(Random random) {
             action = random.nextInt(noOfActions) - stateOffset;
         }

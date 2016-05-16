@@ -39,7 +39,7 @@ public class QLearning extends LearningAlgorithm {
             updatePolicy(action, reward, i);
             state = nextState;
 
-            if (accumulatedReward <=0)
+            if (accumulatedReward <= 0)
                 printPolicy();
         }
     }

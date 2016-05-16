@@ -4,7 +4,7 @@ package com.amansoni.rl;
  * Created by Aman on 14/05/2016.
  */
 public class Environment {
-    final static boolean DEBUG = false;
+    final static boolean DEBUG = true;
     private int timeStep;
     private int currentReward;
     private State state = new State();
@@ -12,7 +12,8 @@ public class Environment {
     private Action previousAction;
     // bias
     private int b;
-    private int accumulatedReward=0;
+    private int accumulatedReward = 0;
+
     public Environment(int bias) {
         b = bias;
         init();
@@ -26,8 +27,8 @@ public class Environment {
         timeStep++;
         currentReward = getReward(x);// state.height - state.width * Math.abs(x.getValue() - state.center) + g();
         accumulatedReward += currentReward;
-//        if (DEBUG)
-        System.out.println(timeStep + "\tstate:" + state.center + " \taction:" + x.getValue() + "\treward:" + currentReward + "\ttotal:" + accumulatedReward);
+        if (DEBUG)
+            System.out.println(timeStep + "\tstate:" + state.center + " \taction:" + x.getValue() + "\treward:" + currentReward + "\ttotal:" + accumulatedReward);
         state.center = -state.center;
         previousAction = x;
         return currentReward;
