@@ -15,5 +15,6 @@ public abstract class LearningAlgorithm {
 
     public abstract Action selectAction();
 
+    public abstract void printPolicy();
 
 }

@@ -28,16 +28,16 @@ public class Experiment {
     }
 
     public static void main(String[] args) {
-//        Experiment experiment = new Experiment(1, 100);
-//        experiment.learningAlgorithm.learn(2000);
+        Experiment experiment = new Experiment(1, 100, Algorithm.QLearning);
+        experiment.learningAlgorithm.learn(500);
 //        System.out.println(experiment.learningAlgorithm.getAccumulatedReward());
-//        experiment.learningAlgorithm.printPolicy();
+        experiment.learningAlgorithm.printPolicy();
 
-        createExperimentRun(30, 100, 2000, Algorithm.QLearning);
-        createExperimentRun(30, 15, 2000, Algorithm.QLearning);
-
-        createExperimentRun(30, 100, 2000, Algorithm.RPSO);
-        createExperimentRun(30, 15, 2000, Algorithm.RPSO);
+//        createExperimentRun(30, 100, 2000, Algorithm.QLearning);
+//        createExperimentRun(30, 15, 2000, Algorithm.QLearning);
+//
+//        createExperimentRun(30, 100, 2000, Algorithm.RPSO);
+//        createExperimentRun(30, 15, 2000, Algorithm.RPSO);
 
     }
 

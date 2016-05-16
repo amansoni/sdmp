@@ -38,6 +38,9 @@ public class QLearning extends LearningAlgorithm {
             // update the learning policy
             updatePolicy(action, reward, i);
             state = nextState;
+
+            if (accumulatedReward <=0)
+                printPolicy();
         }
     }
 
@@ -110,11 +113,11 @@ public class QLearning extends LearningAlgorithm {
         }
     }
 
-    void printPolicy() {
+    public void printPolicy() {
         int noOfActions = environment.getActions().length;
         System.out.print("  \t");
         for (int i = 0; i < noOfStates; i++) {
-            System.out.print((i - stateOffset) + "    \t");
+            System.out.print((i - stateOffset) + "  \t");
         }
         System.out.println("");
         for (int i = 0; i < noOfStates; i++) {

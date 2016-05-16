@@ -12,7 +12,7 @@ public class Environment {
     private Action previousAction;
     // bias
     private int b;
-
+    private int accumulatedReward=0;
     public Environment(int bias) {
         b = bias;
         init();
@@ -25,8 +25,9 @@ public class Environment {
     public int takeAction(Action x) {
         timeStep++;
         currentReward = getReward(x);// state.height - state.width * Math.abs(x.getValue() - state.center) + g();
-        if (DEBUG)
-            System.out.println("Timestep: " + timeStep + " State:" + state.center);
+        accumulatedReward += currentReward;
+//        if (DEBUG)
+        System.out.println(timeStep + "\tstate:" + state.center + " \taction:" + x.getValue() + "\treward:" + currentReward + "\ttotal:" + accumulatedReward);
         state.center = -state.center;
         previousAction = x;
         return currentReward;
