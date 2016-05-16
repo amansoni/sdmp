@@ -16,11 +16,11 @@ public class Experiment {
     }
 
     public static void main(String[] args) {
-        createExperimentRunRL(30, 100, 2000);
-        createExperimentRunRL(30, 15, 2000);
+        createExperimentRunRL(30, 100, 1000);
+        createExperimentRunRL(30, 15, 1000);
 
-        createExperimentRunEA(30, 100, 2000);
-        createExperimentRunEA(30, 15, 2000);
+//        createExperimentRunEA(30, 100, 2000);
+//        createExperimentRunEA(30, 15, 2000);
 
     }
 
@@ -40,6 +40,7 @@ public class Experiment {
     public static double createExperimentRL(int bias, int steps, int seed) {
         Experiment experiment = new Experiment(seed, bias);
         experiment.learningAlgorithm.learn(steps);
+        //experiment.learningAlgorithm.printPolicy();
         return experiment.learningAlgorithm.getAccumulatedReward();
     }
 
