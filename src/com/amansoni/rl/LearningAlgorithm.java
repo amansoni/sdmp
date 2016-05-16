@@ -8,6 +8,7 @@ import java.util.Random;
  */
 public class LearningAlgorithm {
     final static boolean DEBUG = false;
+    final static boolean WRITE_FILE = true;
     DecimalFormat df = new DecimalFormat("#.00");
     final static double epsilon = 0.1;
     int noOfStates = 21;
@@ -17,6 +18,7 @@ public class LearningAlgorithm {
     Random random;
     int accumulatedReward= 0;
     double discountFactor=0;
+    State state;
 
 
     public LearningAlgorithm (Environment environment, double discountFactor, int seed){
@@ -29,11 +31,11 @@ public class LearningAlgorithm {
     public void learn(int totalSteps){
         for(int i=0; i< totalSteps; i++){
             // select an action
-            Action action = selectAction(environment.getState());
+            Action action = selectAction();
             // perform the action and get a reward
             int reward = environment.takeAction(action);
             // observe the state
-            State state = environment.getState();
+            state = environment.getState();
             // update the learning policy
             updatePolicy(state, action, reward, i);
             // accumulate the reward
@@ -43,14 +45,19 @@ public class LearningAlgorithm {
 
     public double getAccumulatedReward(){ return  accumulatedReward;}
 
-    private Action selectAction(State state) {
+    private Action selectAction() {
         int noOfActions = environment.getActions().length;
         // check for random exploration
         Action action;
         if (random.nextDouble() <= epsilon){
             action = environment.getActions()[random.nextInt(noOfActions)];
+            if (DEBUG)
+                System.out.print("Select random action:" + action.getValue());
+
         } else {
             action = environment.getActions()[getActionForMaxRewardForCurrentState()];
+            if (DEBUG)
+                System.out.print("Select best action:" + action.getValue());
         }
         return action;
     }
@@ -61,11 +68,11 @@ public class LearningAlgorithm {
         double currentQ = QValues[state.center + stateOffset][action.getValue() + stateOffset];
         double transitionQ = getMaxRewardForCurrentState();
         if (DEBUG) {
-            System.out.print("learningRate" + df.format(learningRate));
-            System.out.print(" timestep" + timestep);
-            System.out.print(" discountFactor " + discountFactor);
-            System.out.print(" action " + action.getValue());
-            System.out.print(" Updated value " + df.format(currentQ));
+            System.out.print(" learningRate:" + df.format(learningRate));
+            System.out.print(" timestep:" + timestep);
+            System.out.print(" discountFactor:" + discountFactor);
+            System.out.print(" action:" + action.getValue());
+            System.out.print(" Updated Q value:" + df.format(currentQ));
         }
         double updatedQValue=
                 (1-learningRate) * currentQ + learningRate * (reward + discountFactor * transitionQ);
@@ -89,8 +96,8 @@ public class LearningAlgorithm {
         double bestValue = 0;
         int bestAction = 0;
         for(int j=0; j< environment.getActions().length; j++){
-            if (QValues[environment.getState().center + stateOffset][j] > bestValue){
-                bestValue = QValues[environment.getState().center + stateOffset][j];
+            if (QValues[state.center + stateOffset][j] >= bestValue){
+                bestValue = QValues[state.center + stateOffset][j];
                 bestAction = j;
             }
         }
