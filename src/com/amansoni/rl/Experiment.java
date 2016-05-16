@@ -33,21 +33,21 @@ public class Experiment {
 //        System.out.println(experiment.learningAlgorithm.getAccumulatedReward());
 //        experiment.learningAlgorithm.printPolicy();
 
-        createExperimentRunRL(30, 100, 1000);
-        createExperimentRunRL(30, 15, 1000);
+        createExperimentRun(30, 100, 2000, Algorithm.QLearning);
+        createExperimentRun(30, 15, 2000, Algorithm.QLearning);
 
-        createExperimentRunEA(30, 100, 2000);
-        createExperimentRunEA(30, 15, 2000);
+        createExperimentRun(30, 100, 2000, Algorithm.RPSO);
+        createExperimentRun(30, 15, 2000, Algorithm.RPSO);
 
     }
 
-    public static void createExperimentRunRL(int repeat, int bias, int steps) {
+    public static void createExperimentRun(int repeat, int bias, int steps, Algorithm algorithm) {
         Random random = new Random(seed);
         System.out.println("Running experiment with bias: " + bias + " repeated " + steps + " averaged over " + repeat);
         long BEGIN = System.currentTimeMillis();
         double rewards = 0;
         for (int i = 0; i < repeat; i++) {
-            rewards += createExperimentRL(bias, steps, random.nextInt());
+            rewards += createExperiment(bias, steps, random.nextInt(), algorithm);
 //            rewards += createExperimentRL(bias, steps, i);
         }
         System.out.println("Averaged reward: " + rewards / (double) repeat);
@@ -55,30 +55,11 @@ public class Experiment {
         System.out.println("Time: " + (END - BEGIN) / 1000.0 + " sec.");
     }
 
-    public static double createExperimentRL(int bias, int steps, int seed) {
-        Experiment experiment = new Experiment(seed, bias, Algorithm.QLearning);
+    public static double createExperiment(int bias, int steps, int seed, Algorithm algorithm) {
+        Experiment experiment = new Experiment(seed, bias, algorithm);
         experiment.learningAlgorithm.learn(steps);
 //        System.out.println(seed + "\t" + experiment.learningAlgorithm.getAccumulatedReward());
         //experiment.learningAlgorithm.printPolicy();
-        return experiment.learningAlgorithm.getAccumulatedReward();
-    }
-
-    public static void createExperimentRunEA(int repeat, int bias, int steps) {
-        Random random = new Random(seed);
-        System.out.println("Running experiment with bias: " + bias + " repeated " + steps + " averaged over " + repeat);
-        long BEGIN = System.currentTimeMillis();
-        double rewards = 0;
-        for (int i = 0; i < repeat; i++) {
-            rewards += createExperimentEA(bias, steps, random.nextInt());
-        }
-        System.out.println("Averaged reward: " + rewards / (double) repeat);
-        long END = System.currentTimeMillis();
-        System.out.println("Time: " + (END - BEGIN) / 1000.0 + " sec.");
-    }
-
-    public static double createExperimentEA(int bias, int steps, int seed) {
-        Experiment experiment = new Experiment(seed, bias, Algorithm.RPSO);
-        experiment.learningAlgorithm.learn(steps);
         return experiment.learningAlgorithm.getAccumulatedReward();
     }
 
