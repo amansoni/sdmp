@@ -6,7 +6,7 @@ import java.util.Random;
  * Created by Aman on 14/05/2016.
  */
 public class Experiment {
-    static int seed = 42;
+    static int seed = 3;
     Environment environment;
     LearningAlgorithm learningAlgorithm;
 
@@ -16,11 +16,13 @@ public class Experiment {
     }
 
     public static void main(String[] args) {
-//        Experiment experiment = new Experiment(seed, 100);
-//        experiment.learningAlgorithm.learn(100);
+//        Experiment experiment = new Experiment(1, 100);
+//        experiment.learningAlgorithm.learn(2000);
+//        System.out.println(experiment.learningAlgorithm.getAccumulatedReward());
+//        experiment.learningAlgorithm.printPolicy();
 
-        createExperimentRunRL(30, 100, 2000);
-        createExperimentRunRL(30, 15, 2000);
+        createExperimentRunRL(30, 100, 1000);
+        createExperimentRunRL(30, 15, 1000);
 
 //        createExperimentRunEA(30, 100, 2000);
 //        createExperimentRunEA(30, 15, 2000);
@@ -34,6 +36,7 @@ public class Experiment {
         double rewards = 0;
         for (int i = 0; i < repeat; i++) {
             rewards += createExperimentRL(bias, steps, random.nextInt());
+//            rewards += createExperimentRL(bias, steps, i);
         }
         System.out.println("Averaged reward: " + rewards / (double) repeat);
         long END = System.currentTimeMillis();
@@ -43,6 +46,7 @@ public class Experiment {
     public static double createExperimentRL(int bias, int steps, int seed) {
         Experiment experiment = new Experiment(seed, bias);
         experiment.learningAlgorithm.learn(steps);
+        System.out.println(seed + "\t" + experiment.learningAlgorithm.getAccumulatedReward());
         //experiment.learningAlgorithm.printPolicy();
         return experiment.learningAlgorithm.getAccumulatedReward();
     }
