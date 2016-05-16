@@ -6,13 +6,25 @@ import java.util.Random;
  * Created by Aman on 14/05/2016.
  */
 public class Experiment {
+    enum Algorithm {
+        QLearning, RPSO, QBEA
+    }
+
     static int seed = 3;
     Environment environment;
     LearningAlgorithm learningAlgorithm;
 
-    public Experiment(int seed, int bias) {
+    public Experiment(int seed, int bias, Algorithm algorithm) {
         environment = new Environment(bias);
-        learningAlgorithm = new LearningAlgorithm(environment, 0.7, seed);
+        switch (algorithm) {
+            case QLearning:
+                learningAlgorithm = new QLearning(environment, seed);
+                break;
+            case RPSO:
+                learningAlgorithm = new RPSO(environment, seed);
+                break;
+
+        }
     }
 
     public static void main(String[] args) {
@@ -24,8 +36,8 @@ public class Experiment {
         createExperimentRunRL(30, 100, 1000);
         createExperimentRunRL(30, 15, 1000);
 
-//        createExperimentRunEA(30, 100, 2000);
-//        createExperimentRunEA(30, 15, 2000);
+        createExperimentRunEA(30, 100, 2000);
+        createExperimentRunEA(30, 15, 2000);
 
     }
 
@@ -44,9 +56,9 @@ public class Experiment {
     }
 
     public static double createExperimentRL(int bias, int steps, int seed) {
-        Experiment experiment = new Experiment(seed, bias);
+        Experiment experiment = new Experiment(seed, bias, Algorithm.QLearning);
         experiment.learningAlgorithm.learn(steps);
-        System.out.println(seed + "\t" + experiment.learningAlgorithm.getAccumulatedReward());
+//        System.out.println(seed + "\t" + experiment.learningAlgorithm.getAccumulatedReward());
         //experiment.learningAlgorithm.printPolicy();
         return experiment.learningAlgorithm.getAccumulatedReward();
     }
@@ -65,9 +77,8 @@ public class Experiment {
     }
 
     public static double createExperimentEA(int bias, int steps, int seed) {
-        Experiment experiment = new Experiment(seed, bias);
+        Experiment experiment = new Experiment(seed, bias, Algorithm.RPSO);
         experiment.learningAlgorithm.learn(steps);
-        //experiment.learningAlgorithm.learn(steps, seed, bias);
         return experiment.learningAlgorithm.getAccumulatedReward();
     }
 
