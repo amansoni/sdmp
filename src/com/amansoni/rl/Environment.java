@@ -5,37 +5,17 @@ package com.amansoni.rl;
  */
 public class Environment {
     final static boolean DEBUG = false;
-    private int timestep;
+    private int timeStep;
     private int currentReward;
-    private State currentState;
-    private State previousState;
+    private State state = new State();
     private Action[] actions;
+    private Action previousAction;
     // bias
-    private int b = -100;
+    private int b;
 
     public Environment(int bias) {
+        b = bias;
         init();
-        b = -bias;
-        previousState = new State();
-        previousState.center = 5;
-        step(); // init values to starting state
-    }
-
-    public void step() {
-        timestep++;
-        currentState = previousState;
-        currentState.center = -currentState.center;
-        b = -b;
-        if (DEBUG)
-            System.out.println("Timestep: " + timestep + " State:" + currentState.center);
-    }
-
-    public State observe() {
-        return currentState;
-    }
-
-    public State getState() {
-        return currentState;
     }
 
     public Action[] getActions() {
@@ -43,18 +23,32 @@ public class Environment {
     }
 
     public int takeAction(Action x) {
-        this.step();
-        currentReward = currentState.height - currentState.width * Math.abs(x.getValue() - currentState.center) + g();
+        timeStep++;
+        currentReward = getReward(x);// state.height - state.width * Math.abs(x.getValue() - state.center) + g();
+        if (DEBUG)
+            System.out.println("Timestep: " + timeStep + " State:" + state.center);
+        state.center = -state.center;
+        previousAction = x;
         return currentReward;
     }
 
+    public int getReward(Action x) {
+        return state.height - state.width * Math.abs(x.getValue() - state.center) + g();
+    }
+
     private int g() {
-        b = -b;
-        return b;
+        if (previousAction == null || previousAction.getValue() >= 0)
+            return b;
+        else
+            return -b;
     }
 
     void init() {
-        timestep = 0;
+        timeStep = 0;
+        initActions();
+    }
+
+    public void initActions() {
         // actions
         int noOfActions = 21;
         actions = new Action[noOfActions];
@@ -62,5 +56,17 @@ public class Environment {
         for (int i = 0; i < noOfActions; i++) {
             actions[i] = new Action(val++);
         }
+    }
+
+    public int getBias() {
+        return b;
+    }
+
+    public int getTimeStep() {
+        return timeStep;
+    }
+
+    public State getState() {
+        return state;
     }
 }
