@@ -1,4 +1,4 @@
-package com.amansoni.rl;
+package com.amansoni;
 
 /**
  * @author Aman

@@ -1,4 +1,4 @@
-package com.amansoni.rl;
+package com.amansoni;
 
 import java.text.DecimalFormat;
 import java.util.Random;

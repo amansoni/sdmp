@@ -1,7 +1,7 @@
 package test;
 
-import com.amansoni.rl.Action;
-import com.amansoni.rl.Environment;
+import com.amansoni.Action;
+import com.amansoni.Environment;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

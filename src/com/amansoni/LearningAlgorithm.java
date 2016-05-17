@@ -1,4 +1,4 @@
-package com.amansoni.rl;
+package com.amansoni;
 
 /**
  * Created by Aman on 16/05/2016.
