@@ -61,8 +61,8 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2892019">
-              <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.16525821">
+              <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -806,7 +806,7 @@
       <workItem from="1463431321146" duration="2853000" />
       <workItem from="1463435033496" duration="207000" />
       <workItem from="1463435569530" duration="14848000" />
-      <workItem from="1463480578752" duration="500000" />
+      <workItem from="1463480578752" duration="625000" />
     </task>
     <task id="LOCAL-00001" summary="Added environment tests">
       <created>1463422557786</created>
@@ -880,7 +880,19 @@
       <option name="project" value="LOCAL" />
       <updated>1463480725901</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="QLearning producing appropriate results">
+      <created>1463481127123</created>
+      <option name="number" value="00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1463481127123</updated>
+    </task>
+    <task id="LOCAL-00014" summary="QLearning producing appropriate results">
+      <created>1463481169698</created>
+      <option name="number" value="00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1463481169699</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -916,7 +928,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58893000" />
+    <option name="totallyTimeSpent" value="59018000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2391" y="21" width="2118" height="1293" extended-state="6" />
@@ -970,7 +982,8 @@
     <MESSAGE value="Added QBEA" />
     <MESSAGE value="Added QBEA." />
     <MESSAGE value="Cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleanup" />
+    <MESSAGE value="QLearning producing appropriate results" />
+    <option name="LAST_COMMIT_MESSAGE" value="QLearning producing appropriate results" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1238,8 +1251,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2892019">
-          <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.16525821">
+          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
           <folding />
         </state>
       </provider>
