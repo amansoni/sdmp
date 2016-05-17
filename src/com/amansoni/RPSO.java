@@ -1,6 +1,5 @@
 package com.amansoni;
 
-import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
@@ -9,27 +8,20 @@ import java.util.Random;
  *         Implementation of the Restart Particle Swarm Optimisation technique from Clerc, Maurice, and James Kennedy.
  *         "The particle swarm-explosion, stability, and convergence in a multidimensional complex space."
  *         Evolutionary Computation, IEEE Transactions on 6.1 (2002): 58-73.
- *         Parameters used from
  */
 public class RPSO extends LearningAlgorithm {
     final static boolean DEBUG = false;
-    DecimalFormat df = new DecimalFormat("#.00");
-    Environment environment;
-    Random random;
     int noOfStates = 21;
     int noOfActions = 21;
-    int stateOffset = 10;
+    int offset = 10;
     Swarm swarm;
 
     private static int SWARM_SIZE = 10;
-    private static int MAX_EVALUATION_COUNT = 100;
+    private static int MAX_EVALUATIONS = 100;
     int evaluationCount = 0;
 
-    Action action = null;
-
     public RPSO(Environment environment, int seed) {
-        random = new Random(seed);
-        this.environment = environment;
+        super(environment, seed);
     }
 
     @Override
@@ -48,13 +40,15 @@ public class RPSO extends LearningAlgorithm {
     public Action selectAction() {
         state = environment.getState();
         swarm = new Swarm();
-        while (evaluationCount < MAX_EVALUATION_COUNT) {
+        while (evaluationCount < MAX_EVALUATIONS) {
             for (Particle particle : swarm.getParticles()) {
                 particle.move();
+                // really only up to MAX_EVALUATIONS
+                if (evaluationCount < MAX_EVALUATIONS)
+                    break;
             }
         }
-        action = swarm.getFittest().getAction();
-        return action;
+        return swarm.getFittest().getAction();
     }
 
     @Override
@@ -93,7 +87,7 @@ public class RPSO extends LearningAlgorithm {
 
         public Particle(boolean init) {
             if (init) {
-                action = random.nextInt(noOfActions) - stateOffset;
+                action = random.nextInt(noOfActions) - offset;
             }
         }
 

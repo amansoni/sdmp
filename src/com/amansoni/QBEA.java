@@ -1,7 +1,7 @@
 package com.amansoni;
 
 /**
- * Created by Aman on 15/05/2016.
+ * @author Aman
  * Fu, Haobo, Peter R. Lewis, and Xin Yao. "A Q-learning Based Evolutionary Algorithm for Sequential Decision Making Problems."
  */
 public class QBEA extends QLearning {
@@ -9,7 +9,6 @@ public class QBEA extends QLearning {
 
     public QBEA(Environment environment, int seed) {
         super(environment, seed);
-        this.seed = seed;
     }
 
     public void learn(int totalSteps) {
@@ -17,7 +16,6 @@ public class QBEA extends QLearning {
         for (int i = 0; i < totalSteps; i++) {
             // employ ea to search on reward space
             searchRewardFunction(i);
-
             // select an action
             Action action = selectAction();
             // perform the action and get a reward
@@ -28,9 +26,6 @@ public class QBEA extends QLearning {
             // update the learning policy
             super.updatePolicy(state, nextState, action, reward, i);
             state = nextState;
-
-//            if (accumulatedReward <= 0)
-//                printPolicy();
         }
     }
 
@@ -45,7 +40,14 @@ public class QBEA extends QLearning {
         return state;
     }
 
-    // Q(st, xi)   (1 − alpha)Q(st, xi) + alpha(ft(st, xi) + upsilon *  maxj Q(ˆs, xj));
+    /**
+     * Update the Q-values based on probable states for the EA search
+     * Q(st, xi)   (1 − alpha)Q(st, xi) + alpha(ft(st, xi) + upsilon *  maxj Q(ˆs, xj));
+     * @param state
+     * @param nextState
+     * @param action
+     * @param timestep
+     */
     private void updatePolicy(State state, State nextState, Action action, int timestep) {
         int reward = environment.getReward(action);
         double learningRate = (200.0 / (300.0 + timestep));
@@ -54,8 +56,6 @@ public class QBEA extends QLearning {
         if (DEBUG) {
             System.out.print(" time step:" + timestep);
             System.out.print(" learningRate:" + df.format(learningRate));
-//            System.out.print(" discountFactor:" + discountFactor);
-//            System.out.print(" action:" + action.getValue());
             System.out.print(" Change Q value:" + df.format(currentQ));
         }
         double updatedQValue =

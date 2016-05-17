@@ -9,8 +9,8 @@ Q-Learning is an implementation of Q Learning from Watkins, Christopher John Cor
 Learning from delayed rewards. Diss. University of Cambridge, 1989.
 Link (http://www.cs.rhul.ac.uk/~chrisw/thesis.html)
  
-Implementation of the Particle Swarm Optimisation using restart (RPSO) 
+Implementation of the Particle Swarm Optimisation using Restart (RPSO) 
 * Clerc, Maurice, and James Kennedy. "The particle swarm-explosion, stability, and convergence in a multidimensional complex space." Evolutionary Computation, IEEE Transactions on 6.1 (2002): 58-73.
 
-Currently implemented in Java 8. 
+ 
     

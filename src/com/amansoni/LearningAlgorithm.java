@@ -1,11 +1,23 @@
 package com.amansoni;
 
+import java.util.Random;
+
 /**
  * Created by Aman on 16/05/2016.
  */
 public abstract class LearningAlgorithm {
-    int accumulatedReward = 0;
+    final static boolean DEBUG = false;
+    Environment environment;
+    Random random;
     State state;
+    int seed;
+    int accumulatedReward = 0;
+
+    protected LearningAlgorithm(Environment environment, int seed) {
+        random = new Random(seed);
+        this.environment = environment;
+        this.seed = seed;
+    }
 
     public double getAccumulatedReward() {
         return accumulatedReward;

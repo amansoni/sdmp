@@ -11,21 +11,17 @@ import java.util.Random;
  *         http://www.cs.rhul.ac.uk/~chrisw/thesis.html
  */
 public class QLearning extends LearningAlgorithm {
-    final static boolean DEBUG = false;
     DecimalFormat df = new DecimalFormat("#.00");
     final static double discountFactor = 0.7;
     final static double epsilon = 0.1;
     int noOfStates = 21;
     int offset = 10;
     double[][] QValues;
-    Environment environment;
-    Random random;
     State nextState;
 
 
     public QLearning(Environment environment, int seed) {
-        random = new Random(seed);
-        this.environment = environment;
+        super(environment, seed);
         initPolicy();
     }
 
