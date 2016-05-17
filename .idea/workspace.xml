@@ -61,8 +61,8 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.16525821">
-              <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.103286386">
+              <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -806,7 +806,7 @@
       <workItem from="1463431321146" duration="2853000" />
       <workItem from="1463435033496" duration="207000" />
       <workItem from="1463435569530" duration="14848000" />
-      <workItem from="1463480578752" duration="625000" />
+      <workItem from="1463480578752" duration="732000" />
     </task>
     <task id="LOCAL-00001" summary="Added environment tests">
       <created>1463422557786</created>
@@ -892,7 +892,13 @@
       <option name="project" value="LOCAL" />
       <updated>1463481169699</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Update markdown">
+      <created>1463481212685</created>
+      <option name="number" value="00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1463481212685</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -928,7 +934,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59018000" />
+    <option name="totallyTimeSpent" value="59125000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2391" y="21" width="2118" height="1293" extended-state="6" />
@@ -983,7 +989,8 @@
     <MESSAGE value="Added QBEA." />
     <MESSAGE value="Cleanup" />
     <MESSAGE value="QLearning producing appropriate results" />
-    <option name="LAST_COMMIT_MESSAGE" value="QLearning producing appropriate results" />
+    <MESSAGE value="Update markdown" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update markdown" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1251,8 +1258,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16525821">
-          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.103286386">
+          <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
           <folding />
         </state>
       </provider>
