@@ -1,10 +1,13 @@
 package com.amansoni.rl;
 
 /**
- * Created by Aman on 14/05/2016.
+ * @author Aman
+ *         <p>
+ *         Provides the Conceptual Moving Peaks Benchmarks from Fu, Haobo, et al.
+ *         "What are dynamic optimization problems?." Evolutionary Computation (CEC), 2014 IEEE Congress on. IEEE, 2014.
  */
 public class Environment {
-    final static boolean DEBUG = true;
+    private boolean debug = false;
     private int timeStep;
     private int currentReward;
     private State state = new State();
@@ -19,6 +22,11 @@ public class Environment {
         init();
     }
 
+    public Environment(int bias, boolean debug) {
+        this(bias);
+        this.debug = debug;
+    }
+
     public Action[] getActions() {
         return actions;
     }
@@ -27,7 +35,7 @@ public class Environment {
         timeStep++;
         currentReward = getReward(x);// state.height - state.width * Math.abs(x.getValue() - state.center) + g();
         accumulatedReward += currentReward;
-        if (DEBUG)
+        if (debug)
             System.out.println(timeStep + "\tstate:" + state.center + " \taction:" + x.getValue() + "\treward:" + currentReward + "\ttotal:" + accumulatedReward);
         state.center = -state.center;
         previousAction = x;

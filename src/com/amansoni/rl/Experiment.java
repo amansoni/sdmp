@@ -4,6 +4,8 @@ import java.util.Random;
 
 /**
  * Created by Aman on 14/05/2016.
+ * Fu, Haobo, et al. "What are dynamic optimization problems?." Evolutionary Computation (CEC), 2014 IEEE Congress on. IEEE, 2014.
+ * Fu, Haobo, Peter R. Lewis, and Xin Yao. "A Q-learning Based Evolutionary Algorithm for Sequential Decision Making Problems."
  */
 public class Experiment {
     enum Algorithm {
@@ -15,7 +17,7 @@ public class Experiment {
     LearningAlgorithm learningAlgorithm;
 
     public Experiment(int seed, int bias, Algorithm algorithm) {
-        environment = new Environment(bias);
+        environment = new Environment(bias, false);
         switch (algorithm) {
             case QLearning:
                 learningAlgorithm = new QLearning(environment, seed);
@@ -23,27 +25,38 @@ public class Experiment {
             case RPSO:
                 learningAlgorithm = new RPSO(environment, seed);
                 break;
-
+            case QBEA:
+                learningAlgorithm = new QBEA(environment, seed);
+                break;
         }
     }
 
     public static void main(String[] args) {
-        Experiment experiment = new Experiment(1, 100, Algorithm.QLearning);
-        experiment.learningAlgorithm.learn(500);
+//        Experiment experiment = new Experiment(1, 100, Algorithm.QLearning);
+//        experiment.learningAlgorithm.learn(1000);
 //        System.out.println(experiment.learningAlgorithm.getAccumulatedReward());
-        experiment.learningAlgorithm.printPolicy();
-
-//        createExperimentRun(30, 100, 2000, Algorithm.QLearning);
-//        createExperimentRun(30, 15, 2000, Algorithm.QLearning);
+//        experiment.learningAlgorithm.printPolicy();
 //
-//        createExperimentRun(30, 100, 2000, Algorithm.RPSO);
-//        createExperimentRun(30, 15, 2000, Algorithm.RPSO);
+//        experiment = new Experiment(1, 100, Algorithm.QBEA);
+//        experiment.learningAlgorithm.learn(1000);
+//        System.out.println(experiment.learningAlgorithm.getAccumulatedReward());
+//        experiment.learningAlgorithm.printPolicy();
+
+        // bias = 100
+        createExperimentRun(30, 100, 2000, Algorithm.QLearning);
+        createExperimentRun(30, 100, 2000, Algorithm.RPSO);
+        createExperimentRun(30, 100, 2000, Algorithm.QBEA);
+
+        // bias = 15
+        createExperimentRun(30, 15, 2000, Algorithm.QLearning);
+        createExperimentRun(30, 15, 2000, Algorithm.RPSO);
+        createExperimentRun(30, 15, 2000, Algorithm.QBEA);
 
     }
 
     public static void createExperimentRun(int repeat, int bias, int steps, Algorithm algorithm) {
         Random random = new Random(seed);
-        System.out.println("Running experiment with bias: " + bias + " repeated " + steps + " averaged over " + repeat);
+        System.out.println("Running experiment " + algorithm.name() + " bias: " + bias + " repeated " + steps + " averaged over " + repeat);
         long BEGIN = System.currentTimeMillis();
         double rewards = 0;
         for (int i = 0; i < repeat; i++) {

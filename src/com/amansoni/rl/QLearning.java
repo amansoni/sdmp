@@ -4,7 +4,11 @@ import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
- * Created by Aman on 14/05/2016.
+ * @author Aman
+ *         <p>
+ *         An implement of Q Learning from Watkins, Christopher John Cornish Hellaby.
+ *         Learning from delayed rewards. Diss. University of Cambridge, 1989.
+ *         http://www.cs.rhul.ac.uk/~chrisw/thesis.html
  */
 public class QLearning extends LearningAlgorithm {
     final static boolean DEBUG = false;
@@ -12,7 +16,7 @@ public class QLearning extends LearningAlgorithm {
     final static double discountFactor = 0.7;
     final static double epsilon = 0.1;
     int noOfStates = 21;
-    int stateOffset = 10;
+    int offset = 10;
     double[][] QValues;
     Environment environment;
     Random random;
@@ -36,11 +40,11 @@ public class QLearning extends LearningAlgorithm {
             accumulatedReward += reward;
             nextState = environment.getState();
             // update the learning policy
-            updatePolicy(action, reward, i);
+            updatePolicy(state, nextState, action, reward, i);
             state = nextState;
 
-            if (accumulatedReward <= 0)
-                printPolicy();
+//            if (accumulatedReward <= 0)
+//                printPolicy();
         }
     }
 
@@ -62,9 +66,9 @@ public class QLearning extends LearningAlgorithm {
     }
 
     // Q(st, xt)  <-- (1 − alpha)Q(st, xt) + alpha(r + discountFactor( maxj Q(st+1, xj ));
-    private void updatePolicy(Action action, int reward, int timestep) {
+    protected void updatePolicy(State state, State nextState, Action action, int reward, int timestep) {
         double learningRate = (200.0 / (300.0 + timestep));
-        double currentQ = QValues[state.center + stateOffset][action.getValue() + stateOffset];
+        double currentQ = QValues[state.center + offset][action.getValue() + offset];
         double transitionQ = getMaxRewardForState(nextState);
         if (DEBUG) {
             System.out.print(" time step:" + timestep);
@@ -75,14 +79,14 @@ public class QLearning extends LearningAlgorithm {
         }
         double updatedQValue =
                 (1.0 - learningRate) * currentQ + learningRate * (reward + discountFactor * transitionQ);
-        QValues[state.center + stateOffset][action.getValue() + stateOffset] = updatedQValue;
+        QValues[this.state.center + offset][action.getValue() + offset] = updatedQValue;
         if (DEBUG) {
             System.out.print(" to " + df.format(updatedQValue));
             System.out.println("");
         }
     }
 
-    private double getMaxRewardForState(State state) {
+    protected double getMaxRewardForState(State state) {
         return getBestActionFromQValues(state)[1];
     }
 
@@ -95,8 +99,8 @@ public class QLearning extends LearningAlgorithm {
         double bestValue = 0;
         int bestAction = 0;
         for (int j = 0; j < environment.getActions().length; j++) {
-            if (QValues[state.center + stateOffset][j] >= bestValue) {
-                bestValue = QValues[state.center + stateOffset][j];
+            if (QValues[state.center + offset][j] >= bestValue) {
+                bestValue = QValues[state.center + offset][j];
                 bestAction = j;
             }
         }
@@ -117,12 +121,12 @@ public class QLearning extends LearningAlgorithm {
         int noOfActions = environment.getActions().length;
         System.out.print("  \t");
         for (int i = 0; i < noOfStates; i++) {
-            System.out.print((i - stateOffset) + "  \t");
+            System.out.print((i - offset) + "  \t");
         }
         System.out.println("");
         for (int i = 0; i < noOfStates; i++) {
-            if ((i - stateOffset) == 5 || (i - stateOffset) == -5) {
-                System.out.print((i - stateOffset) + "\t");
+            if ((i - offset) == 5 || (i - offset) == -5) {
+                System.out.print((i - offset) + "\t");
                 for (int j = 0; j < noOfActions; j++) {
                     System.out.print(df.format(QValues[i][j]) + "\t");
                 }

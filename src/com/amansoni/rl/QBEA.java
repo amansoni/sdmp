@@ -1,32 +1,15 @@
 package com.amansoni.rl;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Random;
-
 /**
  * Created by Aman on 15/05/2016.
  * Fu, Haobo, Peter R. Lewis, and Xin Yao. "A Q-learning Based Evolutionary Algorithm for Sequential Decision Making Problems."
  */
-public class QBEA extends LearningAlgorithm {
-    final static boolean DEBUG = false;
-    DecimalFormat df = new DecimalFormat("#.00");
-    final static double discountFactor = 0.7;
-    final static double epsilon = 0.1;
-    int noOfStates = 21;
-    int stateOffset = 10;
-    double[][] QValues;
-    Environment environment;
-    Random random;
-    State nextState;
+public class QBEA extends QLearning {
     int seed;
 
-
     public QBEA(Environment environment, int seed) {
-        random = new Random(seed);
-        this.environment = environment;
+        super(environment, seed);
         this.seed = seed;
-        initPolicy();
     }
 
     public void learn(int totalSteps) {
@@ -43,7 +26,7 @@ public class QBEA extends LearningAlgorithm {
             accumulatedReward += reward;
             nextState = environment.getState();
             // update the learning policy
-            updatePolicy(state, nextState, action, reward, i);
+            super.updatePolicy(state, nextState, action, reward, i);
             state = nextState;
 
 //            if (accumulatedReward <= 0)
@@ -54,56 +37,19 @@ public class QBEA extends LearningAlgorithm {
     private void searchRewardFunction(int i) {
         RPSO rpso = new RPSO(environment, seed);
         Action evalAction = rpso.selectAction();
-        int evalReward = environment.getReward(evalAction);
         State probableState = estimateNextState(state);
-        updatePolicy(state, probableState, evalAction, evalReward, i);
+        updatePolicy(state, probableState, evalAction, i);
     }
 
     private State estimateNextState(State state) {
         return state;
     }
 
-    public Action selectAction() {
-        int noOfActions = environment.getActions().length;
-        // check for random exploration
-        Action action;
-        if (random.nextDouble() <= epsilon) {
-            action = environment.getActions()[random.nextInt(noOfActions)];
-            if (DEBUG)
-                System.out.print("Rand action:" + action.getValue());
-
-        } else {
-            action = environment.getActions()[getActionForMaxRewardForState(state)];
-            if (DEBUG)
-                System.out.print("Best action:" + action.getValue());
-        }
-        return action;
-    }
-
-    // Q(st, xt)  <-- (1 − alpha)Q(st, xt) + alpha(r + discountFactor( maxj Q(st+1, xj ));
-    private void updatePolicy(State state, State nextState, Action action, int reward, int timestep) {
-        double learningRate = (200.0 / (300.0 + timestep));
-        double currentQ = QValues[state.center + stateOffset][action.getValue() + stateOffset];
-        double transitionQ = getMaxRewardForState(nextState);
-        if (DEBUG) {
-            System.out.print(" time step:" + timestep);
-            System.out.print(" learningRate:" + df.format(learningRate));
-//            System.out.print(" discountFactor:" + discountFactor);
-//            System.out.print(" action:" + action.getValue());
-            System.out.print(" Change Q value:" + df.format(currentQ));
-        }
-        double updatedQValue =
-                (1.0 - learningRate) * currentQ + learningRate * (reward + discountFactor * transitionQ);
-        QValues[this.state.center + stateOffset][action.getValue() + stateOffset] = updatedQValue;
-        if (DEBUG) {
-            System.out.print(" to " + df.format(updatedQValue));
-            System.out.println("");
-        }
-    }
-
+    // Q(st, xi)   (1 − alpha)Q(st, xi) + alpha(ft(st, xi) + upsilon *  maxj Q(ˆs, xj));
     private void updatePolicy(State state, State nextState, Action action, int timestep) {
+        int reward = environment.getReward(action);
         double learningRate = (200.0 / (300.0 + timestep));
-        double currentQ = QValues[state.center + stateOffset][action.getValue() + stateOffset];
+        double currentQ = QValues[state.center + offset][action.getValue() + offset];
         double transitionQ = getMaxRewardForState(nextState);
         if (DEBUG) {
             System.out.print(" time step:" + timestep);
@@ -114,60 +60,12 @@ public class QBEA extends LearningAlgorithm {
         }
         double updatedQValue =
                 (1.0 - learningRate) * currentQ + learningRate * (reward + discountFactor * transitionQ);
-        QValues[this.state.center + stateOffset][action.getValue() + stateOffset] = updatedQValue;
+        QValues[this.state.center + offset][action.getValue() + offset] = updatedQValue;
         if (DEBUG) {
             System.out.print(" to " + df.format(updatedQValue));
             System.out.println("");
         }
     }
 
-    private double getMaxRewardForState(State state) {
-        return getBestActionFromQValues(state)[1];
-    }
-
-    private int getActionForMaxRewardForState(State state) {
-        return (int) getBestActionFromQValues(state)[0];
-    }
-
-    private double[] getBestActionFromQValues(State state) {
-        // select the best action from the learning policy
-        double bestValue = 0;
-        int bestAction = 0;
-        for (int j = 0; j < environment.getActions().length; j++) {
-            if (QValues[state.center + stateOffset][j] >= bestValue) {
-                bestValue = QValues[state.center + stateOffset][j];
-                bestAction = j;
-            }
-        }
-        return new double[]{bestAction, bestValue};
-    }
-
-    void initPolicy() {
-        int noOfActions = environment.getActions().length;
-        QValues = new double[noOfStates][noOfActions];
-        for (int i = 0; i < noOfStates; i++) {
-            for (int j = 0; j < noOfActions; j++) {
-                QValues[i][j] = 0;
-            }
-        }
-    }
-
-    public void printPolicy() {
-        int noOfActions = environment.getActions().length;
-        System.out.print("  \t");
-        for (int i = 0; i < noOfStates; i++) {
-            System.out.print((i - stateOffset) + "  \t");
-        }
-        System.out.println("");
-        for (int i = 0; i < noOfStates; i++) {
-            if ((i - stateOffset) == 5 || (i - stateOffset) == -5) {
-                System.out.print((i - stateOffset) + "\t");
-                for (int j = 0; j < noOfActions; j++) {
-                    System.out.print(df.format(QValues[i][j]) + "\t");
-                }
-                System.out.println("");
-            }
-        }
-    }
 
 }
