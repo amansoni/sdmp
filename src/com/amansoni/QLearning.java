@@ -70,28 +70,40 @@ public class QLearning extends LearningAlgorithm {
         double learningRate = (200.0 / (300.0 + timestep));
         double currentQ = QValues[state.center + offset][action.getValue() + offset];
         double transitionQ = getMaxRewardForState(nextState);
+        double updatedQValue =
+                (1.0 - learningRate) * currentQ + learningRate * (reward + discountFactor * transitionQ);
+        QValues[state.center + offset][action.getValue() + offset] = updatedQValue;
         if (DEBUG) {
             System.out.print(" time step:" + timestep);
             System.out.print(" learningRate:" + df.format(learningRate));
 //            System.out.print(" discountFactor:" + discountFactor);
 //            System.out.print(" action:" + action.getValue());
             System.out.print(" Change Q value:" + df.format(currentQ));
-        }
-        double updatedQValue =
-                (1.0 - learningRate) * currentQ + learningRate * (reward + discountFactor * transitionQ);
-        QValues[this.state.center + offset][action.getValue() + offset] = updatedQValue;
-        if (DEBUG) {
             System.out.print(" to " + df.format(updatedQValue));
             System.out.println("");
         }
     }
 
     protected double getMaxRewardForState(State state) {
-        return getBestActionFromQValues(state)[1];
+        double bestValue = 0.;
+        for (int j = 0; j < environment.getActions().length; j++) {
+            if (QValues[state.center + offset][j] >= bestValue) {
+                bestValue = QValues[state.center + offset][j];
+            }
+        }
+        return bestValue;
     }
 
     private int getActionForMaxRewardForState(State state) {
-        return (int) getBestActionFromQValues(state)[0];
+        double bestValue = 0.;
+        int bestAction = 0;
+        for (int j = 0; j < environment.getActions().length; j++) {
+            if (QValues[state.center + offset][j] >= bestValue) {
+                bestAction = j;
+                bestValue = QValues[state.center + offset][j];
+            }
+        }
+        return bestAction;
     }
 
     private double[] getBestActionFromQValues(State state) {
@@ -103,6 +115,10 @@ public class QLearning extends LearningAlgorithm {
                 bestValue = QValues[state.center + offset][j];
                 bestAction = j;
             }
+        }
+        // select a random action to start
+        if (false && bestValue == 0.){
+            bestAction = random.nextInt(noOfStates);
         }
         return new double[]{bestAction, bestValue};
     }
