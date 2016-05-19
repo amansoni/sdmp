@@ -3,9 +3,8 @@ package com.amansoni;
 /**
  * @author Aman Soni
  *         <p>
- *         Implementation of the Restart Particle Swarm Optimisation technique from Clerc, Maurice, and James Kennedy.
- *         "The particle swarm-explosion, stability, and convergence in a multidimensional complex space."
- *         Evolutionary Computation, IEEE Transactions on 6.1 (2002): 58-73.
+ *         Implementation of a very simple EA that maximises the current reward value. It is not aware of the
+ *         time-linkage between states.
  */
 public class EDOAlgorithm extends LearningAlgorithm {
 
