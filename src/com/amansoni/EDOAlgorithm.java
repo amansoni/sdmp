@@ -8,8 +8,6 @@ package com.amansoni;
  *         Evolutionary Computation, IEEE Transactions on 6.1 (2002): 58-73.
  */
 public class EDOAlgorithm extends LearningAlgorithm {
-    int noOfActions = 21;
-    int offset = 10;
 
     public EDOAlgorithm(Environment environment, int seed) {
         super(environment, seed);
