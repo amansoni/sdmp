@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class Experiment {
     enum Algorithm {
-        QLearning, RPSO, QBEA, Optimal
+        QLearning, RPSO, QBEA, Optimal, EDO
     }
 
     static int seed = 3;
@@ -35,6 +35,9 @@ public class Experiment {
             case Optimal:
                 learningAlgorithm = new Optimal(environment, seed);
                 break;
+            case EDO:
+                learningAlgorithm = new EDOAlgorithm(environment, seed);
+                break;
         }
     }
 
@@ -52,9 +55,10 @@ public class Experiment {
         int steps = 1000;
         int bias = 100;
         int repeat = 1;
-//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+
+        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
         bias = 15;
-        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
 
 //        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
 //        createExperimentRun(repeat, bias, steps, Algorithm.RPSO);
