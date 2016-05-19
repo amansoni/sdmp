@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class Experiment {
     enum Algorithm {
-        QLearning, RPSO, QBEA
+        QLearning, RPSO, QBEA, Optimal
     }
 
     static int seed = 3;
@@ -32,6 +32,9 @@ public class Experiment {
             case QBEA:
                 learningAlgorithm = new QBEA(environment, seed);
                 break;
+            case Optimal:
+                learningAlgorithm = new Optimal(environment, seed);
+                break;
         }
     }
 
@@ -48,15 +51,18 @@ public class Experiment {
 
         int steps = 1000;
         int bias = 100;
-        int repeat = 30;
-        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-        createExperimentRun(repeat, bias, steps, Algorithm.RPSO);
-        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
-
+        int repeat = 1;
+//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
         bias = 15;
-        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-        createExperimentRun(repeat, bias, steps, Algorithm.RPSO);
-        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+
+//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+//        createExperimentRun(repeat, bias, steps, Algorithm.RPSO);
+//        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+//
+//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+//        createExperimentRun(repeat, bias, steps, Algorithm.RPSO);
+//        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
 
     }
 

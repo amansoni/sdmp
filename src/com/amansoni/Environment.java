@@ -43,7 +43,12 @@ public class Environment {
     }
 
     public int getReward(Action x) {
-        return state.height - state.width * Math.abs(x.getValue() - state.center) + g();
+//        System.out.print(x.getValue());
+//        System.out.print(" " + state.center);
+//        System.out.println(" " + Math.abs(x.getValue() - state.center));
+        int reward = state.height - state.width * Math.abs(x.getValue() - state.center) + g();
+//        System.out.println(reward);
+        return reward;
     }
 
     private int g() {
