@@ -1,7 +1,5 @@
 package com.amansoni;
 
-import java.util.Random;
-
 /**
  * @author Aman Soni
  *         <p>
@@ -10,16 +8,18 @@ import java.util.Random;
  *         Evolutionary Computation, IEEE Transactions on 6.1 (2002): 58-73.
  */
 public class RPSO extends LearningAlgorithm {
-    final static boolean DEBUG = false;
-    int noOfStates = 21;
     int noOfActions = 21;
     int offset = 10;
     Swarm swarm;
 
     private static int SWARM_SIZE = 10;
     private static int MAX_EVALUATIONS = 100;
-    int evaluationCount = 0;
+    private static int V_MAX = 20;
+    private static double ATTRACTION_FACTOR = 2.05;
+    private static double CONSTRICTION_FACTOR = 0.729844;
 
+
+    int evaluationCount = 0;
     public RPSO(Environment environment, int seed) {
         super(environment, seed);
     }
@@ -41,8 +41,9 @@ public class RPSO extends LearningAlgorithm {
         state = environment.getState();
         swarm = new Swarm();
         while (evaluationCount < MAX_EVALUATIONS) {
+            Particle fittest = swarm.getFittest();
             for (Particle particle : swarm.getParticles()) {
-                particle.move();
+                particle.move(fittest);
                 // really only up to MAX_EVALUATIONS
                 if (evaluationCount < MAX_EVALUATIONS)
                     break;
@@ -57,6 +58,7 @@ public class RPSO extends LearningAlgorithm {
 
     public class Swarm {
         Particle[] particles;
+        Particle globalBest = null;
 
         public Swarm() {
             particles = new Particle[SWARM_SIZE];
@@ -70,24 +72,27 @@ public class RPSO extends LearningAlgorithm {
         }
 
         public Particle getFittest() {
-            Particle fittest = particles[0];
+            if (globalBest == null)
+                globalBest = particles[0];
             for (int i = 1; i < SWARM_SIZE; i++) {
-                if (fittest.getFitness() <= particles[i].getFitness()) {
-                    fittest = particles[i];
+                if (globalBest.getFitness() <= particles[i].getFitness()) {
+                    globalBest = particles[i];
                 }
             }
-            return fittest;
+            return globalBest;
         }
     }
 
     public class Particle {
         int action = 0;
-        double velocity;
+        int velocity;
         double fitness = Double.MIN_VALUE;
+        int localBest = 0;
 
         public Particle(boolean init) {
             if (init) {
                 action = random.nextInt(noOfActions) - offset;
+                velocity = random.nextInt(V_MAX) - V_MAX;
             }
         }
 
@@ -103,9 +108,16 @@ public class RPSO extends LearningAlgorithm {
             return fitness;
         }
 
-//        TODO finish the move method
-        public void move() {
+        /**
+         * Updates the particle's action based on velocity and global fitness. the neighbourhood fitness is the same
+         * as the global fitness.
+         * @param fittest
+         */
+        public void move(Particle fittest) {
             // there is only a single dimension - peak center
+            velocity = (int) (CONSTRICTION_FACTOR * (velocity + ATTRACTION_FACTOR * (fittest.getAction().getValue() - this.getAction().getValue())));
+//            System.out.println(velocity);
+            action = action + (int) velocity;
             fitness = environment.getReward(this.getAction());
             evaluationCount++;
         }

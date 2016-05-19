@@ -1,7 +1,6 @@
 package com.amansoni;
 
 import java.text.DecimalFormat;
-import java.util.Random;
 
 /**
  * @author Aman
@@ -17,8 +16,6 @@ public class QLearning extends LearningAlgorithm {
     int noOfStates = 21;
     int offset = 10;
     double[][] QValues;
-    State nextState;
-
 
     public QLearning(Environment environment, int seed) {
         super(environment, seed);
@@ -34,7 +31,7 @@ public class QLearning extends LearningAlgorithm {
             int reward = environment.takeAction(action);
             // accumulate the reward
             accumulatedReward += reward;
-            nextState = environment.getState();
+            State nextState = environment.getState();
             // update the learning policy
             updatePolicy(state, nextState, action, reward, i);
             state = nextState;

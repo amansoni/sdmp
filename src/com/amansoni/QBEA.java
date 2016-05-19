@@ -2,7 +2,8 @@ package com.amansoni;
 
 /**
  * @author Aman
- * Fu, Haobo, Peter R. Lewis, and Xin Yao. "A Q-learning Based Evolutionary Algorithm for Sequential Decision Making Problems."
+ *         Implemented from Fu, Haobo, Peter R. Lewis, and Xin Yao.
+ *         "A Q-learning Based Evolutionary Algorithm for Sequential Decision Making Problems."
  */
 public class QBEA extends QLearning {
     int seed;
@@ -22,7 +23,7 @@ public class QBEA extends QLearning {
             int reward = environment.takeAction(action);
             // accumulate the reward
             accumulatedReward += reward;
-            nextState = environment.getState();
+            State nextState = environment.getState();
             // update the learning policy
             super.updatePolicy(state, nextState, action, reward, i);
             state = nextState;
@@ -43,6 +44,7 @@ public class QBEA extends QLearning {
     /**
      * Update the Q-values based on probable states for the EA search
      * Q(st, xi)   (1 − alpha)Q(st, xi) + alpha(ft(st, xi) + upsilon *  maxj Q(ˆs, xj));
+     *
      * @param state
      * @param nextState
      * @param action

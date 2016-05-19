@@ -8,6 +8,8 @@ import java.util.Random;
  *         Experiments for algorithms based on work in the following papers.
  *         Fu, Haobo, et al. "What are dynamic optimization problems?." Evolutionary Computation (CEC), 2014 IEEE Congress on. IEEE, 2014.
  *         Fu, Haobo, Peter R. Lewis, and Xin Yao. "A Q-learning Based Evolutionary Algorithm for Sequential Decision Making Problems."
+ *         <p>
+ *         Runs all required experiments averaged over 30 runs and reports the accumulated rewards for CPMB 1 & 2.
  */
 public class Experiment {
     enum Algorithm {
@@ -34,25 +36,27 @@ public class Experiment {
     }
 
     public static void main(String[] args) {
-//        Experiment experiment = new Experiment(1, 100, Algorithm.QLearning);
+//        Experiment experiment = new Experiment(1, 100, Algorithm.RPSO);
 //        experiment.learningAlgorithm.learn(1000);
 //        System.out.println(experiment.learningAlgorithm.getAccumulatedReward());
 //        experiment.learningAlgorithm.printPolicy();
-//
+
 //        experiment = new Experiment(1, 100, Algorithm.QBEA);
 //        experiment.learningAlgorithm.learn(1000);
 //        System.out.println(experiment.learningAlgorithm.getAccumulatedReward());
 //        experiment.learningAlgorithm.printPolicy();
 
-        // bias = 100
-        createExperimentRun(30, 100, 2000, Algorithm.QLearning);
-        createExperimentRun(30, 100, 2000, Algorithm.RPSO);
-        createExperimentRun(30, 100, 2000, Algorithm.QBEA);
+        int steps = 1000;
+        int bias = 100;
+        int repeat = 30;
+        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+        createExperimentRun(repeat, bias, steps, Algorithm.RPSO);
+        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
 
-        // bias = 15
-        createExperimentRun(30, 15, 2000, Algorithm.QLearning);
-        createExperimentRun(30, 15, 2000, Algorithm.RPSO);
-        createExperimentRun(30, 15, 2000, Algorithm.QBEA);
+        bias = 15;
+        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+        createExperimentRun(repeat, bias, steps, Algorithm.RPSO);
+        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
 
     }
 
