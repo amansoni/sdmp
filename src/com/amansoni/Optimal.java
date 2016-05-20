@@ -33,7 +33,7 @@ public class Optimal extends LearningAlgorithm {
             action = new Action(5);
         else {
             if (environment.getBias() > 15)
-                action = new Action(10);
+                action = new Action(0);
             else
                 action = new Action(0);
 //                action = new Action(-5);

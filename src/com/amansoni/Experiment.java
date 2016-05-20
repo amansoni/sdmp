@@ -82,7 +82,7 @@ public class Experiment {
             rewards += createExperiment(bias, steps, random.nextInt(), algorithm);
 //            rewards += createExperimentRL(bias, steps, i);
         }
-        System.out.println("Averaged reward: " + rewards / (double) repeat);
+        System.out.println("Averaged reward:\t" + rewards / (double) repeat + "\t" + algorithm.name());
         long END = System.currentTimeMillis();
         System.out.println("Time: " + (END - BEGIN) / 1000.0 + " sec.");
     }
