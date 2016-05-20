@@ -23,7 +23,7 @@ public class QLearning extends LearningAlgorithm {
     }
 
     public void learn(int totalSteps) {
-        state = environment.getState();
+        state = new State(environment.getState().center);
         for (int i = 0; i < totalSteps; i++) {
             // select an action
             Action action = selectAction();
@@ -31,10 +31,11 @@ public class QLearning extends LearningAlgorithm {
             int reward = environment.takeAction(action);
             // accumulate the reward
             accumulatedReward += reward;
-            State nextState = environment.getState();
+            State nextState= new State(environment.getState().center);
             // update the learning policy
+//            System.out.println(" state:" + state.center + " next state:" + nextState.center);
             updatePolicy(state, nextState, action, reward, i);
-            state = nextState;
+            state = new State(environment.getState().center);
         }
     }
 
@@ -59,15 +60,17 @@ public class QLearning extends LearningAlgorithm {
     protected void updatePolicy(State state, State nextState, Action action, int reward, int timestep) {
         double learningRate = (200.0 / (300.0 + timestep));
         double currentQ = QValues[state.center + offset][action.getValue() + offset];
-        double transitionQ = getBestQForState(nextState);
+        double QForNextState = getBestQForState(nextState);
         double updatedQValue =
-                (1.0 - learningRate) * currentQ + learningRate * (reward + discountFactor * transitionQ);
+                (1.0 - learningRate) * currentQ + learningRate * (reward + discountFactor * QForNextState);
         QValues[state.center + offset][action.getValue() + offset] = updatedQValue;
         if (DEBUG) {
             System.out.print(" time step:" + timestep);
             System.out.print(" learningRate:" + df.format(learningRate));
 //            System.out.print(" discountFactor:" + discountFactor);
-//            System.out.print(" action:" + action.getValue());
+            System.out.print(" state:" + state.center);
+            System.out.print(" next state:" + nextState.center);
+            System.out.print(" action:" + action.getValue());
             System.out.print(" Change Q value:" + df.format(currentQ));
             System.out.print(" to " + df.format(updatedQValue));
             System.out.println("");

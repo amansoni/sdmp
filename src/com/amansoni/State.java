@@ -7,4 +7,11 @@ public class State {
     public int height=30;
     public int width=2;
     public int center=5;
+
+    public State(){
+    }
+
+    public State(int center){
+        this.center = center;
+    }
 }

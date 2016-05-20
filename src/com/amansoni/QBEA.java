@@ -13,7 +13,7 @@ public class QBEA extends QLearning {
     }
 
     public void learn(int totalSteps) {
-        state = environment.getState();
+        state = new State(environment.getState().center);
         for (int i = 0; i < totalSteps; i++) {
             // employ ea to search on reward space
             searchRewardFunction(i);
@@ -23,17 +23,18 @@ public class QBEA extends QLearning {
             int reward = environment.takeAction(action);
             // accumulate the reward
             accumulatedReward += reward;
-            State nextState = environment.getState();
+            State nextState = new State(environment.getState().center);
             // update the learning policy
             super.updatePolicy(state, nextState, action, reward, i);
-            state = nextState;
+            state = new State(environment.getState().center);
         }
     }
 
     private void searchRewardFunction(int i) {
-        RPSO rpso = new RPSO(environment, seed);
-        Action evalAction = rpso.selectAction();
+        EDOAlgorithm edoAlgorithm = new EDOAlgorithm(environment, seed);
+        Action evalAction = edoAlgorithm.selectAction();
         State probableState = estimateNextState(state);
+        System.out.println(" state:" + state.center + " next state:" + probableState.center);
         updatePolicy(state, probableState, evalAction, i);
     }
 
@@ -50,15 +51,15 @@ public class QBEA extends QLearning {
 
 //        State[] probableStates = new State[2];
         State a = new State();
-        a.center=5;
+        a.center = 5;
 //        probableStates[0] = a;
         State b = new State();
-        b.center=-5;
+        b.center = -5;
 //        probableStates[1] = b;
         if (random.nextDouble() > 0.5)
             return a;
         else
-            return  b;
+            return b;
     }
 
     /**

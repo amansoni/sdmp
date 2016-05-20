@@ -54,21 +54,20 @@ public class Experiment {
 
         int steps = 1000;
         int bias = 100;
-        int repeat = 30;
+        int repeat = 1;
 
-        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
-        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
         bias = 15;
-        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
-        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
 
-//        createExperimentRun(repeat, bias, steps, Algorithm.RPSO);
+//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+//        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
 //        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
 //
+//        bias = 15;
+//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+//        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
 //        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-//        createExperimentRun(repeat, bias, steps, Algorithm.RPSO);
 //        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
 
     }
