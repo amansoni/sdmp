@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="037090cc-8dd5-4122-b5ea-5ed7c09b1cb3" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/Algorithm Comparisons.xlsx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/QBEA.xlsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/amansoni/Experiment.java" afterPath="$PROJECT_DIR$/src/com/amansoni/Experiment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/amansoni/QBEA.java" afterPath="$PROJECT_DIR$/src/com/amansoni/QBEA.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/amansoni/QLearning.java" afterPath="$PROJECT_DIR$/src/com/amansoni/QLearning.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Avita.iml" afterPath="$PROJECT_DIR$/Avita.iml" />
     </list>
     <ignored path="Avita.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -238,6 +238,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="sdmp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sdmp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sdmp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="docs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -888,7 +902,7 @@
       <workItem from="1463431321146" duration="2853000" />
       <workItem from="1463435033496" duration="207000" />
       <workItem from="1463435569530" duration="14848000" />
-      <workItem from="1463480578752" duration="18240000" />
+      <workItem from="1463480578752" duration="18488000" />
     </task>
     <task id="LOCAL-00001" summary="Added environment tests">
       <created>1463422557786</created>
@@ -1016,7 +1030,13 @@
       <option name="project" value="LOCAL" />
       <updated>1463693030003</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Changed experimental values to test QLearning">
+      <created>1463731495368</created>
+      <option name="number" value="00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1463731495368</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1052,7 +1072,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76633000" />
+    <option name="totallyTimeSpent" value="76881000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1060" extended-state="6" />
@@ -1111,7 +1131,8 @@
     <MESSAGE value="Tidy class hierarchy" />
     <MESSAGE value="Added OptimalAlgorithms" />
     <MESSAGE value="Added EDOAlgorithm" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added EDOAlgorithm" />
+    <MESSAGE value="Changed experimental values to test QLearning" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed experimental values to test QLearning" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
