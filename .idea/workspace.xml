@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="037090cc-8dd5-4122-b5ea-5ed7c09b1cb3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/amansoni/Experiment.java" afterPath="$PROJECT_DIR$/src/com/amansoni/Experiment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/amansoni/QBEA.java" afterPath="$PROJECT_DIR$/src/com/amansoni/QBEA.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/amansoni/QLearning.java" afterPath="$PROJECT_DIR$/src/com/amansoni/QLearning.java" />
     </list>
     <ignored path="Avita.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,10 +25,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Experiment.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Experiment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/amansoni/Experiment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="1.2433281">
               <caret line="78" column="58" selection-start-line="78" selection-start-column="58" selection-end-line="78" selection-end-column="58" />
               <folding />
             </state>
@@ -58,10 +55,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QBEA.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="QBEA.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/amansoni/QBEA.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6546311">
+            <state vertical-scroll-proportion="0.0">
               <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
               <folding />
             </state>
@@ -878,7 +875,7 @@
       <workItem from="1463435033496" duration="207000" />
       <workItem from="1463435569530" duration="14848000" />
       <workItem from="1463480578752" duration="18488000" />
-      <workItem from="1463746944205" duration="6317000" />
+      <workItem from="1463746944205" duration="6414000" />
     </task>
     <task id="LOCAL-00001" summary="Added environment tests">
       <created>1463422557786</created>
@@ -1018,7 +1015,13 @@
       <option name="project" value="LOCAL" />
       <updated>1463749506208</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Fixed bug on state passing by reference">
+      <created>1463753290175</created>
+      <option name="number" value="00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1463753290175</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1054,7 +1057,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="83198000" />
+    <option name="totallyTimeSpent" value="83295000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2391" y="21" width="2118" height="1293" extended-state="6" />
@@ -1573,18 +1576,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/amansoni/Experiment.java">
+    <entry file="file://$PROJECT_DIR$/src/com/amansoni/QBEA.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="78" column="58" selection-start-line="78" selection-start-column="58" selection-end-line="78" selection-end-column="58" />
+          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/amansoni/QBEA.java">
+    <entry file="file://$PROJECT_DIR$/src/com/amansoni/Experiment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6546311">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+        <state vertical-scroll-proportion="1.2433281">
+          <caret line="78" column="58" selection-start-line="78" selection-start-column="58" selection-end-line="78" selection-end-column="58" />
           <folding />
         </state>
       </provider>
