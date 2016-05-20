@@ -35,9 +35,6 @@ public class QLearning extends LearningAlgorithm {
             // update the learning policy
             updatePolicy(state, nextState, action, reward, i);
             state = nextState;
-
-//            if (accumulatedReward <= 0)
-//                printPolicy();
         }
     }
 
@@ -62,7 +59,7 @@ public class QLearning extends LearningAlgorithm {
     protected void updatePolicy(State state, State nextState, Action action, int reward, int timestep) {
         double learningRate = (200.0 / (300.0 + timestep));
         double currentQ = QValues[state.center + offset][action.getValue() + offset];
-        double transitionQ = getMaxRewardForState(nextState);
+        double transitionQ = getBestQForState(nextState);
         double updatedQValue =
                 (1.0 - learningRate) * currentQ + learningRate * (reward + discountFactor * transitionQ);
         QValues[state.center + offset][action.getValue() + offset] = updatedQValue;
@@ -77,7 +74,7 @@ public class QLearning extends LearningAlgorithm {
         }
     }
 
-    protected double getMaxRewardForState(State state) {
+    protected double getBestQForState(State state) {
         double bestValue = 0.;
         for (int j = 0; j < environment.getActions().length; j++) {
             if (QValues[state.center + offset][j] >= bestValue) {

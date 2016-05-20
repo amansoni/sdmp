@@ -38,7 +38,27 @@ public class QBEA extends QLearning {
     }
 
     private State estimateNextState(State state) {
-        return state;
+//        for (int i = 0; i < noOfStates; i++) {
+//            if ((i - offset) == 5 || (i - offset) == -5) {
+//                System.out.print((i - offset) + "\t");
+//                for (int j = 0; j < noOfActions; j++) {
+//                    System.out.print(df.format(QValues[i][j]) + "\t");
+//                }
+//                System.out.println("");
+//            }
+//        }
+
+//        State[] probableStates = new State[2];
+        State a = new State();
+        a.center=5;
+//        probableStates[0] = a;
+        State b = new State();
+        b.center=-5;
+//        probableStates[1] = b;
+        if (random.nextDouble() > 0.5)
+            return a;
+        else
+            return  b;
     }
 
     /**
@@ -54,7 +74,7 @@ public class QBEA extends QLearning {
         int reward = environment.getReward(action);
         double learningRate = (200.0 / (300.0 + timestep));
         double currentQ = QValues[state.center + offset][action.getValue() + offset];
-        double transitionQ = getMaxRewardForState(nextState);
+        double transitionQ = getBestQForState(nextState);
         if (DEBUG) {
             System.out.print(" time step:" + timestep);
             System.out.print(" learningRate:" + df.format(learningRate));
