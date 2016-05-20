@@ -34,8 +34,11 @@ public class QBEA extends QLearning {
         EDOAlgorithm edoAlgorithm = new EDOAlgorithm(environment, seed);
         Action evalAction = edoAlgorithm.selectAction();
         State probableState = estimateNextState(state);
-        System.out.println(" state:" + state.center + " next state:" + probableState.center);
         updatePolicy(state, probableState, evalAction, i);
+//        System.out.println(" state:" + state.center + " next state:" + probableState.center);
+//        for (Action evalAction : environment.getActions()) {
+//        updatePolicy(state, probableState, evalAction, i);
+//        }
     }
 
     private State estimateNextState(State state) {
@@ -51,15 +54,22 @@ public class QBEA extends QLearning {
 
 //        State[] probableStates = new State[2];
         State a = new State();
-        a.center = 5;
-//        probableStates[0] = a;
-        State b = new State();
-        b.center = -5;
-//        probableStates[1] = b;
-        if (random.nextDouble() > 0.5)
-            return a;
-        else
-            return b;
+        if (state.center == 5) {
+            a.center = -5;
+        } else {
+            a.center = 5;
+        }
+        return a;
+
+//        a.center = 5;
+////        probableStates[0] = a;
+//        State b = new State();
+//        b.center = -5;
+////        probableStates[1] = b;
+//        if (random.nextDouble() > 0.5)
+//            return a;
+//        else
+//            return b;
     }
 
     /**
@@ -83,7 +93,7 @@ public class QBEA extends QLearning {
         }
         double updatedQValue =
                 (1.0 - learningRate) * currentQ + learningRate * (reward + discountFactor * transitionQ);
-        QValues[this.state.center + offset][action.getValue() + offset] = updatedQValue;
+        QValues[state.center + offset][action.getValue() + offset] = updatedQValue;
         if (DEBUG) {
             System.out.print(" to " + df.format(updatedQValue));
             System.out.println("");

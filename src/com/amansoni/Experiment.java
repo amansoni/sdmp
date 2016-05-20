@@ -16,7 +16,7 @@ public class Experiment {
         QLearning, RPSO, QBEA, Optimal, EDO
     }
 
-    static int seed = 3;
+    static int seed = 0;
     Environment environment;
     LearningAlgorithm learningAlgorithm;
 
@@ -54,21 +54,18 @@ public class Experiment {
 
         int steps = 1000;
         int bias = 100;
-        int repeat = 1;
+        int repeat = 30;
 
-        bias = 15;
+        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
         createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
 
-//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
-//        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-//        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
-//
-//        bias = 15;
-//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
-//        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-//        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+        bias = 15;
+        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
 
     }
 
@@ -90,7 +87,7 @@ public class Experiment {
         Experiment experiment = new Experiment(seed, bias, algorithm);
         experiment.learningAlgorithm.learn(steps);
 //        System.out.println(seed + "\t" + experiment.learningAlgorithm.getAccumulatedReward());
-        //experiment.learningAlgorithm.printPolicy();
+//        experiment.learningAlgorithm.printPolicy();
         return experiment.learningAlgorithm.getAccumulatedReward();
     }
 

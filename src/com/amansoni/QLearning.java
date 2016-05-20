@@ -64,6 +64,8 @@ public class QLearning extends LearningAlgorithm {
         double updatedQValue =
                 (1.0 - learningRate) * currentQ + learningRate * (reward + discountFactor * QForNextState);
         QValues[state.center + offset][action.getValue() + offset] = updatedQValue;
+//        System.out.println(" state:" + state.center + " next state:" + nextState.center);
+
         if (DEBUG) {
             System.out.print(" time step:" + timestep);
             System.out.print(" learningRate:" + df.format(learningRate));
