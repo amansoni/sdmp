@@ -1,5 +1,8 @@
 package com.amansoni;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
  * @author Aman
  *         Implemented from Fu, Haobo, Peter R. Lewis, and Xin Yao.
@@ -8,9 +11,28 @@ package com.amansoni;
 public class QBEA extends QLearning {
     static boolean EA_UPDATES_ALL_ACTIONS = true;
     int seed;
+    Map<Integer, StateTransition> map = new TreeMap<>();
+
+
 
     public QBEA(Environment environment, int seed) {
         super(environment, seed);
+        initMap();
+    }
+
+    private void initMap() {
+
+        // init the map with all possible
+        for (int i = 0; i < 21; i++) {
+            for (int j = 0; j < 21; j++) {
+                map.put(new Integer(1), new StateTransition(new State(i), new Action(j)));
+            }
+        }
+        // Iterate over them
+        for(Map.Entry<Integer,StateTransition> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + " => " + entry.getValue());
+        }
+
     }
 
     public void learn(int totalSteps) {
@@ -138,6 +160,4 @@ public class QBEA extends QLearning {
             System.out.println("");
         }
     }
-
-
 }

@@ -14,4 +14,5 @@ public class State {
     public State(int center){
         this.center = center;
     }
+
 }
