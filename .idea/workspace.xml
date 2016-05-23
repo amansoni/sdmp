@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="037090cc-8dd5-4122-b5ea-5ed7c09b1cb3" name="Default" comment="Fixed bug on state passing by reference">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/amansoni/StateTransition.java" />
+    <list default="true" id="037090cc-8dd5-4122-b5ea-5ed7c09b1cb3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/amansoni/Action.java" afterPath="$PROJECT_DIR$/src/com/amansoni/Action.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/amansoni/Experiment.java" afterPath="$PROJECT_DIR$/src/com/amansoni/Experiment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/amansoni/QBEA.java" afterPath="$PROJECT_DIR$/src/com/amansoni/QBEA.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/amansoni/State.java" afterPath="$PROJECT_DIR$/src/com/amansoni/State.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/amansoni/StateTransition.java" afterPath="$PROJECT_DIR$/src/com/amansoni/StateTransition.java" />
     </list>
     <ignored path="Avita.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,8 +43,8 @@
       <file leaf-file-name="Experiment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/amansoni/Experiment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1694">
-              <caret line="77" column="82" selection-start-line="77" selection-start-column="82" selection-end-line="77" selection-end-column="82" />
+            <state relative-caret-position="428">
+              <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -51,8 +53,8 @@
       <file leaf-file-name="QLearning.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/amansoni/QLearning.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="128" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+            <state relative-caret-position="201">
+              <caret line="17" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -71,8 +73,8 @@
       <file leaf-file-name="QBEA.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/amansoni/QBEA.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="42" column="36" selection-start-line="42" selection-start-column="36" selection-end-line="42" selection-end-column="36" />
+            <state relative-caret-position="242">
+              <caret line="74" column="57" selection-start-line="74" selection-start-column="57" selection-end-line="74" selection-end-column="57" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -83,19 +85,41 @@
       <file leaf-file-name="State.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/amansoni/State.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
-              <folding />
+            <state relative-caret-position="252">
+              <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+              <folding>
+                <element signature="e#367#368#0" expanded="true" />
+                <element signature="e#438#439#0" expanded="true" />
+                <element signature="e#484#485#0" expanded="true" />
+                <element signature="e#529#530#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StateTransition.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Action.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/amansoni/Action.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="308">
+              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+              <folding>
+                <element signature="e#169#170#0" expanded="true" />
+                <element signature="e#199#200#0" expanded="true" />
+                <element signature="e#312#313#0" expanded="true" />
+                <element signature="e#387#388#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StateTransition.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/amansoni/StateTransition.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="29" column="17" selection-start-line="29" selection-start-column="17" selection-end-line="29" selection-end-column="17" />
-              <folding />
+            <state relative-caret-position="267">
+              <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -171,10 +195,11 @@
         <option value="$PROJECT_DIR$/src/com/amansoni/EDOAlgorithm.java" />
         <option value="$PROJECT_DIR$/src/com/amansoni/Optimal.java" />
         <option value="$PROJECT_DIR$/src/com/amansoni/QLearning.java" />
-        <option value="$PROJECT_DIR$/src/com/amansoni/Experiment.java" />
-        <option value="$PROJECT_DIR$/src/com/amansoni/State.java" />
         <option value="$PROJECT_DIR$/src/com/amansoni/QBEA.java" />
+        <option value="$PROJECT_DIR$/src/com/amansoni/State.java" />
+        <option value="$PROJECT_DIR$/src/com/amansoni/Action.java" />
         <option value="$PROJECT_DIR$/src/com/amansoni/StateTransition.java" />
+        <option value="$PROJECT_DIR$/src/com/amansoni/Experiment.java" />
       </list>
     </option>
   </component>
@@ -892,7 +917,14 @@
       <option name="project" value="LOCAL" />
       <updated>1463753290175</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Added state transition">
+      <created>1463990689038</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1463990689038</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1016,18 +1048,11 @@
     <MESSAGE value="Added EDOAlgorithm" />
     <MESSAGE value="Changed experimental values to test QLearning" />
     <MESSAGE value="Fixed bug on state passing by reference" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug on state passing by reference" />
+    <MESSAGE value="Added state transition" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added state transition" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/amansoni/QBEA.java</url>
-          <line>32</line>
-          <properties />
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
@@ -1045,14 +1070,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/amansoni/RPSO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="89" column="24" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/amansoni/EDOAlgorithm.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1345,16 +1362,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/amansoni/Action.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding>
-            <element signature="e#140#141#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/EnvironmentTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1411,30 +1418,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/amansoni/Experiment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1694">
-          <caret line="77" column="82" selection-start-line="77" selection-start-column="82" selection-end-line="77" selection-end-column="82" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/amansoni/State.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/amansoni/QLearning.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="128" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/amansoni/Environment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="444">
@@ -1443,21 +1426,73 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/amansoni/QBEA.java">
+    <entry file="file://$PROJECT_DIR$/src/com/amansoni/QLearning.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="42" column="36" selection-start-line="42" selection-start-column="36" selection-end-line="42" selection-end-column="36" />
+        <state relative-caret-position="201">
+          <caret line="17" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/src.zip!/java/util/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="383" column="10" selection-start-line="383" selection-start-column="10" selection-end-line="383" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/amansoni/StateTransition.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/amansoni/StateTransition.java">
+    <entry file="file://$PROJECT_DIR$/src/com/amansoni/Experiment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="29" column="17" selection-start-line="29" selection-start-column="17" selection-end-line="29" selection-end-column="17" />
+        <state relative-caret-position="428">
+          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/amansoni/QBEA.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="74" column="57" selection-start-line="74" selection-start-column="57" selection-end-line="74" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/amansoni/State.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+          <folding>
+            <element signature="e#367#368#0" expanded="true" />
+            <element signature="e#438#439#0" expanded="true" />
+            <element signature="e#484#485#0" expanded="true" />
+            <element signature="e#529#530#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/amansoni/Action.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding>
+            <element signature="e#169#170#0" expanded="true" />
+            <element signature="e#199#200#0" expanded="true" />
+            <element signature="e#312#313#0" expanded="true" />
+            <element signature="e#387#388#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
