@@ -56,15 +56,15 @@ public class Experiment {
         int bias = 100;
         int repeat = 30;
 
-        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
-        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+//        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
         createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
 
         bias = 15;
-        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
-        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+//        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
         createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
 
     }

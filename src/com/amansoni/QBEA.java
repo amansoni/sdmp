@@ -6,6 +6,7 @@ package com.amansoni;
  *         "A Q-learning Based Evolutionary Algorithm for Sequential Decision Making Problems."
  */
 public class QBEA extends QLearning {
+    static boolean EA_UPDATES_ALL_ACTIONS = true;
     int seed;
 
     public QBEA(Environment environment, int seed) {
@@ -16,9 +17,13 @@ public class QBEA extends QLearning {
         state = new State(environment.getState().center);
         for (int i = 0; i < totalSteps; i++) {
             // employ ea to search on reward space
+//            int test = environment.getState().center;
             searchRewardFunction(i);
             // select an action
             Action action = selectAction();
+//            if (environment.getState().center != test)
+//                System.out.println("STATE MISMATCH");
+
             // perform the action and get a reward
             int reward = environment.takeAction(action);
             // accumulate the reward
@@ -26,22 +31,33 @@ public class QBEA extends QLearning {
             State nextState = new State(environment.getState().center);
             // update the learning policy
             super.updatePolicy(state, nextState, action, reward, i);
+//            if ((nextState.center != -test) && (state.center != test))
+//                System.out.println("STATE MISMATCH");
             state = new State(environment.getState().center);
         }
     }
 
-    private void searchRewardFunction(int i) {
+    private void searchRewardFunction(int timeStep) {
         EDOAlgorithm edoAlgorithm = new EDOAlgorithm(environment, seed);
-        Action evalAction = edoAlgorithm.selectAction();
-        State probableState = estimateNextState(state);
-        updatePolicy(state, probableState, evalAction, i);
-//        System.out.println(" state:" + state.center + " next state:" + probableState.center);
-//        for (Action evalAction : environment.getActions()) {
-//        updatePolicy(state, probableState, evalAction, i);
+//        for (int i = -10; i < 11; i++) {
+//        System.out.println(" i:" + i);
+        if (EA_UPDATES_ALL_ACTIONS) {
+            for (Action evalAction : environment.getActions()) {
+//                for (int i = 0; i < 2; i++) {
+                    State probableState = estimateNextState(state, evalAction, timeStep);
+                    updatePolicy(edoAlgorithm.environment.getState(), probableState, evalAction, timeStep);
+//                }
+            }
+        } else {
+            Action evalAction = edoAlgorithm.selectAction();
+            State probableState = estimateNextState(state, evalAction, timeStep);
+            updatePolicy(edoAlgorithm.environment.getState(), probableState, evalAction, timeStep);
+        }
 //        }
+//        System.out.println(" state:" + state.center + " next state:" + probableState.center);
     }
 
-    private State estimateNextState(State state) {
+    private State estimateNextState(State state, Action evalAction, int timeStep) {
 //        for (int i = 0; i < noOfStates; i++) {
 //            if ((i - offset) == 5 || (i - offset) == -5) {
 //                System.out.print((i - offset) + "\t");
@@ -54,11 +70,33 @@ public class QBEA extends QLearning {
 
 //        State[] probableStates = new State[2];
         State a = new State();
-        if (state.center == 5) {
-            a.center = -5;
+//        if (evalAction.getValue() < 0) {
+//            a.center = -5;
+//        } else {
+//            a.center = 5;
+//        }
+//        if (random.nextDouble() > 0.5) {
+//        if (state.center == 5) {
+        double probability = .85 + timeStep / 1000;
+        if (evalAction.getValue() < 0) {
+            if (random.nextDouble() < probability) {
+                a.center = 5;
+            } else {
+                a.center = -5;
+            }
         } else {
-            a.center = 5;
+            if (random.nextDouble() > probability) {
+                a.center = 5;
+            } else {
+                a.center = -5;
+            }
         }
+//        if (evalAction.getValue() < 0) {
+//            a.center = -5;
+//        } else {
+//            a.center = 5;
+//        }
+
         return a;
 
 //        a.center = 5;
@@ -81,6 +119,7 @@ public class QBEA extends QLearning {
      * @param action
      * @param timestep
      */
+
     private void updatePolicy(State state, State nextState, Action action, int timestep) {
         int reward = environment.getReward(action);
         double learningRate = (200.0 / (300.0 + timestep));
