@@ -3,7 +3,7 @@ package com.amansoni;
 /**
  * Created by Aman on 14/05/2016.
  */
-public class Action {
+public class Action implements Comparable<Action>{
     private int value;
 
     public Action(int action){
@@ -13,4 +13,10 @@ public class Action {
     public int getValue(){
         return value;
     }
+
+    @Override
+    public int compareTo(Action action) {
+        return new Integer(action.getValue()).compareTo(this.value);
+    }
+
 }
