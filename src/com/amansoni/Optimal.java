@@ -32,11 +32,11 @@ public class Optimal extends LearningAlgorithm {
         if (state.center == 5)
             action = new Action(5);
         else {
-            if (environment.getBias() > 15)
+            if (environment.getBias() >= 15)
                 action = new Action(0);
             else
-                action = new Action(0);
-//                action = new Action(-5);
+//                action = new Action(0);
+                action = new Action(-5);
         }
         return action;
     }

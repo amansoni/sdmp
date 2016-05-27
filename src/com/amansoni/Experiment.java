@@ -53,34 +53,65 @@ public class Experiment {
 //        experiment.learningAlgorithm.printPolicy();
 
         int steps = 1000;
-        int bias = 100;
         int repeat = 30;
 
-//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
-//        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+        int bias = 100;
 
-        bias = 15;
+        compareAlgorithms(steps, repeat, 100);
+        compareAlgorithms(steps, repeat, 25);
+        compareAlgorithms(steps, repeat, 15);
+        compareAlgorithms(steps, repeat, 0);
+
+//        bias = 25;
+//        System.out.println("Running experiment " + " bias: " + bias + " repeated " + steps + " averaged over " + repeat);
+//        s = createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+//        s += createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+//        s += createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+//        s += createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+//        System.out.println(s);
+//
+//        bias = 15;
 //        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
 //        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+//        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+//
+//        bias = 5;
+//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+//        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+//        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+//
+//        bias = 0;
+//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+//        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+//        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
 
     }
 
-    public static void createExperimentRun(int repeat, int bias, int steps, Algorithm algorithm) {
+    private static void compareAlgorithms(int steps, int repeat, int bias) {
+        System.out.println("Running experiment " + " bias: " + bias + " repeated " + steps + " averaged over " + repeat);
+        String s = createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+        s += createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+        s += createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+        s += createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+        System.out.println(s);
+    }
+
+    public static String createExperimentRun(int repeat, int bias, int steps, Algorithm algorithm) {
         Random random = new Random(seed);
-        System.out.println("Running experiment " + algorithm.name() + " bias: " + bias + " repeated " + steps + " averaged over " + repeat);
+//        System.out.println("Running experiment " + algorithm.name() + " bias: " + bias + " repeated " + steps + " averaged over " + repeat);
         long BEGIN = System.currentTimeMillis();
         double rewards = 0;
         for (int i = 0; i < repeat; i++) {
             rewards += createExperiment(bias, steps, random.nextInt(), algorithm);
 //            rewards += createExperimentRL(bias, steps, i);
         }
-        System.out.println("Averaged reward:\t" + rewards / (double) repeat + "\t" + algorithm.name());
+//        System.out.println("Averaged reward:\t" + rewards / (double) repeat + "\t" + algorithm.name());
         long END = System.currentTimeMillis();
-        System.out.println("Time: " + (END - BEGIN) / 1000.0 + " sec.");
+//        System.out.println("Time: " + (END - BEGIN) / 1000.0 + " sec.");
+        return algorithm.name() + "\t" + rewards / (double) repeat + "\t" + (END - BEGIN) / 1000.0 + "\n";
     }
 
     public static double createExperiment(int bias, int steps, int seed, Algorithm algorithm) {

@@ -63,17 +63,31 @@ public class QBEA extends QLearning {
         stateTransition.updateValues(action, nextState);
     }
 
-    private void searchRewardFunction(int timeStep) {
-        EDOAlgorithm edoAlgorithm = new EDOAlgorithm(environment, seed);
-        for (Action evalAction : environment.getActions()) {
-            State probableState = estimateNextState(state, evalAction);
-            updatePolicy(edoAlgorithm.environment.getState(), probableState, evalAction, timeStep);
-        }
-    }
-
     private State estimateNextState(State state, Action evalAction) {
         StateTransition stateTransition = map.get(state);
         return stateTransition.getProbableState(evalAction);
+    }
+
+    private void searchRewardFunction(int timeStep) {
+//        EDOAlgorithm edoAlgorithm = new EDOAlgorithm(environment, seed);
+        double learningRate = (200.0 / (300.0 + timeStep));
+        State currentState = new State(environment.getState().center);
+        double discountFactor = 0.7;
+        for (Action evalAction : environment.getActions()) {
+            State probableState = estimateNextState(state, evalAction);
+            int reward = environment.getReward(evalAction, probableState, evalAction);
+            updatePolicy(learningRate, currentState, probableState, evalAction, reward, discountFactor);
+        }
+//        Action evalAction = edoAlgorithm.selectAction();
+//        State probableState = estimateNextState(state, evalAction);
+//        int reward = environment.getReward(evalAction);
+//        updatePolicy(learningRate, currentState, probableState, evalAction, reward);
+    }
+
+    public int getReward(State state, Action x) {
+        int reward = state.height - state.width * Math.abs(x.getValue() - state.center) + environment.g();
+//        System.out.println(reward);
+        return reward;
     }
 
     /**
@@ -83,23 +97,20 @@ public class QBEA extends QLearning {
      * @param state
      * @param nextState
      * @param action
-     * @param timestep
      */
 
-    private void updatePolicy(State state, State nextState, Action action, int timestep) {
-        int reward = environment.getReward(action);
-        double learningRate = (200.0 / (300.0 + timestep));
+    private void updatePolicy(double learningRate, State state, State nextState, Action action, int reward, double discountFactor) {
         double currentQ = QValues[state.center + offset][action.getValue() + offset];
         double transitionQ = getBestQForState(nextState);
-        if (DEBUG) {
-            System.out.print(" time step:" + timestep);
-            System.out.print(" learningRate:" + df.format(learningRate));
-            System.out.print(" Change Q value:" + df.format(currentQ));
-        }
         double updatedQValue =
                 (1.0 - learningRate) * currentQ + learningRate * (reward + discountFactor * transitionQ);
         QValues[state.center + offset][action.getValue() + offset] = updatedQValue;
         if (DEBUG) {
+            System.out.print(" learningRate:" + df.format(learningRate));
+            System.out.print(" state:" + state.center);
+            System.out.print(" action:" + action.getValue());
+            System.out.print(" next state:" + nextState.center);
+            System.out.print(" Change Q value:" + df.format(currentQ));
             System.out.print(" to " + df.format(updatedQValue));
             System.out.println("");
         }
