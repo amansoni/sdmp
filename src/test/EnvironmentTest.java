@@ -2,6 +2,7 @@ package test;
 
 import com.amansoni.Action;
 import com.amansoni.Environment;
+import com.amansoni.State;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -10,6 +11,7 @@ import static org.junit.Assert.assertEquals;
  * Created by Aman on 16/05/2016.
  */
 public class EnvironmentTest {
+
 
     @Test
     public void TestInitialEnvironment(){
@@ -41,6 +43,46 @@ public class EnvironmentTest {
         assertEquals(3, environment.getTimeStep());
     }
 
+    @Test
+    public void TestRewardFunction(){
+        Environment environment = new Environment(100);
+        assertEquals(100, environment.getBias());
+        assertEquals(0, environment.getTimeStep());
+        // state
+        assertEquals(5, environment.getState().center);
+        assertEquals(30, environment.getState().height);
+        assertEquals(2, environment.getState().width);
+
+        // check reward does not change without an action
+        assertEquals(100, environment.getReward(new Action(-10)));
+        assertEquals(110, environment.getReward(new Action(-5)));
+        assertEquals(120, environment.getReward(new Action(0)));
+        assertEquals(130, environment.getReward(new Action(5)));
+        assertEquals(120, environment.getReward(new Action(10)));
+
+        // take an action >= 0
+        assertEquals(120, environment.takeAction(new Action(10)));
+        assertEquals(1, environment.getTimeStep());
+
+        // test the reward function
+        for (Action evalAction : environment.getActions()) {
+            assertEquals(1, environment.getTimeStep());
+            assertEquals(100, environment.g());
+            State probableState = new State(-5);
+            System.out.println(environment.getReward(evalAction, probableState, evalAction));
+        }
+
+        assertEquals(120, environment.takeAction(new Action(10)));
+        assertEquals(1, environment.getTimeStep());
+
+        // take an action < 0
+        assertEquals(120, environment.takeAction(new Action(-10)));
+        assertEquals(2, environment.getTimeStep());
+
+        // take an action < 0
+        assertEquals(-100, environment.takeAction(new Action(-10)));
+        assertEquals(3, environment.getTimeStep());
+    }
     @Test
     public void TestActions(){
         Environment environment = new Environment(100);
