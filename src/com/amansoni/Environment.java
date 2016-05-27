@@ -43,20 +43,25 @@ public class Environment {
     }
 
     public int getReward(Action x) {
-//        System.out.print(x.getValue());
-//        System.out.print(" " + state.center);
-//        System.out.println(" " + Math.abs(x.getValue() - state.center));
         int reward = state.height - state.width * Math.abs(x.getValue() - state.center) + g();
 //        System.out.println(reward);
         return reward;
     }
 
-    private int g() {
+    public int getReward(Action x, State probableState, Action probableAction) {
+        int bias = (x.getValue() >= 0 ? b : -b);
+        int reward = probableState.height - probableState.width * Math.abs(probableAction.getValue() - probableState.center) + bias;
+//        System.out.println(reward);
+        return reward;
+    }
+
+    public int g() {
         if (previousAction == null || previousAction.getValue() >= 0)
             return b;
         else
             return -b;
     }
+
 
     void init() {
         timeStep = 0;

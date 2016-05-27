@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class Experiment {
     enum Algorithm {
-        QLearning, RPSO, QBEA, Optimal, EDO
+        QLearning, RPSO, QBEA, Optimal, EDO, QBEA1
     }
 
     static int seed = 0;
@@ -31,6 +31,9 @@ public class Experiment {
                 break;
             case QBEA:
                 learningAlgorithm = new QBEA(environment, seed);
+                break;
+            case QBEA1:
+                learningAlgorithm = new QBEA1(environment, seed);
                 break;
             case Optimal:
                 learningAlgorithm = new Optimal(environment, seed);
@@ -52,11 +55,14 @@ public class Experiment {
 //        System.out.println(experiment.learningAlgorithm.getAccumulatedReward());
 //        experiment.learningAlgorithm.printPolicy();
 
-        int steps = 1000;
-        int bias = 100;
-        int repeat = 30;
+//        createExperimentRun(repeat, bias, steps, Algorithm.QBEA1);
 
-//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+        int steps = 1000;
+        int repeat = 30;
+        int bias = 0;
+
+        bias = 100;
+        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
 //        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
         createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
         createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
@@ -66,6 +72,32 @@ public class Experiment {
 //        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
         createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
         createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+
+/*
+        bias = 200;
+        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+
+        bias = 50;
+        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+
+        bias = 25;
+        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+
+        bias = 0;
+        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
+        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
+        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
+        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+*/
 
     }
 
