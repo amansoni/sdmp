@@ -1,6 +1,7 @@
 package com.amansoni;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 /**
@@ -11,8 +12,9 @@ public class StateTransition {
     Map<Action, Integer> numberExperienced = new TreeMap<>();
     private int[][][] numberObserved = new int[21][21][1];
     public final static double PRIOR_A = 4.;
-    public final static double POSSIBLE_STATES = 10.; // this may need to be a count?
+    public final static double POSSIBLE_STATES = 21.; // this may need to be a count?
     int offset = 10;
+    int seed = 1;
 
     public StateTransition(State current) {
         this.current = current;
@@ -23,16 +25,24 @@ public class StateTransition {
 
     public State getProbableState(Action action) {
         double maxProbability = 0.;
-        State maxNextState = null;
+        int[] nextStates = new int[21];
+        int count = 0;
         for (int i = 0; i < 21; i++) {
             State nextState = new State(i - offset);
             double probability = getStateProbability(nextState, action);
-            if (probability > maxProbability) {
+            if (probability == maxProbability) {
                 maxProbability = probability;
-                maxNextState = new State(i - offset);
+                nextStates[count++] = i - offset;
+            }
+            if (probability > maxProbability) {
+                count = 0;
+                maxProbability = probability;
+                nextStates[count++] = i - offset;
             }
         }
-        return maxNextState;
+        int selected = new Random().nextInt(count);
+//        System.out.println("State:" + this.current.center + " " + nextStates[selected]);
+        return new State(nextStates[selected]);
     }
 
     /**
