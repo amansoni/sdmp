@@ -11,14 +11,21 @@ import java.text.DecimalFormat;
  */
 public class QLearning extends LearningAlgorithm {
     DecimalFormat df = new DecimalFormat("#.00");
-    final static double discountFactor = 0.7;
-    final static double epsilon = 0.1;
+    double discountFactor = 0.7;
+    double epsilon = 0.1;
     int noOfStates = 21;
     int offset = 10;
     double[][] QValues;
 
     public QLearning(Environment environment, int seed) {
         super(environment, seed);
+        initPolicy();
+    }
+
+    public QLearning(Environment environment, int seed, double[] params) {
+        super(environment, seed);
+        this.discountFactor = params[0];
+//        this.epsilon = epsilon;
         initPolicy();
     }
 

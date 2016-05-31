@@ -30,7 +30,7 @@ public class TuningQLearning {
                 learningAlgorithm = new RPSO(environment, seed);
                 break;
             case QBEA:
-                learningAlgorithm = new QBEA(environment, seed);
+                learningAlgorithm = new QBEA(environment, seed, params);
                 break;
             case Optimal:
                 learningAlgorithm = new Optimal(environment, seed);

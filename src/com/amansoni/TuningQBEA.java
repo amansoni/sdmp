@@ -1,5 +1,6 @@
 package com.amansoni;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -19,6 +20,11 @@ public class TuningQBEA {
     static int seed = 0;
     Environment environment;
     LearningAlgorithm learningAlgorithm;
+    static Random random;
+
+    public TuningQBEA() {
+
+    }
 
     public TuningQBEA(int seed, int bias, Algorithm algorithm, double[] params) {
         environment = new Environment(bias, false);
@@ -30,7 +36,7 @@ public class TuningQBEA {
                 learningAlgorithm = new RPSO(environment, seed);
                 break;
             case QBEA:
-                learningAlgorithm = new QBEA(environment, seed);
+                learningAlgorithm = new QBEA(environment, seed, params);
                 break;
             case Optimal:
                 learningAlgorithm = new Optimal(environment, seed);
@@ -42,70 +48,108 @@ public class TuningQBEA {
     }
 
     public static void main(String[] args) {
-//        Experiment experiment = new Experiment(1, 100, Algorithm.RPSO);
-//        experiment.learningAlgorithm.learn(1000);
-//        System.out.println(experiment.learningAlgorithm.getAccumulatedReward());
-//        experiment.learningAlgorithm.printPolicy();
-
-//        experiment = new Experiment(1, 100, Algorithm.QBEA);
-//        experiment.learningAlgorithm.learn(1000);
-//        System.out.println(experiment.learningAlgorithm.getAccumulatedReward());
-//        experiment.learningAlgorithm.printPolicy();
-
-        int steps = 1000;
+        int steps = 2000;
         int repeat = 30;
-
-
-//        compareAlgorithms(steps, repeat, 100);
-//        compareAlgorithms(steps, repeat, 25);
-//        compareAlgorithms(steps, repeat, 15);
-//        compareAlgorithms(steps, repeat, 0);
-
-        double maxReward = Double.MIN_VALUE;
-        double[] params = new double[]{0.1};
-        double best = 0.;
-        double best100 = 0.;
-        double best15 = 0.;
-        double reward100 = 0.;
-        double reward15 = 0.;
-        for (int i = 0; i < 100; i++) {
-//            System.out.println("Testing:" + params[0]);
-
-            double optimal100 = createExperimentRun(1, 100, steps, Algorithm.Optimal, params);
-            reward100 = createExperimentRun(repeat, 100, steps, Algorithm.QLearning, params);
-            double diff100 = optimal100 - reward100;
-
-            double optimal15 = createExperimentRun(1, 15, steps, Algorithm.Optimal, params);
-            reward15 = createExperimentRun(repeat, 15, steps, Algorithm.QLearning, params);
-
-//            double reward0 = createExperimentRun(repeat, 0, steps, Algorithm.QLearning);
-            if (reward15 + reward100 > maxReward) {
-                maxReward = reward15 + reward100;
-                best = params[0];
-            }
-            if (reward100 > best100) {
-                best100 = reward100;
-                System.out.println("Better 100 :" + best100 + " discount factor:" + params[0]);
-            }
-            if (reward15 > best15) {
-                best15 = reward15;
-                System.out.println("Better 15 :" + best15 + " discount factor:" + params[0]);
-            }
-            params[0] += 0.01;
-        }
-        System.out.println("Best param:" + best);
-        System.out.println("Reward 100 :" + reward100);
-        System.out.println("Reward 15 :" + reward15);
+        random = new Random(seed);
+        System.out.println(new TuningQBEA().getTunedSettings(steps, repeat));
     }
 
-//    private static void compareAlgorithms(int steps, int repeat, int bias) {
-//        System.out.println("Running experiment " + " bias: " + bias + " repeated " + steps + " averaged over " + repeat);
-//        String s = createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
-//        s += createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-//        s += createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-//        s += createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
-//        System.out.println(s);
-//    }
+    public Individual getTunedSettings(int steps, int repeat) {
+        // for the fitness function
+        double optimal100 = createExperimentRun(1, 100, steps, Algorithm.Optimal, null);
+        double optimal15 = createExperimentRun(1, 15, steps, Algorithm.Optimal, null);
+        System.out.println("Optimal\t100:" + optimal100 + "\t15:" + optimal15);
+        int size = 20;
+        ArrayList<Individual> population = initPopulation(random, size);
+        Individual bestOfGeneration = null;
+        Individual nextBestOfGeneration = null;
+        for (int i = 0; i < 10; i++) {
+            System.out.println("Generation:" + i + "\t population:" + population.size());
+            long BEGIN = System.currentTimeMillis();
+            for (Individual individual : population) {
+                double fitness = individual.getFitness(steps, repeat, optimal100, optimal15);
+                if (bestOfGeneration == null || fitness < bestOfGeneration.fitness) {
+                    nextBestOfGeneration = bestOfGeneration;
+                    bestOfGeneration = individual;
+                }
+            }
+            population = reproduce(random, size, bestOfGeneration, nextBestOfGeneration);
+            long END = System.currentTimeMillis();
+            System.out.print("\tTime:" + (END - BEGIN) / 1000.0 + " sec.");
+            System.out.println("\tBest:" + bestOfGeneration);
+            System.out.println("\tNext:" + nextBestOfGeneration);
+        }
+        return bestOfGeneration;
+    }
+
+    private ArrayList<Individual> reproduce(Random random, int size, Individual bestOfGeneration, Individual nextBestOfGeneration) {
+        ArrayList<Individual> population = new ArrayList<>();
+        population.add(bestOfGeneration);
+        population.add(nextBestOfGeneration);
+        int mutuatecount = (int) (size - 2) / 2;
+        while (population.size() < mutuatecount + 2) {
+            population.add(mutate(random, bestOfGeneration));
+        }
+        while (population.size() < size) {
+            population.add(mutate(random, bestOfGeneration));
+        }
+        return population;
+    }
+
+    private Individual mutate(Random random, Individual bestOfGeneration) {
+        Individual offspring = new Individual(bestOfGeneration.getParams());
+        // mutate discount factor
+        int multiplier = random.nextInt(5);
+//        double check = random.nextDouble();
+//        if (check < 0.5) {
+//            double increase = random.nextDouble();
+//            if (increase > 0.5) {
+//                offspring.discountFactor += 0.01 * multiplier;
+//            } else
+//                offspring.discountFactor -= 0.01 * multiplier;
+//        }
+//        // mutate prior
+//        check = random.nextDouble();
+//        if (check < 0.5) {
+            double increase = random.nextDouble();
+            if (increase > 0.5)
+                offspring.priorConstant += multiplier;
+            else
+                offspring.priorConstant -= multiplier;
+//        }
+//
+//        if (check < 0.25) {
+//            offspring.discountFactor += 0.05;
+//            offspring.priorConstant--;
+//        }
+//        if (check > 0.25 && check < 0.5) {
+//            offspring.discountFactor -= 0.05;
+//            offspring.priorConstant++;
+//        }
+//        if (check > 0.5 && check < 0.75) {
+//            offspring.discountFactor += 0.05;
+//            offspring.priorConstant++;
+//        }
+//        if (check > 0.75) {
+//            offspring.discountFactor -= 0.05;
+//            offspring.priorConstant--;
+//        }
+        if (offspring.discountFactor < 0 || offspring.discountFactor >= 1)
+            offspring.discountFactor = random.nextDouble();
+
+        if (offspring.priorConstant <= 0)
+            offspring.priorConstant = random.nextInt(50);
+
+        return offspring;
+    }
+
+    private ArrayList<Individual> initPopulation(Random random, int size) {
+        ArrayList<Individual> population = new ArrayList<>();
+        while (population.size() < size) {
+            population.add(new Individual(0.79, (double) random.nextInt(20)));
+        }
+        return population;
+    }
 
     public static double createExperimentRun(int repeat, int bias, int steps, Algorithm algorithm, double[] params) {
         Random random = new Random(seed);
@@ -122,9 +166,41 @@ public class TuningQBEA {
     public static double createExperiment(int bias, int steps, int seed, Algorithm algorithm, double[] params) {
         TuningQBEA experiment = new TuningQBEA(seed, bias, algorithm, params);
         experiment.learningAlgorithm.learn(steps);
-//        System.out.println(seed + "\t" + experiment.learningAlgorithm.getAccumulatedReward());
-//        experiment.learningAlgorithm.printPolicy();
         return experiment.learningAlgorithm.getAccumulatedReward();
     }
 
+    class Individual {
+        double discountFactor;
+        double priorConstant;
+        double fitness = Double.MIN_VALUE;
+
+        public Individual(double discountFactor, double priorConstant) {
+            this.discountFactor = discountFactor;
+            this.priorConstant = priorConstant;
+        }
+
+        public Individual(double[] params) {
+            this.discountFactor = params[0];
+            this.priorConstant = params[1];
+        }
+
+        public String toString() {
+            return "Discount Factor:" + discountFactor + "\tPrior:" + priorConstant + "\tFitness:" + fitness;
+        }
+
+        public double[] getParams() {
+            return new double[]{discountFactor, priorConstant};
+        }
+
+        public double getFitness(int steps, int repeat, double optimal100, double optimal15) {
+            if (fitness == Double.MIN_VALUE) {
+                double fitness100 = createExperimentRun(repeat, 100, steps, Algorithm.QLearning, getParams());
+                double fitness15 = createExperimentRun(repeat, 15, steps, Algorithm.QLearning, getParams());
+                fitness = ((optimal100 - fitness100) / optimal100 + (optimal15 - fitness15) / optimal15);
+                System.out.println(this + "\t100:" + fitness100 + "\t15:" + fitness15);
+            } else
+                System.out.println("(previous calc)\t" + this);
+            return fitness;
+        }
+    }
 }

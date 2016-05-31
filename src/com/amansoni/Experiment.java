@@ -21,16 +21,17 @@ public class Experiment {
     LearningAlgorithm learningAlgorithm;
 
     public Experiment(int seed, int bias, Algorithm algorithm) {
+        double[] params = new double[]{.79, 16.0};
         environment = new Environment(bias, false);
         switch (algorithm) {
             case QLearning:
-                learningAlgorithm = new QLearning(environment, seed);
+                learningAlgorithm = new QLearning(environment, seed, params);
                 break;
             case RPSO:
                 learningAlgorithm = new RPSO(environment, seed);
                 break;
             case QBEA:
-                learningAlgorithm = new QBEA(environment, seed);
+                learningAlgorithm = new QBEA(environment, seed, params);
                 break;
             case Optimal:
                 learningAlgorithm = new Optimal(environment, seed);
@@ -58,35 +59,9 @@ public class Experiment {
         int bias = 100;
 
         compareAlgorithms(steps, repeat, 100);
-        compareAlgorithms(steps, repeat, 25);
         compareAlgorithms(steps, repeat, 15);
-        compareAlgorithms(steps, repeat, 0);
-
-//        bias = 25;
-//        System.out.println("Running experiment " + " bias: " + bias + " repeated " + steps + " averaged over " + repeat);
-//        s = createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
-//        s += createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-//        s += createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-//        s += createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
-//        System.out.println(s);
-//
-//        bias = 15;
-//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
-//        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-//        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
-//
-//        bias = 5;
-//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
-//        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-//        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
-//
-//        bias = 0;
-//        createExperimentRun(repeat, bias, steps, Algorithm.Optimal);
-//        createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-//        createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-//        createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+//        compareAlgorithms(steps, repeat, 25);
+//        compareAlgorithms(steps, repeat, 0);
 
     }
 

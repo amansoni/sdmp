@@ -9,7 +9,7 @@ import java.util.TreeMap;
  *         "A Q-learning Based Evolutionary Algorithm for Sequential Decision Making Problems."
  */
 public class QBEA extends QLearning {
-    static boolean EA_UPDATES_ALL_ACTIONS = true;
+    double priorA = 4.;
     int seed;
     Map<State, StateTransition> map = new TreeMap<>();
 
@@ -19,11 +19,17 @@ public class QBEA extends QLearning {
         initMap();
     }
 
+    public QBEA(Environment environment, int seed, double[] params) {
+        this(environment, seed);
+        discountFactor = params[0];
+        priorA = params[1];
+    }
+
     private void initMap() {
         // init the map with all possible
         for (int i = 0; i < 21; i++) {
             for (int j = 0; j < 21; j++) {
-                map.put(new State(i - offset), new StateTransition(new State(i - offset)));
+                map.put(new State(i - offset), new StateTransition(new State(i - offset), priorA));
             }
         }
         // Iterate over them
