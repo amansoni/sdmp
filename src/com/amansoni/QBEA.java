@@ -36,21 +36,15 @@ public class QBEA extends QLearning {
 //        for (Map.Entry<State, StateTransition> entry : map.entrySet()) {
 //            System.out.println(entry.getKey() + " => " + entry.getValue());
 //        }
-
     }
 
     public void learn(int totalSteps) {
         state = new State(environment.getState().center);
         for (int i = 0; i < totalSteps; i++) {
             // employ ea to search on reward space
-//            int test = environment.getState().center;
             searchRewardFunction(i);
             // select an action
-//            Action action = selectAction();
             Action action = new Action(getActionForMaxRewardForState(state) - offset);
-//            if (environment.getState().center != test)
-//                System.out.println("STATE MISMATCH");
-
             // perform the action and get a reward
             int reward = environment.takeAction(action);
             // accumulate the reward
@@ -59,8 +53,6 @@ public class QBEA extends QLearning {
             // update the learning policy
             super.updatePolicy(state, nextState, action, reward, i);
             updateStateTransition(state, nextState, action);
-//            if ((nextState.center != -test) && (state.center != test))
-//                System.out.println("STATE MISMATCH");
             state = new State(environment.getState().center);
         }
     }
