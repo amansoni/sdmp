@@ -16,8 +16,8 @@ public class TuningQBEA {
     enum Algorithm {
         QLearning, RPSO, QBEA, Optimal, EDO
     }
-
-    static int seed = 0;
+    static boolean run15Only = false;
+    static int seed = 1;
     Environment environment;
     LearningAlgorithm learningAlgorithm;
     static Random random;
@@ -48,7 +48,7 @@ public class TuningQBEA {
     }
 
     public static void main(String[] args) {
-        int steps = 2000;
+        int steps = 1000;
         int repeat = 30;
         random = new Random(seed);
         System.out.println(new TuningQBEA().getTunedSettings(steps, repeat));
@@ -59,11 +59,11 @@ public class TuningQBEA {
         double optimal100 = createExperimentRun(1, 100, steps, Algorithm.Optimal, null);
         double optimal15 = createExperimentRun(1, 15, steps, Algorithm.Optimal, null);
         System.out.println("Optimal\t100:" + optimal100 + "\t15:" + optimal15);
-        int size = 20;
+        int size = 6;
         ArrayList<Individual> population = initPopulation(random, size);
         Individual bestOfGeneration = null;
         Individual nextBestOfGeneration = null;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 6; i++) {
             System.out.println("Generation:" + i + "\t population:" + population.size());
             long BEGIN = System.currentTimeMillis();
             for (Individual individual : population) {
@@ -100,23 +100,23 @@ public class TuningQBEA {
         Individual offspring = new Individual(bestOfGeneration.getParams());
         // mutate discount factor
         int multiplier = random.nextInt(5);
-//        double check = random.nextDouble();
-//        if (check < 0.5) {
-//            double increase = random.nextDouble();
-//            if (increase > 0.5) {
-//                offspring.discountFactor += 0.01 * multiplier;
-//            } else
-//                offspring.discountFactor -= 0.01 * multiplier;
-//        }
+        double check = random.nextDouble();
+        if (check < 0.5) {
+            double increase = random.nextDouble();
+            if (increase > 0.5) {
+                offspring.discountFactor += 0.05 * multiplier;
+            } else
+                offspring.discountFactor -= 0.05 * multiplier;
+        }
 //        // mutate prior
-//        check = random.nextDouble();
-//        if (check < 0.5) {
+        check = random.nextDouble();
+        if (check < 0.5) {
             double increase = random.nextDouble();
             if (increase > 0.5)
                 offspring.priorConstant += multiplier;
             else
                 offspring.priorConstant -= multiplier;
-//        }
+        }
 //
 //        if (check < 0.25) {
 //            offspring.discountFactor += 0.05;
@@ -146,7 +146,7 @@ public class TuningQBEA {
     private ArrayList<Individual> initPopulation(Random random, int size) {
         ArrayList<Individual> population = new ArrayList<>();
         while (population.size() < size) {
-            population.add(new Individual(0.79, (double) random.nextInt(20)));
+            population.add(new Individual(random.nextDouble(), (double) random.nextInt(20)));
         }
         return population;
     }
@@ -194,10 +194,16 @@ public class TuningQBEA {
 
         public double getFitness(int steps, int repeat, double optimal100, double optimal15) {
             if (fitness == Double.MIN_VALUE) {
-                double fitness100 = createExperimentRun(repeat, 100, steps, Algorithm.QLearning, getParams());
-                double fitness15 = createExperimentRun(repeat, 15, steps, Algorithm.QLearning, getParams());
-                fitness = ((optimal100 - fitness100) / optimal100 + (optimal15 - fitness15) / optimal15);
-                System.out.println(this + "\t100:" + fitness100 + "\t15:" + fitness15);
+                if (!run15Only) {
+                    double fitness100 = createExperimentRun(repeat, 100, steps, Algorithm.QBEA, getParams());
+                    double fitness15 = createExperimentRun(repeat, 15, steps, Algorithm.QBEA, getParams());
+                    fitness = ((optimal100 - fitness100) / optimal100 + (optimal15 - fitness15) / optimal15);
+                    System.out.println(this + "\t100:" + fitness100 + "\t15:" + fitness15);
+                } else {
+                    double fitness15 = createExperimentRun(repeat, 15, steps, Algorithm.QBEA, getParams());
+                    fitness = (optimal15 - fitness15) / optimal15;
+                    System.out.println(this + "\t15:" + fitness15);
+                }
             } else
                 System.out.println("(previous calc)\t" + this);
             return fitness;

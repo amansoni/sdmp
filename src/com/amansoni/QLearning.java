@@ -96,7 +96,7 @@ public class QLearning extends LearningAlgorithm {
         return bestValue;
     }
 
-    private int getActionForMaxRewardForState(State state) {
+    protected int getActionForMaxRewardForState(State state) {
         double bestValue = 0.;
         int bestAction = 0;
         for (int j = 0; j < environment.getActions().length; j++) {

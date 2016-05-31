@@ -62,26 +62,27 @@ public class TuningQLearning {
 //        compareAlgorithms(steps, repeat, 0);
 
         double maxReward = Double.MIN_VALUE;
-        double[] params = new double[]{0.1};
         double best = 0.;
         double best100 = 0.;
         double best15 = 0.;
         double reward100 = 0.;
         double reward15 = 0.;
-        for (int i = 0; i < 100; i++) {
-//            System.out.println("Testing:" + params[0]);
+        double[] params = new double[]{0.7, 0.5};
 
-            double optimal100 = createExperimentRun(1, 100, steps, Algorithm.Optimal, params);
-            reward100 = createExperimentRun(repeat, 100, steps, Algorithm.QLearning, params);
-            double diff100 = optimal100 - reward100;
+        double optimal100 = createExperimentRun(1, 100, steps, Algorithm.Optimal, params);
+        double optimal15 = createExperimentRun(1, 15, steps, Algorithm.Optimal, params);
 
-            double optimal15 = createExperimentRun(1, 15, steps, Algorithm.Optimal, params);
-            reward15 = createExperimentRun(repeat, 15, steps, Algorithm.QLearning, params);
+
+        for (int i = 0; i < 30; i++) {
+            System.out.println("Testing:" + i);
+
+            reward100 = createExperimentRun(repeat, 100, steps, Algorithm.QBEA, params);
+            reward15 = createExperimentRun(repeat, 15, steps, Algorithm.QBEA, params);
 
 //            double reward0 = createExperimentRun(repeat, 0, steps, Algorithm.QLearning);
-            if (reward15 + reward100 > maxReward) {
-                maxReward = reward15 + reward100;
-                best = params[0];
+            if (((optimal15 - reward15)/ optimal15 + (optimal100 - reward100)/ optimal100) > maxReward) {
+                maxReward = ((optimal15 - reward15)/ optimal15 + (optimal100 - reward100)/ optimal100);
+                best = params[1];
             }
             if (reward100 > best100) {
                 best100 = reward100;
@@ -91,7 +92,9 @@ public class TuningQLearning {
                 best15 = reward15;
                 System.out.println("Better 15 :" + best15 + " discount factor:" + params[0]);
             }
-            params[0] += 0.01;
+            params[1] = i * 0.5;
+            if (params[1] == 0)
+                params[1] = 1.;
         }
         System.out.println("Best param:" + best);
         System.out.println("Reward 100 :" + reward100);

@@ -46,7 +46,8 @@ public class QBEA extends QLearning {
 //            int test = environment.getState().center;
             searchRewardFunction(i);
             // select an action
-            Action action = selectAction();
+//            Action action = selectAction();
+            Action action = new Action(getActionForMaxRewardForState(state) - offset);
 //            if (environment.getState().center != test)
 //                System.out.println("STATE MISMATCH");
 

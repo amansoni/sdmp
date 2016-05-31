@@ -21,7 +21,7 @@ public class Experiment {
     LearningAlgorithm learningAlgorithm;
 
     public Experiment(int seed, int bias, Algorithm algorithm) {
-        double[] params = new double[]{.79, 16.0};
+        double[] params = new double[]{.7, 2.};
         environment = new Environment(bias, false);
         switch (algorithm) {
             case QLearning:
@@ -55,8 +55,6 @@ public class Experiment {
 
         int steps = 1000;
         int repeat = 30;
-
-        int bias = 100;
 
         compareAlgorithms(steps, repeat, 100);
         compareAlgorithms(steps, repeat, 15);
