@@ -37,6 +37,11 @@ public class RPSO extends LearningAlgorithm {
     }
 
     @Override
+    public int step(int step) {
+        return 0;
+    }
+
+    @Override
     public Action selectAction() {
         state = environment.getState();
         swarm = new Swarm();

@@ -46,6 +46,22 @@ public class QLearning extends LearningAlgorithm {
         }
     }
 
+    @Override
+    public int step(int step) {
+        state = new State(environment.getState().center);
+        Action action = selectAction();
+        // perform the action and get a reward
+        int reward = environment.takeAction(action);
+        // accumulate the reward
+        accumulatedReward += reward;
+        State nextState= new State(environment.getState().center);
+        // update the learning policy
+//            System.out.println(" state:" + state.center + " next state:" + nextState.center);
+        updatePolicy(state, nextState, action, reward, step);
+        state = new State(environment.getState().center);
+        return reward;
+    }
+
     public Action selectAction() {
         int noOfActions = environment.getActions().length;
         // check for random exploration

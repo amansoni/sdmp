@@ -72,17 +72,21 @@ public class TuningQLearning {
         double optimal100 = createExperimentRun(1, 100, steps, Algorithm.Optimal, params);
         double optimal15 = createExperimentRun(1, 15, steps, Algorithm.Optimal, params);
 
-
+        Algorithm algorithm = Algorithm.QBEA;
         for (int i = 0; i < 30; i++) {
             System.out.println("Testing:" + i);
 
-            reward100 = createExperimentRun(repeat, 100, steps, Algorithm.QBEA, params);
-            reward15 = createExperimentRun(repeat, 15, steps, Algorithm.QBEA, params);
+
+            reward100 = createExperimentRun(repeat, 100, steps, algorithm, params);
+            reward15 = createExperimentRun(repeat, 15, steps, algorithm, params);
 
 //            double reward0 = createExperimentRun(repeat, 0, steps, Algorithm.QLearning);
-            if (((optimal15 - reward15)/ optimal15 + (optimal100 - reward100)/ optimal100) > maxReward) {
-                maxReward = ((optimal15 - reward15)/ optimal15 + (optimal100 - reward100)/ optimal100);
-                best = params[1];
+            if (((optimal15 - reward15) / optimal15 + (optimal100 - reward100) / optimal100) > maxReward) {
+                maxReward = ((optimal15 - reward15) / optimal15 + (optimal100 - reward100) / optimal100);
+                if (algorithm == Algorithm.QBEA)
+                    best = params[1];
+                else
+                    best = params[0];
             }
             if (reward100 > best100) {
                 best100 = reward100;
@@ -92,9 +96,13 @@ public class TuningQLearning {
                 best15 = reward15;
                 System.out.println("Better 15 :" + best15 + " discount factor:" + params[0]);
             }
-            params[1] = i * 0.5;
-            if (params[1] == 0)
-                params[1] = 1.;
+            if (algorithm == Algorithm.QBEA) {
+                params[1] = i * 0.5;
+                if (params[1] == 0)
+                    params[1] = 1.;
+            } else {
+                params[0] = i * 0.5;
+            }
         }
         System.out.println("Best param:" + best);
         System.out.println("Reward 100 :" + reward100);

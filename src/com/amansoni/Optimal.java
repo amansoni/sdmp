@@ -27,6 +27,11 @@ public class Optimal extends LearningAlgorithm {
     }
 
     @Override
+    public int step(int step) {
+        return 0;
+    }
+
+    @Override
     public Action selectAction() {
         Action action;
         // always choose 5 when state = -5

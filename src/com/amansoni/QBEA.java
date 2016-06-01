@@ -57,6 +57,25 @@ public class QBEA extends QLearning {
         }
     }
 
+    @Override
+    public int step(int step) {
+        state = new State(environment.getState().center);
+        // employ ea to search on reward space
+        searchRewardFunction(step);
+        // select an action
+        Action action = new Action(getActionForMaxRewardForState(state) - offset);
+        // perform the action and get a reward
+        int reward = environment.takeAction(action);
+        // accumulate the reward
+        accumulatedReward += reward;
+        State nextState = new State(environment.getState().center);
+        // update the learning policy
+        super.updatePolicy(state, nextState, action, reward, step);
+        updateStateTransition(state, nextState, action);
+        state = new State(environment.getState().center);
+        return reward;
+    }
+
     private void updateStateTransition(State state, State nextState, Action action) {
         StateTransition stateTransition = map.get(state);
         stateTransition.updateValues(action, nextState);

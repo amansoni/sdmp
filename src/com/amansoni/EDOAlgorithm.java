@@ -25,6 +25,17 @@ public class EDOAlgorithm extends LearningAlgorithm {
     }
 
     @Override
+    public int step(int step) {
+        // select an action
+        Action action = selectAction();
+        // perform the action and get a reward
+        int reward = environment.takeAction(action);
+        // accumulate the reward
+        accumulatedReward += reward;
+        return reward;
+    }
+
+    @Override
     public Action selectAction() {
         state = environment.getState();
         int maxReward = Integer.MIN_VALUE;

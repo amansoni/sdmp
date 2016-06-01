@@ -40,6 +40,11 @@ public class QBEA1 extends LearningAlgorithm {
         }
     }
 
+    @Override
+    public int step(int step) {
+        return 0;
+    }
+
     private void useEAtoUpdateQValues(int timeStep, State state) {
         State currentState = new State(environment.getState().center);
         for (Action evalAction : environment.getActions()) {

@@ -25,8 +25,13 @@ public abstract class LearningAlgorithm {
 
     public abstract void learn(int totalSteps);
 
+    public abstract int step(int step);
+
     public abstract Action selectAction();
 
     public abstract void printPolicy();
 
+    public void writeReward(int timeStep){
+        System.out.println(timeStep + "\t" + accumulatedReward);
+    }
 }

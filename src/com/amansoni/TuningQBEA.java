@@ -16,7 +16,7 @@ public class TuningQBEA {
     enum Algorithm {
         QLearning, RPSO, QBEA, Optimal, EDO
     }
-    static boolean run15Only = false;
+    static boolean run15Only = true;
     static int seed = 1;
     Environment environment;
     LearningAlgorithm learningAlgorithm;
@@ -83,10 +83,10 @@ public class TuningQBEA {
     }
 
     private ArrayList<Individual> reproduce(Random random, int size, Individual bestOfGeneration, Individual nextBestOfGeneration) {
-        ArrayList<Individual> population = new ArrayList<>();
+        ArrayList<Individual> population = initPopulation(random, 2); // maintain some diversity
         population.add(bestOfGeneration);
         population.add(nextBestOfGeneration);
-        int mutuatecount = (int) (size - 2) / 2;
+        int mutuatecount = ((size - 2) / 2);
         while (population.size() < mutuatecount + 2) {
             population.add(mutate(random, bestOfGeneration));
         }
