@@ -25,7 +25,7 @@ public class RPSO extends LearningAlgorithm {
     }
 
     @Override
-    public void learn(int totalSteps) {
+    public void learn(int totalSteps, int offlineTime) {
         for (int i = 0; i < totalSteps; i++) {
             // select an action
             Action action = selectAction();
@@ -37,7 +37,7 @@ public class RPSO extends LearningAlgorithm {
     }
 
     @Override
-    public int step(int step) {
+    public int step(int step, int offlineTime) {
         return 0;
     }
 

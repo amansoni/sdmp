@@ -132,7 +132,7 @@ public class TuningQLearning {
 
     public static double createExperiment(int bias, int steps, int seed, Algorithm algorithm, double[] params) {
         TuningQLearning experiment = new TuningQLearning(seed, bias, algorithm, params);
-        experiment.learningAlgorithm.learn(steps);
+        experiment.learningAlgorithm.learn(steps, 0);
 //        System.out.println(seed + "\t" + experiment.learningAlgorithm.getAccumulatedReward());
 //        experiment.learningAlgorithm.printPolicy();
         return experiment.learningAlgorithm.getAccumulatedReward();

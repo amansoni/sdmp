@@ -38,11 +38,18 @@ public class QBEA extends QLearning {
 //        }
     }
 
-    public void learn(int totalSteps) {
+    public void learn(int totalSteps, int offlineTime) {
         state = new State(environment.getState().center);
         for (int i = 0; i < totalSteps; i++) {
             // employ ea to search on reward space
             searchRewardFunction(i);
+            for (int j = offlineTime; j > 0; j--) {
+                rewards.put(i++, accumulatedReward);
+                if (i >= totalSteps)
+                    break;
+            }
+            if (i >= totalSteps)
+                break;
             // select an action
             Action action = new Action(getActionForMaxRewardForState(state) - offset);
             // perform the action and get a reward
@@ -54,11 +61,12 @@ public class QBEA extends QLearning {
             super.updatePolicy(state, nextState, action, reward, i);
             updateStateTransition(state, nextState, action);
             state = new State(environment.getState().center);
+            rewards.put(i, accumulatedReward);
         }
     }
 
     @Override
-    public int step(int step) {
+    public int step(int step, int offlineTime) {
         state = new State(environment.getState().center);
         // employ ea to search on reward space
         searchRewardFunction(step);

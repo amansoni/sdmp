@@ -165,7 +165,7 @@ public class TuningQBEA {
 
     public static double createExperiment(int bias, int steps, int seed, Algorithm algorithm, double[] params) {
         TuningQBEA experiment = new TuningQBEA(seed, bias, algorithm, params);
-        experiment.learningAlgorithm.learn(steps);
+        experiment.learningAlgorithm.learn(steps, 0);
         return experiment.learningAlgorithm.getAccumulatedReward();
     }
 

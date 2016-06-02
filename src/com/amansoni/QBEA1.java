@@ -22,7 +22,7 @@ public class QBEA1 extends LearningAlgorithm {
         initPolicy();
     }
 
-    public void learn(int totalSteps) {
+    public void learn(int totalSteps, int offlineTime) {
         state = new State(environment.getState().center);
         for (int i = 0; i < totalSteps; i++) {
             useEAtoUpdateQValues(i, state);
@@ -41,7 +41,7 @@ public class QBEA1 extends LearningAlgorithm {
     }
 
     @Override
-    public int step(int step) {
+    public int step(int step, int offlineTime) {
         return 0;
     }
 

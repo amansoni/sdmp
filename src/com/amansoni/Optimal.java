@@ -10,7 +10,7 @@ public class Optimal extends LearningAlgorithm {
     }
 
     @Override
-    public void learn(int totalSteps) {
+    public void learn(int totalSteps, int offlineTime) {
         state = environment.getState();
         for (int i = 0; i < totalSteps; i++) {
             // select an action
@@ -27,7 +27,7 @@ public class Optimal extends LearningAlgorithm {
     }
 
     @Override
-    public int step(int step) {
+    public int step(int step, int offlineTime) {
         return 0;
     }
 

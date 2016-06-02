@@ -13,19 +13,29 @@ public class EDOAlgorithm extends LearningAlgorithm {
     }
 
     @Override
-    public void learn(int totalSteps) {
+    public void learn(int totalSteps, int offlineTime) {
         for (int i = 0; i < totalSteps; i++) {
             // select an action
             Action action = selectAction();
+            // increment the offline time and record it
+            for (int j = offlineTime; j > 0; j--) {
+                rewards.put(i++, accumulatedReward);
+                if (i >= totalSteps)
+                    break;
+            }
+            if (i >= totalSteps)
+                break;
             // perform the action and get a reward
             int reward = environment.takeAction(action);
             // accumulate the reward
             accumulatedReward += reward;
+            // track the total rewards by time step
+            rewards.put(i, accumulatedReward);
         }
     }
 
     @Override
-    public int step(int step) {
+    public int step(int step, int offlineTime) {
         // select an action
         Action action = selectAction();
         // perform the action and get a reward

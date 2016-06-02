@@ -29,7 +29,7 @@ public class QLearning extends LearningAlgorithm {
         initPolicy();
     }
 
-    public void learn(int totalSteps) {
+    public void learn(int totalSteps, int offlineTime) {
         state = new State(environment.getState().center);
         for (int i = 0; i < totalSteps; i++) {
             // select an action
@@ -47,7 +47,7 @@ public class QLearning extends LearningAlgorithm {
     }
 
     @Override
-    public int step(int step) {
+    public int step(int step, int offlineTime) {
         state = new State(environment.getState().center);
         Action action = selectAction();
         // perform the action and get a reward
