@@ -1,11 +1,11 @@
 package com.amansoni;
 
-import java.util.Map;
 import java.util.Random;
-import java.util.TreeMap;
 
 /**
- * Created by Aman on 16/05/2016.
+ * @author Aman Soni
+ *         <p>
+ *         Implementation for learning algorithms used for comparison experiments.
  */
 public abstract class LearningAlgorithm {
     final static boolean DEBUG = false;
@@ -14,8 +14,6 @@ public abstract class LearningAlgorithm {
     State state;
     int seed;
     int accumulatedReward = 0;
-    Map<Integer, Integer> rewards = new TreeMap<>();
-
 
     protected LearningAlgorithm(Environment environment, int seed) {
         random = new Random(seed);
@@ -35,7 +33,4 @@ public abstract class LearningAlgorithm {
 
     public abstract void printPolicy();
 
-    public void writeReward(int timeStep){
-        System.out.println(timeStep + "\t" + accumulatedReward);
-    }
 }

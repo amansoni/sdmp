@@ -54,7 +54,6 @@ public class QBEA extends QLearning {
             super.updatePolicy(state, nextState, action, reward, i);
             updateStateTransition(state, nextState, action);
             state = new State(environment.getState().center);
-            rewards.put(i, accumulatedReward);
         }
     }
 
@@ -94,12 +93,14 @@ public class QBEA extends QLearning {
         double discountFactor = 0.7;
         // if no offline time then cannot perform any offline evaluations
         if (offlineTime == 0) {
-        } else {
+        } else if (offlineTime >= environment.getActions().length) {
             for (Action evalAction : environment.getActions()) {
                 State probableState = estimateNextState(state, evalAction);
                 int reward = environment.getReward(evalAction, probableState, evalAction);
                 updatePolicy(learningRate, currentState, probableState, evalAction, reward, discountFactor);
             }
+        } else {
+            // we need a strategy
         }
 //        Action evalAction = edoAlgorithm.selectAction();
 //        State probableState = estimateNextState(state, evalAction);

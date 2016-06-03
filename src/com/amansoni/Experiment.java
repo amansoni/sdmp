@@ -1,6 +1,5 @@
 package com.amansoni;
 
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -14,7 +13,7 @@ import java.util.Random;
  */
 public class Experiment {
     enum Algorithm {
-        QLearning, RPSO, QBEA, Optimal, EDO
+        QLearning, RPSO, QBEA, Optimal, EDO, Random
     }
 
     static int seed = 0;
@@ -40,22 +39,14 @@ public class Experiment {
             case EDO:
                 learningAlgorithm = new EDOAlgorithm(environment, seed);
                 break;
+            case Random:
+                learningAlgorithm = new RandomAlgorithm(environment, seed);
+                break;
         }
     }
 
     public static void main(String[] args) {
-//        Experiment experiment = new Experiment(1, 100, Algorithm.RPSO);
-//        experiment.learningAlgorithm.learn(1000);
-//        System.out.println(experiment.learningAlgorithm.getAccumulatedReward());
-//        experiment.learningAlgorithm.printPolicy();
-
-//        experiment = new Experiment(1, 100, Algorithm.QBEA);
-//        experiment.learningAlgorithm.learn(1000);
-//        System.out.println(experiment.learningAlgorithm.getAccumulatedReward());
-//        experiment.learningAlgorithm.printPolicy();
-
         int interval = 1;
-
         int steps = 1000;
         int repeat = 30;
 
@@ -67,45 +58,14 @@ public class Experiment {
         compareAlgorithms(steps, repeat, bias, 0);
         compareAlgorithms(steps, repeat, bias, 21);
 
+        steps = 20;
         bias = 100;
-        compareSteps(10, repeat, bias, interval, 0);
-        compareSteps(10, repeat, bias, interval, 21);
+        compareSteps(steps, repeat, bias, interval, 0);
+        compareSteps(steps, repeat, bias, interval, 21);
 
         bias = 15;
-        compareSteps(10, repeat, bias, interval, 0);
-        compareSteps(10, repeat, bias, interval, 21);
-
-
-//        compareSteps(steps, repeat, bias, interval, 0);
-//        compareSteps(steps, repeat, bias, interval, 1);
-//        compareSteps(steps, repeat, bias, interval, 3);
-//        compareSteps(steps, repeat, bias, interval, 5);
-
-//        compareSteps(steps, repeat, 15, interval, 0);
-
-//        Experiment experiment = getResults(repeat, 100, steps, Algorithm.EDO, 0);
-//        // Iterate over them
-//        for (Map.Entry<Integer, Integer> entry : experiment.learningAlgorithm.rewards.entrySet()) {
-////            System.out.println(entry.getKey() + " => " + entry.getValue());
-//        }
-//
-//        experiment = getResults(repeat, 100, steps, Algorithm.EDO, 5);
-//        // Iterate over them
-//        for (Map.Entry<Integer, Integer> entry : experiment.learningAlgorithm.rewards.entrySet()) {
-//        }
-
-//        System.out.println(createExperimentRun(repeat, 100, steps, Algorithm.EDO, 0));
-//        System.out.println(createExperimentRun(repeat, 100, steps, Algorithm.EDO, 5));
-
-//        compareSteps(steps, repeat, 100, interval, 1);
-//        compareSteps(steps, repeat, 15, interval, 1);
-
-//            compareAlgorithms(steps, repeat, 100);
-//            compareAlgorithms(steps, repeat, 15);
-
-//        compareAlgorithms(steps, repeat, 25);
-//        compareAlgorithms(steps, repeat, 0);
-
+        compareSteps(steps, repeat, bias, interval, 0);
+        compareSteps(steps, repeat, bias, interval, 21);
     }
 
     private static void compareSteps(int steps, int repeat, int bias, int interval, int offlineTime) {
@@ -136,10 +96,11 @@ public class Experiment {
         }
         System.out.println(s);
 
-//        String s = createExperimentRun(1, bias, steps, Algorithm.Optimal);
-//        s += createExperimentRun(repeat, bias, steps, Algorithm.EDO);
-//        s += createExperimentRun(repeat, bias, steps, Algorithm.QLearning);
-//        s += createExperimentRun(repeat, bias, steps, Algorithm.QBEA);
+        s = "Random\t";
+        for (int i = 0; i <= steps; i++) {
+            s += createExperimentRun(repeat, bias, i, Algorithm.Random, offlineTime) + "\t";
+        }
+        System.out.println(s);
     }
 
     private static void compareAlgorithms(int steps, int repeat, int bias, int offlineTime) {
@@ -149,6 +110,7 @@ public class Experiment {
         System.out.println("EDO\t" + createExperimentRun(repeat, bias, steps, Algorithm.EDO, offlineTime));
         System.out.println("QLearning\t" + createExperimentRun(repeat, bias, steps, Algorithm.QLearning, offlineTime));
         System.out.println("QBEA\t" + createExperimentRun(repeat, bias, steps, Algorithm.QBEA, offlineTime));
+        System.out.println("Random\t" + createExperimentRun(repeat, bias, steps, Algorithm.Random, offlineTime));
     }
 
     public static String createExperimentRun(int repeat, int bias, int steps, Algorithm algorithm, int offlineTime) {
@@ -176,7 +138,6 @@ public class Experiment {
 //            experiment.learningAlgorithm.step(i, offlineTime);
 //        }
         experiment.learningAlgorithm.learn(steps, offlineTime);
-//        System.out.println(seed + "\t" + experiment.learningAlgorithm.getAccumulatedReward());
 //        experiment.learningAlgorithm.printPolicy();
         return experiment.learningAlgorithm.getAccumulatedReward();
     }

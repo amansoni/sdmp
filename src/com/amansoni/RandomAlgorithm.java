@@ -6,9 +6,9 @@ package com.amansoni;
  *         Implementation of a very simple EA that maximises the current reward value. It is not aware of the
  *         time-linkage between states.
  */
-public class EDOAlgorithm extends LearningAlgorithm {
+public class RandomAlgorithm extends LearningAlgorithm {
 
-    public EDOAlgorithm(Environment environment, int seed) {
+    public RandomAlgorithm(Environment environment, int seed) {
         super(environment, seed);
     }
 
@@ -27,7 +27,7 @@ public class EDOAlgorithm extends LearningAlgorithm {
     @Override
     public int step(int step, int offlineTime) {
         // select an action
-        Action action = selectAction(offlineTime);
+        Action action = environment.getActions()[random.nextInt(environment.getActions().length)];
         // perform the action and get a reward
         int reward = environment.takeAction(action);
         // accumulate the reward
@@ -37,24 +37,7 @@ public class EDOAlgorithm extends LearningAlgorithm {
 
     @Override
     public Action selectAction(int offlineTime) {
-        state = environment.getState();
-        int maxReward = Integer.MIN_VALUE;
-        Action action = null;
-        // no offline time, must select an action randomly
-        if (offlineTime == 0) {
-            action = environment.getActions()[random.nextInt(environment.getActions().length)];
-        } else if (offlineTime >= environment.getActions().length) {
-            for (Action a : environment.getActions()) {
-                int reward = environment.getReward(a);
-                if (maxReward < reward) {
-                    action = a;
-                    maxReward = reward;
-                }
-            }
-        } else {
-            // we need a strategy!
-        }
-        return action;
+        return  environment.getActions()[random.nextInt(environment.getActions().length)];
     }
 
     @Override

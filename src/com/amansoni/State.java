@@ -28,15 +28,4 @@ public class State implements Comparable<State>{
         return "State:" + this.center;
     }
 
-//    public static Comparator<State> StateComparator
-//            = new Comparator<State>() {
-//
-//        public int compare(State state1, State state2) {
-//
-//            //ascending order
-//            return new Integer(state1.center).compareTo(state2.center);
-//
-//        }
-//
-//    };
 }
