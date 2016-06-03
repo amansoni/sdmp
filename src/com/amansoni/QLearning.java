@@ -33,7 +33,7 @@ public class QLearning extends LearningAlgorithm {
         state = new State(environment.getState().center);
         for (int i = 0; i < totalSteps; i++) {
             // select an action
-            Action action = selectAction();
+            Action action = selectAction(offlineTime);
             // perform the action and get a reward
             int reward = environment.takeAction(action);
             // accumulate the reward
@@ -49,7 +49,7 @@ public class QLearning extends LearningAlgorithm {
     @Override
     public int step(int step, int offlineTime) {
         state = new State(environment.getState().center);
-        Action action = selectAction();
+        Action action = selectAction(offlineTime);
         // perform the action and get a reward
         int reward = environment.takeAction(action);
         // accumulate the reward
@@ -62,7 +62,7 @@ public class QLearning extends LearningAlgorithm {
         return reward;
     }
 
-    public Action selectAction() {
+    public Action selectAction(int offlineTime) {
         int noOfActions = environment.getActions().length;
         // check for random exploration
         Action action;
@@ -120,6 +120,10 @@ public class QLearning extends LearningAlgorithm {
                 bestAction = j;
                 bestValue = QValues[state.center + offset][j];
             }
+        }
+        // select a random action if there are no Q-Values set
+        if (bestValue == 0.){
+            bestAction = random.nextInt(noOfStates);
         }
         return bestAction;
     }

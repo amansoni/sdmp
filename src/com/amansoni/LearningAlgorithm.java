@@ -31,7 +31,7 @@ public abstract class LearningAlgorithm {
 
     public abstract int step(int step, int offlineTime);
 
-    public abstract Action selectAction();
+    public abstract Action selectAction(int offlineTime);
 
     public abstract void printPolicy();
 

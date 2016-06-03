@@ -14,7 +14,7 @@ public class Optimal extends LearningAlgorithm {
         state = environment.getState();
         for (int i = 0; i < totalSteps; i++) {
             // select an action
-            Action action = selectAction();
+            Action action = selectAction(offlineTime);
             // perform the action and get a reward
             int reward = environment.takeAction(action);
             // accumulate the reward
@@ -32,7 +32,7 @@ public class Optimal extends LearningAlgorithm {
     }
 
     @Override
-    public Action selectAction() {
+    public Action selectAction(int offlineTime) {
         Action action;
         // always choose 5 when state = -5
         if (state.center == 5)

@@ -42,14 +42,7 @@ public class QBEA extends QLearning {
         state = new State(environment.getState().center);
         for (int i = 0; i < totalSteps; i++) {
             // employ ea to search on reward space
-            searchRewardFunction(i);
-            for (int j = offlineTime; j > 0; j--) {
-                rewards.put(i++, accumulatedReward);
-                if (i >= totalSteps)
-                    break;
-            }
-            if (i >= totalSteps)
-                break;
+            searchRewardFunction(i, offlineTime);
             // select an action
             Action action = new Action(getActionForMaxRewardForState(state) - offset);
             // perform the action and get a reward
@@ -69,7 +62,7 @@ public class QBEA extends QLearning {
     public int step(int step, int offlineTime) {
         state = new State(environment.getState().center);
         // employ ea to search on reward space
-        searchRewardFunction(step);
+        searchRewardFunction(step, offlineTime);
         // select an action
         Action action = new Action(getActionForMaxRewardForState(state) - offset);
         // perform the action and get a reward
@@ -94,15 +87,19 @@ public class QBEA extends QLearning {
         return stateTransition.getProbableState(evalAction);
     }
 
-    private void searchRewardFunction(int timeStep) {
+    private void searchRewardFunction(int timeStep, int offlineTime) {
 //        EDOAlgorithm edoAlgorithm = new EDOAlgorithm(environment, seed);
         double learningRate = (200.0 / (300.0 + timeStep));
         State currentState = new State(environment.getState().center);
         double discountFactor = 0.7;
-        for (Action evalAction : environment.getActions()) {
-            State probableState = estimateNextState(state, evalAction);
-            int reward = environment.getReward(evalAction, probableState, evalAction);
-            updatePolicy(learningRate, currentState, probableState, evalAction, reward, discountFactor);
+        // if no offline time then cannot perform any offline evaluations
+        if (offlineTime == 0) {
+        } else {
+            for (Action evalAction : environment.getActions()) {
+                State probableState = estimateNextState(state, evalAction);
+                int reward = environment.getReward(evalAction, probableState, evalAction);
+                updatePolicy(learningRate, currentState, probableState, evalAction, reward, discountFactor);
+            }
         }
 //        Action evalAction = edoAlgorithm.selectAction();
 //        State probableState = estimateNextState(state, evalAction);

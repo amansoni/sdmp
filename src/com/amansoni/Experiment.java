@@ -55,20 +55,25 @@ public class Experiment {
 //        experiment.learningAlgorithm.printPolicy();
 
         int interval = 1;
-        int bias = 15;
 
         int steps = 1000;
         int repeat = 30;
 
-        compareAlgorithms(steps, repeat, 100, 0);
-        compareAlgorithms(steps, repeat, 100, 1);
-        compareAlgorithms(steps, repeat, 100, 3);
-        compareAlgorithms(steps, repeat, 100, 5);
+        int bias = 100;
+        compareAlgorithms(steps, repeat, bias, 0);
+        compareAlgorithms(steps, repeat, bias, 21);
 
-        compareAlgorithms(steps, repeat, 15, 0);
-        compareAlgorithms(steps, repeat, 15, 1);
-        compareAlgorithms(steps, repeat, 15, 3);
-        compareAlgorithms(steps, repeat, 15, 5);
+        bias = 15;
+        compareAlgorithms(steps, repeat, bias, 0);
+        compareAlgorithms(steps, repeat, bias, 21);
+
+        bias = 100;
+        compareSteps(10, repeat, bias, interval, 0);
+        compareSteps(10, repeat, bias, interval, 21);
+
+        bias = 15;
+        compareSteps(10, repeat, bias, interval, 0);
+        compareSteps(10, repeat, bias, interval, 21);
 
 
 //        compareSteps(steps, repeat, bias, interval, 0);

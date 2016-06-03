@@ -28,7 +28,7 @@ public class RPSO extends LearningAlgorithm {
     public void learn(int totalSteps, int offlineTime) {
         for (int i = 0; i < totalSteps; i++) {
             // select an action
-            Action action = selectAction();
+            Action action = selectAction(offlineTime);
             // perform the action and get a reward
             int reward = environment.takeAction(action);
             // accumulate the reward
@@ -42,7 +42,7 @@ public class RPSO extends LearningAlgorithm {
     }
 
     @Override
-    public Action selectAction() {
+    public Action selectAction(int offlineTime) {
         state = environment.getState();
         swarm = new Swarm();
         while (evaluationCount < MAX_EVALUATIONS) {

@@ -27,7 +27,7 @@ public class QBEA1 extends LearningAlgorithm {
         for (int i = 0; i < totalSteps; i++) {
             useEAtoUpdateQValues(i, state);
             // select an action
-            Action action = selectAction();
+            Action action = selectAction(offlineTime);
             // perform the action and get a reward
             int reward = environment.takeAction(action);
             // accumulate the reward
@@ -54,7 +54,7 @@ public class QBEA1 extends LearningAlgorithm {
         }
     }
 
-    public Action selectAction() {
+    public Action selectAction(int offlineTime) {
         int noOfActions = environment.getActions().length;
         // check for random exploration
         Action action;

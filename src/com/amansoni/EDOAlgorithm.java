@@ -16,15 +16,7 @@ public class EDOAlgorithm extends LearningAlgorithm {
     public void learn(int totalSteps, int offlineTime) {
         for (int i = 0; i < totalSteps; i++) {
             // select an action
-            Action action = selectAction();
-            // increment the offline time and record it
-            for (int j = offlineTime; j > 0; j--) {
-                rewards.put(i++, accumulatedReward);
-                if (i >= totalSteps)
-                    break;
-            }
-            if (i >= totalSteps)
-                break;
+            Action action = selectAction(offlineTime);
             // perform the action and get a reward
             int reward = environment.takeAction(action);
             // accumulate the reward
@@ -37,7 +29,7 @@ public class EDOAlgorithm extends LearningAlgorithm {
     @Override
     public int step(int step, int offlineTime) {
         // select an action
-        Action action = selectAction();
+        Action action = selectAction(offlineTime);
         // perform the action and get a reward
         int reward = environment.takeAction(action);
         // accumulate the reward
@@ -46,15 +38,20 @@ public class EDOAlgorithm extends LearningAlgorithm {
     }
 
     @Override
-    public Action selectAction() {
+    public Action selectAction(int offlineTime) {
         state = environment.getState();
         int maxReward = Integer.MIN_VALUE;
         Action action = null;
-        for (Action a : environment.getActions()) {
-            int reward = environment.getReward(a);
-            if (maxReward < reward) {
-                action = a;
-                maxReward = reward;
+        // no offline time, must select an action randomly
+        if (offlineTime == 0) {
+            action = environment.getActions()[random.nextInt(environment.getActions().length)];
+        } else {
+            for (Action a : environment.getActions()) {
+                int reward = environment.getReward(a);
+                if (maxReward < reward) {
+                    action = a;
+                    maxReward = reward;
+                }
             }
         }
         return action;
