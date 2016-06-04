@@ -7,6 +7,9 @@ package com.amansoni;
  *         time-linkage between states.
  */
 public class EDOAlgorithm extends LearningAlgorithm {
+    enum Strategy {
+        OnePlusOne, Full, SizeOverDelta
+    }
 
     public EDOAlgorithm(Environment environment, int seed) {
         super(environment, seed);
@@ -15,12 +18,13 @@ public class EDOAlgorithm extends LearningAlgorithm {
     @Override
     public void learn(int totalSteps, int offlineTime) {
         for (int i = 0; i < totalSteps; i++) {
-            // select an action
-            Action action = selectAction(offlineTime);
-            // perform the action and get a reward
-            int reward = environment.takeAction(action);
-            // accumulate the reward
-            accumulatedReward += reward;
+            step(i, offlineTime);
+//            // select an action
+//            Action action = selectAction(offlineTime);
+//            // perform the action and get a reward
+//            int reward = environment.takeAction(action);
+//            // accumulate the reward
+//            accumulatedReward += reward;
         }
     }
 
