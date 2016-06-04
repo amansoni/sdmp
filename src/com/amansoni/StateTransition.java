@@ -11,7 +11,7 @@ public class StateTransition {
     State current;
     Map<Action, Integer> numberExperienced = new TreeMap<>();
     private int[][][] numberObserved = new int[21][21][1];
-    public final static double PRIOR_A = 4.;
+    double PRIOR_A = 4.;
     public final static double POSSIBLE_STATES = 21.; // this may need to be a count?
     int offset = 10;
     int seed = 1;
@@ -21,6 +21,11 @@ public class StateTransition {
         for (int i = 0; i < 21; i++) {
             numberObserved[i][i][0] = 0; // number observed (state, action) => next state
         }
+    }
+
+    public StateTransition(State current, double priorA) {
+        this(current);
+        PRIOR_A = priorA;
     }
 
     public State getProbableState(Action action) {

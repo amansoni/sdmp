@@ -63,43 +63,41 @@ public class EnvironmentTest {
         // take an action >= 0
         assertEquals(120, environment.takeAction(new Action(10)));
         assertEquals(1, environment.getTimeStep());
+        testEnvironmentStep(environment, 100);
 
-        // test the reward function
-        for (Action evalAction : environment.getActions()) {
-            assertEquals(1, environment.getTimeStep());
-            assertEquals(100, environment.g());
-            State probableState = new State(-5);
-            System.out.println(environment.getReward(evalAction, probableState, evalAction));
-        }
-
-//        assertEquals(120, environment.takeAction(new Action(10)));
-//        assertEquals(1, environment.getTimeStep());
 
         // take an action < 0
         assertEquals(120, environment.takeAction(new Action(-10)));
         assertEquals(2, environment.getTimeStep());
-
-        // test the reward function
-        for (Action evalAction : environment.getActions()) {
-            assertEquals(2, environment.getTimeStep());
-            assertEquals(-100, environment.g());
-            State probableState = new State(5);
-            System.out.println(environment.getReward(evalAction, probableState, evalAction));
-        }
+        testEnvironmentStep(environment, -100);
 
         // take an action < 0
         assertEquals(-100, environment.takeAction(new Action(-10)));
         assertEquals(3, environment.getTimeStep());
+        testEnvironmentStep(environment, -100);
 
-        // test the reward function
-        for (Action evalAction : environment.getActions()) {
-            assertEquals(3, environment.getTimeStep());
-            assertEquals(-100, environment.g());
-            State probableState = new State(-5);
-            System.out.println(environment.getReward(evalAction, probableState, evalAction));
-        }
+        // take an action < 0
+        assertEquals(-100, environment.takeAction(new Action(10)));
+        assertEquals(4, environment.getTimeStep());
+        testEnvironmentStep(environment, 100);
 
     }
+
+    private void testEnvironmentStep(Environment environment, int bias) {
+        int probableStateValue = -environment.getState().center;
+        System.out.println("Time step:" + environment.getTimeStep()
+//                + "\tLast action:" + environment.previousAction.getValue()
+                + "\tState:" + environment.getState().center
+                + "\t Next State:" + probableStateValue
+                + "\tbias:" + bias);
+        // test the reward function
+        for (Action evalAction : environment.getActions()) {
+            assertEquals(bias, environment.g());
+            State probableState = new State(probableStateValue);
+            System.out.println("action:" + evalAction.getValue() + "\ttest reward:" + environment.getReward(evalAction, probableState, evalAction));
+        }
+    }
+
     @Test
     public void TestActions(){
         Environment environment = new Environment(100);

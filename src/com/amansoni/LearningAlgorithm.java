@@ -3,7 +3,9 @@ package com.amansoni;
 import java.util.Random;
 
 /**
- * Created by Aman on 16/05/2016.
+ * @author Aman Soni
+ *         <p>
+ *         Implementation for learning algorithms used for comparison experiments.
  */
 public abstract class LearningAlgorithm {
     final static boolean DEBUG = false;
@@ -23,9 +25,11 @@ public abstract class LearningAlgorithm {
         return accumulatedReward;
     }
 
-    public abstract void learn(int totalSteps);
+    public abstract void learn(int totalSteps, int offlineTime);
 
-    public abstract Action selectAction();
+    public abstract int step(int step, int offlineTime);
+
+    public abstract Action selectAction(int offlineTime);
 
     public abstract void printPolicy();
 

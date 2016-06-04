@@ -11,8 +11,8 @@ import java.text.DecimalFormat;
  */
 public class QLearning extends LearningAlgorithm {
     DecimalFormat df = new DecimalFormat("#.00");
-    final static double discountFactor = 0.7;
-    final static double epsilon = 0.1;
+    double discountFactor = 0.7;
+    double epsilon = 0.1;
     int noOfStates = 21;
     int offset = 10;
     double[][] QValues;
@@ -22,11 +22,18 @@ public class QLearning extends LearningAlgorithm {
         initPolicy();
     }
 
-    public void learn(int totalSteps) {
+    public QLearning(Environment environment, int seed, double[] params) {
+        super(environment, seed);
+        this.discountFactor = params[0];
+//        this.epsilon = epsilon;
+        initPolicy();
+    }
+
+    public void learn(int totalSteps, int offlineTime) {
         state = new State(environment.getState().center);
         for (int i = 0; i < totalSteps; i++) {
             // select an action
-            Action action = selectAction();
+            Action action = selectAction(offlineTime);
             // perform the action and get a reward
             int reward = environment.takeAction(action);
             // accumulate the reward
@@ -39,7 +46,23 @@ public class QLearning extends LearningAlgorithm {
         }
     }
 
-    public Action selectAction() {
+    @Override
+    public int step(int step, int offlineTime) {
+        state = new State(environment.getState().center);
+        Action action = selectAction(offlineTime);
+        // perform the action and get a reward
+        int reward = environment.takeAction(action);
+        // accumulate the reward
+        accumulatedReward += reward;
+        State nextState= new State(environment.getState().center);
+        // update the learning policy
+//            System.out.println(" state:" + state.center + " next state:" + nextState.center);
+        updatePolicy(state, nextState, action, reward, step);
+        state = new State(environment.getState().center);
+        return reward;
+    }
+
+    public Action selectAction(int offlineTime) {
         int noOfActions = environment.getActions().length;
         // check for random exploration
         Action action;
@@ -89,7 +112,7 @@ public class QLearning extends LearningAlgorithm {
         return bestValue;
     }
 
-    private int getActionForMaxRewardForState(State state) {
+    protected int getActionForMaxRewardForState(State state) {
         double bestValue = 0.;
         int bestAction = 0;
         for (int j = 0; j < environment.getActions().length; j++) {
@@ -97,6 +120,10 @@ public class QLearning extends LearningAlgorithm {
                 bestAction = j;
                 bestValue = QValues[state.center + offset][j];
             }
+        }
+        // select a random action if there are no Q-Values set
+        if (bestValue == 0.){
+            bestAction = random.nextInt(noOfStates);
         }
         return bestAction;
     }
