@@ -10,8 +10,9 @@ import java.util.Random;
  */
 public class EDOAlgorithm extends LearningAlgorithm {
     static boolean DEBUG = true;
+
     enum Strategy {
-        OnePlusOne, Full, SizeOverDelta
+        OnePlusOne, Full, SizeOverDelta, RandomThenBest
     }
 
     static int noOfActions = 21;
@@ -61,12 +62,13 @@ public class EDOAlgorithm extends LearningAlgorithm {
                 }
             }
         } else {
+            // we need a strategy!
             if (this.strategy == Strategy.OnePlusOne) {
-                // we need a strategy!
-                int numberOfGenerations = offlineTime;
-                int populationSize = 1;
-                action = new Evolution().getAction(environment, random, populationSize, numberOfGenerations);
+                action = new OnePlusOneEA().getAction(environment, random, 1, offlineTime);
+            } else if (this.strategy == Strategy.RandomThenBest) {
+                action = new OnePlusOneEA().getAction(environment, random, offlineTime, 1);
             }
+
         }
         return action;
     }
@@ -75,7 +77,7 @@ public class EDOAlgorithm extends LearningAlgorithm {
     public void printPolicy() {
     }
 
-    private class Evolution {
+    private class OnePlusOneEA {
         public int DEGREE_OF_CHANGE = 5;
 
         public Action getAction(Environment environment, Random random, int populationSize, int numberOfGenerations) {
@@ -119,4 +121,50 @@ public class EDOAlgorithm extends LearningAlgorithm {
             return population;
         }
     }
+
+    private class RandomThenBestEA {
+        public int DEGREE_OF_CHANGE = 5;
+
+        public Action getAction(Environment environment, Random random, int populationSize, int numberOfGenerations) {
+            int bestFitness = Integer.MIN_VALUE;
+            Action best = null;
+            for (int i = 0; i < numberOfGenerations; i++) {
+                Action[] population = initialisePopulation(random, populationSize);
+                for (Action action : population) {
+                    int fitness = environment.getReward(action);
+                    if (fitness > bestFitness) {
+                        bestFitness = fitness;
+                        best = action;
+                    }
+                    population = mutate(random, population);
+                }
+            }
+            return best;
+        }
+
+        private Action[] mutate(Random random, Action[] population) {
+            for (int i = 0; i < population.length; i++) {
+                double direction = random.nextDouble();
+                if (direction > 0.5) {
+                    population[i] = new Action(population[i].getValue() + random.nextInt(DEGREE_OF_CHANGE));
+                    if (population[i].getValue() > noOfActions)
+                        population[i] = new Action(noOfActions);
+                } else {
+                    population[i] = new Action(population[i].getValue() - random.nextInt(DEGREE_OF_CHANGE));
+                    if (population[i].getValue() < -noOfActions)
+                        population[i] = new Action(-noOfActions);
+                }
+            }
+            return population;
+        }
+
+        private Action[] initialisePopulation(Random random, int populationSize) {
+            Action[] population = new Action[populationSize];
+            for (int i = 0; i < populationSize; i++) {
+                population[i] = environment.getActions()[random.nextInt(environment.getActions().length)];
+            }
+            return population;
+        }
+    }
+
 }

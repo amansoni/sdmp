@@ -103,6 +103,11 @@ public class Experiment {
         experiment = new Experiment(algorithm, steps, repeat, offlineTime);
         System.out.println("EDO 1+1 Bias:100\t" + experiment.run());
 
+        algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.RandomThenBest);
+        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
+        System.out.println("EDO RandomThenBest Bias:100\t" + experiment.run());
+
+
         algorithm = new RandomAlgorithm(environment, seed);
         experiment = new Experiment(algorithm, steps, repeat, offlineTime);
         System.out.println("Random Bias:100\t" + experiment.run());
@@ -116,6 +121,11 @@ public class Experiment {
         algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.OnePlusOne);
         experiment = new Experiment(algorithm, steps, repeat, offlineTime);
         System.out.println("EDO 1+1 Bias:15\t" + experiment.run());
+
+        algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.RandomThenBest);
+        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
+        System.out.println("EDO RandomThenBest Bias:15\t" + experiment.run());
+
 
         algorithm = new RandomAlgorithm(environment, seed);
         experiment = new Experiment(algorithm, steps, repeat, offlineTime);
