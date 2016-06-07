@@ -21,8 +21,15 @@ public abstract class LearningAlgorithm {
         this.seed = seed;
     }
 
-    public double getAccumulatedReward() {
+    public int getAccumulatedReward() {
         return accumulatedReward;
+    }
+
+    public void reset(int seed){
+        this.seed = seed;
+        random = new Random(seed);
+        accumulatedReward = 0;
+        this.environment = new Environment(environment.getBias());
     }
 
     public abstract void learn(int totalSteps, int offlineTime);

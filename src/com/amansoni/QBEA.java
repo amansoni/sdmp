@@ -9,7 +9,7 @@ import java.util.TreeMap;
  *         "A Q-learning Based Evolutionary Algorithm for Sequential Decision Making Problems."
  */
 public class QBEA extends QLearning {
-    double priorA = 4.;
+    double priorA = 3.;
     int seed;
     Map<State, StateTransition> map = new TreeMap<>();
 

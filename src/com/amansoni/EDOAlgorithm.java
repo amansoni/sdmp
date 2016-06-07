@@ -9,6 +9,7 @@ import java.util.Random;
  *         time-linkage between states.
  */
 public class EDOAlgorithm extends LearningAlgorithm {
+    static boolean DEBUG = true;
     enum Strategy {
         OnePlusOne, Full, SizeOverDelta
     }
@@ -62,9 +63,9 @@ public class EDOAlgorithm extends LearningAlgorithm {
         } else {
             if (this.strategy == Strategy.OnePlusOne) {
                 // we need a strategy!
-                int numberOfGenerations = 10;
+                int numberOfGenerations = offlineTime;
                 int populationSize = 1;
-                action = Evolution.getAction(environment, random, populationSize, numberOfGenerations);
+                action = new Evolution().getAction(environment, random, populationSize, numberOfGenerations);
             }
         }
         return action;
@@ -74,10 +75,10 @@ public class EDOAlgorithm extends LearningAlgorithm {
     public void printPolicy() {
     }
 
-    private static class Evolution {
-        public static int DEGREE_OF_CHANGE;
+    private class Evolution {
+        public int DEGREE_OF_CHANGE = 5;
 
-        public static Action getAction(Environment environment, Random random, int populationSize, int numberOfGenerations) {
+        public Action getAction(Environment environment, Random random, int populationSize, int numberOfGenerations) {
             int bestFitness = Integer.MIN_VALUE;
             Action best = null;
             for (int i = 0; i < numberOfGenerations; i++) {
@@ -94,7 +95,7 @@ public class EDOAlgorithm extends LearningAlgorithm {
             return best;
         }
 
-        private static Action[] mutate(Random random, Action[] population) {
+        private Action[] mutate(Random random, Action[] population) {
             for (int i = 0; i < population.length; i++) {
                 double direction = random.nextDouble();
                 if (direction > 0.5) {
@@ -110,10 +111,10 @@ public class EDOAlgorithm extends LearningAlgorithm {
             return population;
         }
 
-        private static Action[] initialisePopulation(Random random, int populationSize) {
+        private Action[] initialisePopulation(Random random, int populationSize) {
             Action[] population = new Action[populationSize];
             for (int i = 0; i < populationSize; i++) {
-                population[i] = new Action(random.nextInt(noOfActions));
+                population[i] = environment.getActions()[random.nextInt(environment.getActions().length)];
             }
             return population;
         }

@@ -1,5 +1,7 @@
 package com.amansoni;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -12,17 +14,22 @@ import java.util.Random;
  *         Runs all required experiments averaged over 30 runs and reports the accumulated rewards for CPMB 1 & 2.
  */
 public class Experiment {
+
     enum Algorithm {
-        QLearning, RPSO, QBEA, Optimal, EDO, Random
+        QLearning, RPSO, QBEA, Optimal, EDO, Random;
     }
 
     static int seed = 0;
-    Environment environment;
+
     LearningAlgorithm learningAlgorithm;
+    List<LearningAlgorithm> learningAlgorithms = new ArrayList<>();
+    int steps;
+    int repeat;
+    int offlineTime;
 
     public Experiment(int seed, int bias, Algorithm algorithm) {
         double[] params = new double[]{.7, 3.};
-        environment = new Environment(bias, false);
+        Environment environment = new Environment(bias, false);
         switch (algorithm) {
             case QLearning:
                 learningAlgorithm = new QLearning(environment, seed, params);
@@ -45,33 +52,77 @@ public class Experiment {
         }
     }
 
+
+    public Experiment(LearningAlgorithm learningAlgorithm, int steps, int repeat, int offlineTime) {
+        this.learningAlgorithm = learningAlgorithm;
+        this.steps = steps;
+        this.repeat = repeat;
+        this.offlineTime = offlineTime;
+    }
+
+    private double run() {
+        Random random = new Random(seed);
+        long BEGIN = System.currentTimeMillis();
+        double rewards = 0;
+        for (int i = 0; i < repeat; i++) {
+            learningAlgorithm.reset(random.nextInt());
+            rewards += this.runOnce();
+        }
+        rewards = rewards / repeat;
+        long END = System.currentTimeMillis();
+        System.out.println("Time: " + (END - BEGIN) / 1000.0 + " sec.");
+        return rewards;
+    }
+
+    private int runOnce() {
+        for (int i = 0; i < steps; i++) {
+            learningAlgorithm.step(i, offlineTime);
+            if (false)
+                System.out.println("step:" + i + "\treward:" + learningAlgorithm.getAccumulatedReward());
+        }
+        return learningAlgorithm.getAccumulatedReward();
+    }
+
     public static void main(String[] args) {
 //        initialComparisons();
+        compareEDO();
     }
 
     public static void compareEDO() {
-        int interval = 1;
         int steps = 1000;
         int repeat = 30;
-        int offlineTimeAllowed = 21;
+        int offlineTime = 10;
 
         int bias = 100;
-        compareAlgorithms(steps, repeat, bias, 0, 10000);
-        compareAlgorithms(steps, repeat, bias, offlineTimeAllowed, 10000);
+        Environment environment = new Environment(bias);
+        LearningAlgorithm algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.Full);
+        Experiment experiment = new Experiment(algorithm, steps, repeat, offlineTime);
+        System.out.println("EDO Full Bias:100\t" + experiment.run());
+
+        algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.OnePlusOne);
+        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
+        System.out.println("EDO 1+1 Bias:100\t" + experiment.run());
+
+        algorithm = new RandomAlgorithm(environment, seed);
+        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
+        System.out.println("Random Bias:100\t" + experiment.run());
 
         bias = 15;
-        compareAlgorithms(steps, repeat, bias, 0, 1000);
-        compareAlgorithms(steps, repeat, bias, offlineTimeAllowed, 1000);
+        environment = new Environment(bias);
+        algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.Full);
+        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
+        System.out.println("EDO Full Bias:15\t" + experiment.run());
 
-        steps = 20;
-        bias = 100;
-        compareSteps(steps, repeat, bias, interval, 0, 1);
-        compareSteps(steps, repeat, bias, interval, offlineTimeAllowed, 1);
+        algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.OnePlusOne);
+        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
+        System.out.println("EDO 1+1 Bias:15\t" + experiment.run());
 
-        bias = 15;
-        compareSteps(steps, repeat, bias, interval, 0, 1);
-        compareSteps(steps, repeat, bias, interval, offlineTimeAllowed, 1);
+        algorithm = new RandomAlgorithm(environment, seed);
+        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
+        System.out.println("Random Bias:15\t" + experiment.run());
+
     }
+
 
     public static void initialComparisons() {
         int interval = 1;
@@ -170,11 +221,4 @@ public class Experiment {
 //        experiment.learningAlgorithm.printPolicy();
         return experiment.learningAlgorithm.getAccumulatedReward();
     }
-
-    public static Experiment getResults(int bias, int steps, int seed, Algorithm algorithm, int offlineTime) {
-        Experiment experiment = new Experiment(seed, bias, algorithm);
-        experiment.learningAlgorithm.learn(steps, offlineTime);
-        return experiment;
-    }
-
 }
