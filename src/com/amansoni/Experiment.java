@@ -46,6 +46,34 @@ public class Experiment {
     }
 
     public static void main(String[] args) {
+//        initialComparisons();
+    }
+
+    public static void compareEDO() {
+        int interval = 1;
+        int steps = 1000;
+        int repeat = 30;
+        int offlineTimeAllowed = 21;
+
+        int bias = 100;
+        compareAlgorithms(steps, repeat, bias, 0, 10000);
+        compareAlgorithms(steps, repeat, bias, offlineTimeAllowed, 10000);
+
+        bias = 15;
+        compareAlgorithms(steps, repeat, bias, 0, 1000);
+        compareAlgorithms(steps, repeat, bias, offlineTimeAllowed, 1000);
+
+        steps = 20;
+        bias = 100;
+        compareSteps(steps, repeat, bias, interval, 0, 1);
+        compareSteps(steps, repeat, bias, interval, offlineTimeAllowed, 1);
+
+        bias = 15;
+        compareSteps(steps, repeat, bias, interval, 0, 1);
+        compareSteps(steps, repeat, bias, interval, offlineTimeAllowed, 1);
+    }
+
+    public static void initialComparisons() {
         int interval = 1;
         int steps = 1000;
         int repeat = 30;

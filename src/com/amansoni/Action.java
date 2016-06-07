@@ -3,14 +3,17 @@ package com.amansoni;
 /**
  * Created by Aman on 14/05/2016.
  */
-public class Action implements Comparable<Action>{
+public class Action implements Comparable<Action> {
     private int value;
 
-    public Action(int action){
+    public Action() {
+    }
+
+    public Action(int action) {
         value = action;
     }
 
-    public int getValue(){
+    public int getValue() {
         return value;
     }
 
