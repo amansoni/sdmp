@@ -1,6 +1,7 @@
 package com.amansoni;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 /**
@@ -12,11 +13,24 @@ public class QBEA extends QLearning {
     double priorA = 3.;
     int seed;
     Map<State, StateTransition> map = new TreeMap<>();
+    static int noOfActions = 10;
 
+
+
+    enum Strategy {
+        OnePlusOne, Full, SizeOverDelta, RandomThenBest;
+    }
+    Strategy strategy = Strategy.Full;
 
     public QBEA(Environment environment, int seed) {
         super(environment, seed);
         initMap();
+    }
+
+
+    public QBEA(Environment environment, int seed, Strategy strategy) {
+        this(environment, seed);
+        this.strategy = strategy;
     }
 
     public QBEA(Environment environment, int seed, double[] params) {
@@ -93,6 +107,7 @@ public class QBEA extends QLearning {
         double discountFactor = 0.7;
         // if no offline time then cannot perform any offline evaluations
         if (offlineTime == 0) {
+
         } else if (offlineTime >= environment.getActions().length) {
             for (Action evalAction : environment.getActions()) {
                 State probableState = estimateNextState(state, evalAction);
@@ -100,18 +115,19 @@ public class QBEA extends QLearning {
                 updatePolicy(learningRate, currentState, probableState, evalAction, reward, discountFactor);
             }
         } else {
+            Action[] actions = null;
+            if (this.strategy == Strategy.OnePlusOne) {
+                actions = new EvolutionaryAlgorithm().getActions(environment, random, 1, offlineTime);
+            } else if (this.strategy == Strategy.RandomThenBest) {
+                actions = new EvolutionaryAlgorithm().getActions(environment, random, offlineTime, 1);
+            }
             // we need a strategy
+            for (Action evalAction : actions) {
+                State probableState = estimateNextState(state, evalAction);
+                int reward = environment.getReward(evalAction, probableState, evalAction);
+                updatePolicy(learningRate, currentState, probableState, evalAction, reward, discountFactor);
+            }
         }
-//        Action evalAction = edoAlgorithm.selectAction();
-//        State probableState = estimateNextState(state, evalAction);
-//        int reward = environment.getReward(evalAction);
-//        updatePolicy(learningRate, currentState, probableState, evalAction, reward);
-    }
-
-    public int getReward(State state, Action x) {
-        int reward = state.height - state.width * Math.abs(x.getValue() - state.center) + environment.g();
-//        System.out.println(reward);
-        return reward;
     }
 
     /**
@@ -137,6 +153,53 @@ public class QBEA extends QLearning {
             System.out.print(" Change Q value:" + df.format(currentQ));
             System.out.print(" to " + df.format(updatedQValue));
             System.out.println("");
+        }
+    }
+
+
+    private class EvolutionaryAlgorithm {
+        public int DEGREE_OF_CHANGE = 5;
+
+        public Action[] getActions(Environment environment, Random random, int populationSize, int numberOfGenerations) {
+            int bestFitness = Integer.MIN_VALUE;
+            Action[] best = new Action[populationSize * numberOfGenerations];
+            int index = 0;
+            for (int i = 0; i < numberOfGenerations; i++) {
+                Action[] population = initialisePopulation(random, populationSize);
+                for (Action action : population) {
+                    int fitness = environment.getReward(action);
+                    best[index++] = action;
+                    if (fitness > bestFitness) {
+                        bestFitness = fitness;
+                    }
+                    population = mutate(random, population);
+                }
+            }
+            return best;
+        }
+
+        private Action[] mutate(Random random, Action[] population) {
+            for (int i = 0; i < population.length; i++) {
+                double direction = random.nextDouble();
+                if (direction > 0.5) {
+                    population[i] = new Action(population[i].getValue() + random.nextInt(DEGREE_OF_CHANGE));
+                    if (population[i].getValue() > noOfActions)
+                        population[i] = new Action(noOfActions);
+                } else {
+                    population[i] = new Action(population[i].getValue() - random.nextInt(DEGREE_OF_CHANGE));
+                    if (population[i].getValue() < -noOfActions)
+                        population[i] = new Action(-noOfActions);
+                }
+            }
+            return population;
+        }
+
+        private Action[] initialisePopulation(Random random, int populationSize) {
+            Action[] population = new Action[populationSize];
+            for (int i = 0; i < populationSize; i++) {
+                population[i] = environment.getActions()[random.nextInt(environment.getActions().length)];
+            }
+            return population;
         }
     }
 }

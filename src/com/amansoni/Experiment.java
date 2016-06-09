@@ -70,7 +70,7 @@ public class Experiment {
         }
         rewards = rewards / repeat;
         long END = System.currentTimeMillis();
-        System.out.println("Time: " + (END - BEGIN) / 1000.0 + " sec.");
+//        System.out.println("Time: " + (END - BEGIN) / 1000.0 + " sec.");
         return rewards;
     }
 
@@ -91,45 +91,50 @@ public class Experiment {
     public static void compareEDO() {
         int steps = 1000;
         int repeat = 30;
-        int offlineTime = 10;
-
         int bias = 100;
-        Environment environment = new Environment(bias);
-        LearningAlgorithm algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.Full);
-        Experiment experiment = new Experiment(algorithm, steps, repeat, offlineTime);
-        System.out.println("EDO Full Bias:100\t" + experiment.run());
 
-        algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.OnePlusOne);
-        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
-        System.out.println("EDO 1+1 Bias:100\t" + experiment.run());
-
-        algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.RandomThenBest);
-        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
-        System.out.println("EDO RandomThenBest Bias:100\t" + experiment.run());
-
-
-        algorithm = new RandomAlgorithm(environment, seed);
-        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
-        System.out.println("Random Bias:100\t" + experiment.run());
-
-        bias = 15;
+        Environment environment;
+        LearningAlgorithm algorithm;
+        Experiment experiment;
         environment = new Environment(bias);
-        algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.Full);
-        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
-        System.out.println("EDO Full Bias:15\t" + experiment.run());
-
-        algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.OnePlusOne);
-        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
-        System.out.println("EDO 1+1 Bias:15\t" + experiment.run());
-
-        algorithm = new EDOAlgorithm(environment, seed, EDOAlgorithm.Strategy.RandomThenBest);
-        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
-        System.out.println("EDO RandomThenBest Bias:15\t" + experiment.run());
-
 
         algorithm = new RandomAlgorithm(environment, seed);
+        experiment = new Experiment(algorithm, steps, repeat, 0);
+        System.out.println("Random Bias:	" + bias + "\t reward\t" + experiment.run());
+
+//        compareEDOVariations(steps, repeat, 21, bias, EDOAlgorithm.Strategy.Full);
+
+//        compareQBEAEDOVariations(steps, repeat, 21, bias, QBEA.Strategy.RandomThenBest);
+
+
+        for (int i = 0; i <= 21; i++) {
+//            System.out.println("Offline time\t" + i);
+//            compareEDOVariations(steps, repeat, i, bias, EDOAlgorithm.Strategy.OnePlusOne);
+//            compareEDOVariations(steps, repeat, i, bias, EDOAlgorithm.Strategy.RandomThenBest);
+            compareQBEAEDOVariations(steps, repeat, i, bias, QBEA.Strategy.RandomThenBest);
+//            compareEDOVariations(steps, repeat, i, 15);
+        }
+    }
+
+    private static void compareEDOVariations(int steps, int repeat, int offlineTime, int bias, EDOAlgorithm.Strategy strategy) {
+        Environment environment;
+        LearningAlgorithm algorithm;
+        Experiment experiment;
+        environment = new Environment(bias);
+        algorithm = new EDOAlgorithm(environment, seed, strategy);
         experiment = new Experiment(algorithm, steps, repeat, offlineTime);
-        System.out.println("Random Bias:15\t" + experiment.run());
+        System.out.println("EDO:\t" + strategy.name() + "\tbias\t" + bias + "\t" + offlineTime + "\t reward\t" + experiment.run());
+
+    }
+
+    private static void compareQBEAEDOVariations(int steps, int repeat, int offlineTime, int bias, QBEA.Strategy strategy) {
+        Environment environment;
+        LearningAlgorithm algorithm;
+        Experiment experiment;
+        environment = new Environment(bias);
+        algorithm = new QBEA(environment, seed, strategy);
+        experiment = new Experiment(algorithm, steps, repeat, offlineTime);
+        System.out.println("QBEA:\t" + strategy.name() + "\tbias\t" + bias + "\t" + offlineTime + "\t reward\t" + experiment.run());
 
     }
 
