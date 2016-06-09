@@ -104,14 +104,14 @@ public class Experiment {
 
 //        compareEDOVariations(steps, repeat, 21, bias, EDOAlgorithm.Strategy.Full);
 
-//        compareQBEAEDOVariations(steps, repeat, 21, bias, QBEA.Strategy.RandomThenBest);
+        compareQBEAEDOVariations(steps, repeat, 0, bias, QBEA.Strategy.RandomThenBest);
 
 
         for (int i = 0; i <= 21; i++) {
 //            System.out.println("Offline time\t" + i);
 //            compareEDOVariations(steps, repeat, i, bias, EDOAlgorithm.Strategy.OnePlusOne);
 //            compareEDOVariations(steps, repeat, i, bias, EDOAlgorithm.Strategy.RandomThenBest);
-            compareQBEAEDOVariations(steps, repeat, i, bias, QBEA.Strategy.RandomThenBest);
+//            compareQBEAEDOVariations(steps, repeat, i, bias, QBEA.Strategy.RandomThenBest);
 //            compareEDOVariations(steps, repeat, i, 15);
         }
     }
@@ -135,6 +135,7 @@ public class Experiment {
         algorithm = new QBEA(environment, seed, strategy);
         experiment = new Experiment(algorithm, steps, repeat, offlineTime);
         System.out.println("QBEA:\t" + strategy.name() + "\tbias\t" + bias + "\t" + offlineTime + "\t reward\t" + experiment.run());
+        algorithm.printPolicy();
 
     }
 
