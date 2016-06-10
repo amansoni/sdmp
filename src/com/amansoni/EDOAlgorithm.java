@@ -64,9 +64,9 @@ public class EDOAlgorithm extends LearningAlgorithm {
         } else {
             // we need a strategy!
             if (this.strategy == Strategy.OnePlusOne) {
-                action = new EvolutionaryAlgorithm().getAction(environment, random, 1, offlineTime);
+                action = new EvolutionaryAlgorithm().getAction(environment, 1, offlineTime);
             } else if (this.strategy == Strategy.RandomThenBest) {
-                action = new EvolutionaryAlgorithm().getAction(environment, random, offlineTime, 1);
+                action = new EvolutionaryAlgorithm().getAction(environment, offlineTime, 1);
             }
 
         }
@@ -79,8 +79,10 @@ public class EDOAlgorithm extends LearningAlgorithm {
 
     private class EvolutionaryAlgorithm {
         public int DEGREE_OF_CHANGE = 5;
+        Random random;
 
-        public Action getAction(Environment environment, Random random, int populationSize, int numberOfGenerations) {
+        public Action getAction(Environment environment, int populationSize, int numberOfGenerations) {
+            this.random = new Random(seed);
             int bestFitness = Integer.MIN_VALUE;
             Action best = null;
             for (int i = 0; i < numberOfGenerations; i++) {
