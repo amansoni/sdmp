@@ -12,7 +12,7 @@ public class EDOAlgorithm extends LearningAlgorithm {
     static boolean DEBUG = true;
 
     enum Strategy {
-        OnePlusOne, Full, SizeOverDelta, RandomThenBest
+        OnePlusOne, Full, SizeOverDelta, RandomThenBest, RandomNoRepeats, IndependantRandom
     }
 
     static int noOfActions = 10;
