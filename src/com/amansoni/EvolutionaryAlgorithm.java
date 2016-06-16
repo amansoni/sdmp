@@ -73,8 +73,8 @@ public class EvolutionaryAlgorithm {
             best = environment.getActions()[random.nextInt(environment.getActions().length)];
         } else {
             int bestFitness = Integer.MIN_VALUE;
+            Action[] population = initialisePopulation(environment, random, populationSize);
             for (int i = 0; i < numberOfGenerations; i++) {
-                Action[] population = initialisePopulation(environment, random, populationSize);
                 for (Action action : population) {
                     int fitness = environment.getReward(action);
                     if (fitness > bestFitness) {
@@ -92,8 +92,8 @@ public class EvolutionaryAlgorithm {
         int bestFitness = Integer.MIN_VALUE;
         Action[] best = new Action[populationSize * numberOfGenerations];
         int index = 0;
+        Action[] population = initialisePopulation(environment, random, populationSize);
         for (int i = 0; i < numberOfGenerations; i++) {
-            Action[] population = initialisePopulation(environment, random, populationSize);
             for (Action action : population) {
                 int fitness = environment.getReward(action);
 //                System.out.println(action.getValue() + "\t" + fitness);
