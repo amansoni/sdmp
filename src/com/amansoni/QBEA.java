@@ -97,9 +97,9 @@ public class QBEA extends QLearning {
         double learningRate = (200.0 / (300.0 + timeStep));
         State currentState = new State(environment.getState().center);
         double discountFactor = 0.7;
-        actions = new EvolutionaryAlgorithm(environment, strategy, random, offlineTime).getActions();
+        actions = new EvolutionaryAlgorithm(environment, strategy, random, offlineTime, false).getActions();
 //        actions = environment.getActions();
-//        System.out.print(timeStep + "\t" + actions.length + "\t");
+//        System.out.println("searchRewardFunction:" + timeStep + "\taction length:\t" + actions.length + "\toffline\t" + offlineTime);
         for (Action evalAction : actions) {
             State probableState = estimateNextState(state, evalAction);
             int reward = environment.getReward(evalAction, probableState, evalAction);

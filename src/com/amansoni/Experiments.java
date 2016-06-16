@@ -22,31 +22,44 @@ public class Experiments {
             -1266264776, 99807007, 5955764, -1946737912, 39620447};
 
 
-    public static void runAveragedExperiments(int bias, int offlineTime, EvolutionaryAlgorithm.Strategy strategy) {
-        double total = 0.;
+    public static void runAveragedExperiments(int offlineTime, EvolutionaryAlgorithm.Strategy strategy) {
+        double total100 = 0.;
+        double total15 = 0.;
         LearningAlgorithm algorithm;
         for (int r = 0; r < repeat; r++) {
-            algorithm = new EDOAlgorithm(new Environment(bias), seeds[r], strategy);
-            total += new Experiment(algorithm, steps, offlineTime).run();
+            algorithm = new EDOAlgorithm(new Environment(100), seeds[r], strategy);
+            total100 += new Experiment(algorithm, steps, offlineTime).run();
         }
-        total = total / repeat;
-//        System.out.println(strategy.name() + "\tbias\t" + bias + "\tofflineTime\t" + offlineTime + "\t reward\t" + total);
-        System.out.println("\tofflineTime\t" + offlineTime + "\t" + total);
+        for (int r = 0; r < repeat; r++) {
+            algorithm = new EDOAlgorithm(new Environment(15), seeds[r], strategy);
+            total15 += new Experiment(algorithm, steps, offlineTime).run();
+        }
+        total100 = total100 / repeat;
+        total15 = total15 / repeat;
+//        System.out.println(strategy.name() + "\tbias\t" + bias + "\tofflineTime\t"+ offlineTime + "\t reward\t" + total);
+        System.out.println(offlineTime + "\t" + strategy.name() + "\t" + total100 + "\t" + total15);
 
     }
 
-    public static void runAveragedQBEAExperiments(int bias, int offlineTime, EvolutionaryAlgorithm.Strategy strategy) {
-        double total = 0.;
+    public static void runAveragedQBEAExperiments(int offlineTime, EvolutionaryAlgorithm.Strategy strategy) {
+        double total100 = 0.;
+        double total15 = 0.;
         LearningAlgorithm algorithm;
         for (int r = 0; r < repeat; r++) {
-            algorithm = new QBEA(new Environment(bias), seeds[r], strategy);
-            total += new Experiment(algorithm, steps, offlineTime).run();
+            algorithm = new QBEA(new Environment(100), seeds[r], strategy);
+            total100 += new Experiment(algorithm, steps, offlineTime).run();
 //            algorithm.printPolicy();
         }
-        total = total / repeat;
+        for (int r = 0; r < repeat; r++) {
+            algorithm = new QBEA(new Environment(15), seeds[r], strategy);
+            total15 += new Experiment(algorithm, steps, offlineTime).run();
+//            algorithm.printPolicy();
+        }
+        total100 = total100 / repeat;
+        total15 = total15 / repeat;
 //        System.out.println(strategy.name() + "\tbias\t" + bias + "\tofflineTime\t" + offlineTime + "\t reward\t" + total);
 //        System.out.println(offlineTime + "\t" + total);
-        System.out.println(total);
+        System.out.println(offlineTime + "\t" + strategy.name() + "\t" + total100 + "\t" + total15);
     }
 
     public static void runAveragedExperiments(int bias, int offlineTime) {
@@ -67,10 +80,10 @@ public class Experiments {
 //        runAveragedExperiments(bias, 21, EvolutionaryAlgorithm.Strategy.Full);
 //        runAveragedExperiments(bias, 21);
 //        runAveragedQBEAExperiments(bias, 21, QBEA.Strategy.Full);
-        runAveragedQBEAExperiments(bias, 21, EvolutionaryAlgorithm.Strategy.Full);
+//        runAveragedQBEAExperiments(bias, 21, EvolutionaryAlgorithm.Strategy.Full);
         for (int offlineTime = 0; offlineTime <= 21; offlineTime++) {
-//        runAveragedExperiments(bias, offlineTime, EvolutionaryAlgorithm.Strategy.OnePlusOne);
-            runAveragedQBEAExperiments(bias, offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest);
+//            runAveragedExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.Full);
+            runAveragedQBEAExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest);
 //            runAveragedQBEAExperiments(bias, offlineTime, EvolutionaryAlgorithm.Strategy.OnePlusOne);
 //            runAveragedQBEAExperiments(bias, offlineTime, EvolutionaryAlgorithm.Strategy.SplitTime);
 //            runAveragedExperiments(bias, offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest);

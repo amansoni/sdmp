@@ -43,7 +43,7 @@ public class EDOAlgorithm extends LearningAlgorithm {
 
     @Override
     public Action selectAction(int offlineTime) {
-        return new EvolutionaryAlgorithm(environment, strategy, random, offlineTime).getAction();
+        return new EvolutionaryAlgorithm(environment, strategy, random, offlineTime, false).getAction();
     }
 
     @Override
