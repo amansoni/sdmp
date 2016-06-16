@@ -1,7 +1,5 @@
 package com.amansoni;
 
-import java.util.Random;
-
 /**
  * @author Aman Soni
  *         <p>
@@ -9,20 +7,15 @@ import java.util.Random;
  *         time-linkage between states.
  */
 public class EDOAlgorithm extends LearningAlgorithm {
-    static boolean DEBUG = true;
+    static boolean DEBUG = false;
 
-    enum Strategy {
-        OnePlusOne, Full, SizeOverDelta, RandomThenBest, RandomNoRepeats, IndependantRandom
-    }
-
-    static int noOfActions = 10;
-    Strategy strategy = Strategy.Full;
+    EvolutionaryAlgorithm.Strategy strategy = EvolutionaryAlgorithm.Strategy.Full;
 
     public EDOAlgorithm(Environment environment, int seed) {
         super(environment, seed);
     }
 
-    public EDOAlgorithm(Environment environment, int seed, Strategy strategy) {
+    public EDOAlgorithm(Environment environment, int seed, EvolutionaryAlgorithm.Strategy strategy) {
         this(environment, seed);
         this.strategy = strategy;
     }
@@ -38,6 +31,9 @@ public class EDOAlgorithm extends LearningAlgorithm {
     public int step(int step, int offlineTime) {
         // select an action
         Action action = selectAction(offlineTime);
+        if (DEBUG)
+            System.out.println("EDOAlgorithm.step\t" + step + "\taction\t" + action.getValue());
+
         // perform the action and get a reward
         int reward = environment.takeAction(action);
         // accumulate the reward
@@ -47,82 +43,10 @@ public class EDOAlgorithm extends LearningAlgorithm {
 
     @Override
     public Action selectAction(int offlineTime) {
-        state = environment.getState();
-        Action action = null;
-        // no offline time, must select an action randomly
-        if (offlineTime == 0) {
-            action = environment.getActions()[random.nextInt(environment.getActions().length)];
-        } else if (offlineTime >= environment.getActions().length || this.strategy == Strategy.Full) {
-            int maxReward = Integer.MIN_VALUE;
-            for (Action a : environment.getActions()) {
-                int reward = environment.getReward(a);
-                if (maxReward < reward) {
-                    action = a;
-                    maxReward = reward;
-                }
-            }
-        } else {
-            // we need a strategy!
-            if (this.strategy == Strategy.OnePlusOne) {
-                action = new EvolutionaryAlgorithm().getAction(environment, 1, offlineTime);
-            } else if (this.strategy == Strategy.RandomThenBest) {
-                action = new EvolutionaryAlgorithm().getAction(environment, offlineTime, 1);
-            }
-
-        }
-        return action;
+        return new EvolutionaryAlgorithm(environment, strategy, random, offlineTime).getAction();
     }
 
     @Override
     public void printPolicy() {
     }
-
-    private class EvolutionaryAlgorithm {
-        public int DEGREE_OF_CHANGE = 5;
-        Random random;
-
-        public Action getAction(Environment environment, int populationSize, int numberOfGenerations) {
-            this.random = new Random(seed);
-            int bestFitness = Integer.MIN_VALUE;
-            Action best = null;
-            for (int i = 0; i < numberOfGenerations; i++) {
-                Action[] population = initialisePopulation(random, populationSize);
-                for (Action action : population) {
-                    int fitness = environment.getReward(action);
-                    if (fitness > bestFitness) {
-                        bestFitness = fitness;
-                        best = action;
-                    }
-                    population = mutate(random, population);
-                }
-            }
-            return best;
-        }
-
-        private Action[] mutate(Random random, Action[] population) {
-            for (int i = 0; i < population.length; i++) {
-                double direction = random.nextDouble();
-                if (direction > 0.5) {
-                    population[i] = new Action(population[i].getValue() + random.nextInt(DEGREE_OF_CHANGE));
-                    if (population[i].getValue() > noOfActions)
-                        population[i] = new Action(noOfActions);
-                } else {
-                    population[i] = new Action(population[i].getValue() - random.nextInt(DEGREE_OF_CHANGE));
-                    if (population[i].getValue() < -noOfActions)
-                        population[i] = new Action(-noOfActions);
-                }
-            }
-            return population;
-        }
-
-        private Action[] initialisePopulation(Random random, int populationSize) {
-            Action[] population = new Action[populationSize];
-            for (int i = 0; i < populationSize; i++) {
-                population[i] = environment.getActions()[random.nextInt(environment.getActions().length)];
-            }
-            return population;
-        }
-    }
-
-
 }
