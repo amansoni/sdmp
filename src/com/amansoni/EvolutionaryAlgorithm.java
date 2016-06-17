@@ -13,7 +13,7 @@ public class EvolutionaryAlgorithm {
         OnePlusOne, Full, SizeOverDelta, RandomThenBest, RandomNoRepeats, IndependantRandom;
     }
 
-    private static int DEGREE_OF_CHANGE = 5;
+    private static int DEGREE_OF_CHANGE = 3;
     private int noOfActions;
     Environment environment;
     Strategy strategy;
@@ -30,6 +30,10 @@ public class EvolutionaryAlgorithm {
         this.random = random;
         this.offlineTime = offlineTime;
         noOfActions = 10;
+        // If there can only be 1 fitness evaluation for any time step, then it's a random selection
+        if (offlineTime <= 1 && strategy != Strategy.Full) {
+            doRandomSelection = true;
+        }
         init();
     }
 
@@ -45,10 +49,6 @@ public class EvolutionaryAlgorithm {
     }
 
     private void init() {
-        // can only do 1 fitness evaluation for any time step
-        if (offlineTime <= 1) {
-            doRandomSelection = true;
-        }
         switch (strategy) {
             case OnePlusOne:
                 populationSize = 1;
@@ -90,18 +90,24 @@ public class EvolutionaryAlgorithm {
 
     public Action[] getActions() {
         int bestFitness = Integer.MIN_VALUE;
-        Action[] best = new Action[populationSize * numberOfGenerations];
-        int index = 0;
-        Action[] population = initialisePopulation(environment, random, populationSize);
-        for (int i = 0; i < numberOfGenerations; i++) {
-            for (Action action : population) {
-                int fitness = environment.getReward(action);
+        Action[] best; // = new Action[populationSize * numberOfGenerations];
+        // can only select a single action
+        if (doRandomSelection) {
+            best = new Action[] {environment.getActions()[random.nextInt(environment.getActions().length)]};
+        } else {
+            best = new Action[populationSize * numberOfGenerations];
+            int index = 0;
+            Action[] population = initialisePopulation(environment, random, populationSize);
+            for (int i = 0; i < numberOfGenerations; i++) {
+                for (Action action : population) {
+                    int fitness = environment.getReward(action);
 //                System.out.println(action.getValue() + "\t" + fitness);
-                best[index++] = action;
-                if (fitness > bestFitness) {
-                    bestFitness = fitness;
+                    best[index++] = action;
+                    if (fitness > bestFitness) {
+                        bestFitness = fitness;
+                    }
+                    population = mutate(random, population);
                 }
-                population = mutate(random, population);
             }
         }
         return best;

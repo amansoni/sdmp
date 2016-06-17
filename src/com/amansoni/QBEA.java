@@ -10,6 +10,8 @@ import com.amansoni.EvolutionaryAlgorithm.Strategy;
  *         "A Q-learning Based Evolutionary Algorithm for Sequential Decision Making Problems."
  */
 public class QBEA extends QLearning {
+    // Flag to select only a single random action
+    static boolean RANDOM_SELECT_SINGLE_ACTION = false;
     double priorA = 3.;
     int seed;
     Map<State, StateTransition> map = new TreeMap<>();
@@ -45,22 +47,25 @@ public class QBEA extends QLearning {
     }
 
     public void learn(int totalSteps, int offlineTime) {
-        state = new State(environment.getState().center);
         for (int i = 0; i < totalSteps; i++) {
-            // employ ea to search on reward space
-            searchRewardFunction(i, offlineTime);
-            // select an action
-            Action action = new Action(getActionForMaxRewardForState(state) - offset);
-            // perform the action and get a reward
-            int reward = environment.takeAction(action);
-            // accumulate the reward
-            accumulatedReward += reward;
-            State nextState = new State(environment.getState().center);
-            // update the learning policy
-//            super.updatePolicy(state, nextState, action, reward, i);
-            updateStateTransition(state, nextState, action);
-            state = new State(environment.getState().center);
+            step(i, offlineTime);
         }
+//        state = new State(environment.getState().center);
+//        for (int i = 0; i < totalSteps; i++) {
+//            // employ ea to search on reward space
+//            searchRewardFunction(i, offlineTime);
+//            // select an action
+//            Action action = new Action(getActionForMaxRewardForState(state) - offset);
+//            // perform the action and get a reward
+//            int reward = environment.takeAction(action);
+//            // accumulate the reward
+//            accumulatedReward += reward;
+//            State nextState = new State(environment.getState().center);
+//            // update the learning policy
+////            super.updatePolicy(state, nextState, action, reward, i);
+//            updateStateTransition(state, nextState, action);
+//            state = new State(environment.getState().center);
+//        }
     }
 
     @Override
@@ -93,11 +98,16 @@ public class QBEA extends QLearning {
     }
 
     private void searchRewardFunction(int timeStep, int offlineTime) {
-        Action[] actions = null;
         double learningRate = (200.0 / (300.0 + timeStep));
         State currentState = new State(environment.getState().center);
         double discountFactor = 0.7;
-        actions = new EvolutionaryAlgorithm(environment, strategy, random, offlineTime, false).getActions();
+
+        Action[] actions;
+        if (RANDOM_SELECT_SINGLE_ACTION){
+            actions = new Action[] {environment.getActions()[random.nextInt(environment.getActions().length)]};
+        } else {
+            actions = new EvolutionaryAlgorithm(environment, strategy, random, offlineTime, false).getActions();
+        }
 //        actions = environment.getActions();
 //        System.out.println("searchRewardFunction:" + timeStep + "\taction length:\t" + actions.length + "\toffline\t" + offlineTime);
         for (Action evalAction : actions) {

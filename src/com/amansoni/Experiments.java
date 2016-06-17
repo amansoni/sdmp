@@ -37,7 +37,7 @@ public class Experiments {
         total100 = total100 / repeat;
         total15 = total15 / repeat;
 //        System.out.println(strategy.name() + "\tbias\t" + bias + "\tofflineTime\t"+ offlineTime + "\t reward\t" + total);
-        System.out.println(offlineTime + "\t" + strategy.name() + "\t" + total100 + "\t" + total15);
+        System.out.println("EDO\t" +offlineTime + "\t" + strategy.name() + "\t" + total100 + "\t" + total15);
 
     }
 
@@ -59,7 +59,28 @@ public class Experiments {
         total15 = total15 / repeat;
 //        System.out.println(strategy.name() + "\tbias\t" + bias + "\tofflineTime\t" + offlineTime + "\t reward\t" + total);
 //        System.out.println(offlineTime + "\t" + total);
-        System.out.println(offlineTime + "\t" + strategy.name() + "\t" + total100 + "\t" + total15);
+        System.out.println("QBEA\t" + offlineTime + "\t" + strategy.name() + "\t" + total100 + "\t" + total15);
+    }
+
+    public static void runAveragedQLearning() {
+        double total100 = 0.;
+        double total15 = 0.;
+        LearningAlgorithm algorithm;
+        for (int r = 0; r < repeat; r++) {
+            algorithm = new QLearning(new Environment(100), seeds[r]);
+            total100 += new Experiment(algorithm, steps, 0).run();
+//            algorithm.printPolicy();
+        }
+        for (int r = 0; r < repeat; r++) {
+            algorithm = new QLearning(new Environment(15), seeds[r]);
+            total15 += new Experiment(algorithm, steps, 0).run();
+//            algorithm.printPolicy();
+        }
+        total100 = total100 / repeat;
+        total15 = total15 / repeat;
+//        System.out.println(strategy.name() + "\tbias\t" + bias + "\tofflineTime\t" + offlineTime + "\t reward\t" + total);
+//        System.out.println(offlineTime + "\t" + total);
+        System.out.println("QLearning\t" + "\t" + total100 + "\t" + total15);
     }
 
     public static void runAveragedExperiments(int bias, int offlineTime) {
@@ -75,18 +96,25 @@ public class Experiments {
     }
 
     public static void main(String[] args) {
-        int bias = 100;
 //        initialComparisons();
 //        runAveragedExperiments(bias, 21, EvolutionaryAlgorithm.Strategy.Full);
 //        runAveragedExperiments(bias, 21);
 //        runAveragedQBEAExperiments(bias, 21, QBEA.Strategy.Full);
-//        runAveragedQBEAExperiments(bias, 21, EvolutionaryAlgorithm.Strategy.Full);
+
+//        runAveragedQBEAExperiments(21, EvolutionaryAlgorithm.Strategy.Full);
+//        runAveragedExperiments(21, EvolutionaryAlgorithm.Strategy.Full);
+
+//        runAveragedQBEAExperiments(0, EvolutionaryAlgorithm.Strategy.RandomThenBest);
+//        runAveragedQBEAExperiments(1, EvolutionaryAlgorithm.Strategy.OnePlusOne);
+        runAveragedQLearning();
         for (int offlineTime = 0; offlineTime <= 21; offlineTime++) {
-//            runAveragedExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.Full);
-            runAveragedQBEAExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest);
+//            runAveragedExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.OnePlusOne);
+//            runAveragedExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest);
+//            runAveragedQBEAExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.OnePlusOne);
+//            runAveragedQBEAExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.OnePlusOne);
+
 //            runAveragedQBEAExperiments(bias, offlineTime, EvolutionaryAlgorithm.Strategy.OnePlusOne);
 //            runAveragedQBEAExperiments(bias, offlineTime, EvolutionaryAlgorithm.Strategy.SplitTime);
-//            runAveragedExperiments(bias, offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest);
 //            runAveragedExperiments(bias, offlineTime, EvolutionaryAlgorithm.Strategy.OnePlusOne);
         }
     }
