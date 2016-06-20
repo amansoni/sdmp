@@ -1,5 +1,7 @@
 package com.amansoni;
 
+import java.util.Random;
+
 /**
  * @author Aman
  *         <p>
@@ -7,19 +9,37 @@ package com.amansoni;
  *         "What are dynamic optimization problems?." Evolutionary Computation (CEC), 2014 IEEE Congress on. IEEE, 2014.
  */
 public class Environment {
+    // TODO Expand change types using EDO dynamics paper
+    public enum ChangeType {
+        Original, Random, Cyclic
+    }
+
     private boolean debug = false;
     private int timeStep;
     private int currentReward;
     private State state = new State();
     private Action[] actions;
     private Action previousAction;
+    static int NUMBER_OF_ACTIONS = 21;
+    static int ACTION_RANGE = 10;
+
     // bias
     private int b;
     private int accumulatedReward = 0;
+    private ChangeType changeType = ChangeType.Original;
+    private int seed = 0;
+    Random random;
 
     public Environment(int bias) {
         b = bias;
         init();
+    }
+
+    public Environment(int bias, int seed, ChangeType changeType) {
+        this(bias);
+        this.seed = seed;
+        random = new Random(seed);
+        this.changeType = changeType;
     }
 
     public Environment(int bias, boolean debug) {
@@ -37,9 +57,26 @@ public class Environment {
         accumulatedReward += currentReward;
         if (debug)
             System.out.println(timeStep + "\tstate:" + state.center + " \taction:" + x.getValue() + "\treward:" + currentReward + "\ttotal:" + accumulatedReward);
-        state.center = -state.center;
+        changeState();
         previousAction = x;
         return currentReward;
+    }
+
+    private void changeState() {
+        switch (this.changeType) {
+            case Random:
+                state.center = random.nextInt(NUMBER_OF_ACTIONS) - ACTION_RANGE;
+                break;
+            case Cyclic:
+                state.center++;
+                if (state.center > ACTION_RANGE)
+                    state.center = -ACTION_RANGE;
+                break;
+            default: // Starting CMPB from QBEA paper
+                state.center = -state.center;
+                break;
+
+        }
     }
 
     public int getReward(Action x) {
@@ -70,10 +107,9 @@ public class Environment {
 
     public void initActions() {
         // actions
-        int noOfActions = 21;
-        actions = new Action[noOfActions];
-        int val = -10;
-        for (int i = 0; i < noOfActions; i++) {
+        actions = new Action[NUMBER_OF_ACTIONS];
+        int val = -ACTION_RANGE;
+        for (int i = 0; i < NUMBER_OF_ACTIONS; i++) {
             actions[i] = new Action(val++);
         }
     }
