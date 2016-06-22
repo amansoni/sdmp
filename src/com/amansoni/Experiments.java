@@ -22,25 +22,24 @@ public class Experiments {
             -1266264776, 99807007, 5955764, -1946737912, 39620447};
 
 
-    public static void runAveragedExperiments(int offlineTime, EvolutionaryAlgorithm.Strategy strategy) {
+    public static void runAveragedEDOExperiments(int offlineTime, EvolutionaryAlgorithm.Strategy strategy, Environment.ChangeType changeType) {
         double total100 = 0.;
         double total15 = 0.;
         LearningAlgorithm algorithm;
         for (int r = 0; r < repeat; r++) {
-            algorithm = new EDOAlgorithm(new Environment(100), seeds[r], strategy);
+            algorithm = new EDOAlgorithm(new Environment(100, seeds[r], changeType), seeds[r], strategy);
             total100 += new Experiment(algorithm, steps, offlineTime).run();
         }
         for (int r = 0; r < repeat; r++) {
-            algorithm = new EDOAlgorithm(new Environment(15), seeds[r], strategy);
+            algorithm = new EDOAlgorithm(new Environment(15, seeds[r], changeType), seeds[r], strategy);
             total15 += new Experiment(algorithm, steps, offlineTime).run();
         }
         total100 = total100 / repeat;
         total15 = total15 / repeat;
 //        System.out.println(strategy.name() + "\tbias\t" + bias + "\tofflineTime\t"+ offlineTime + "\t reward\t" + total);
-        System.out.println("EDO\t" + offlineTime + "\t" + strategy.name() + "\t" + total100 + "\t" + total15);
-
+        System.out.println("EDO\t" + offlineTime + "\t" + strategy.name() + "\t" + changeType.name() + "\t" + total100 + "\t" + total15);
     }
-
+/*
     public static void runAveragedQBEAExperiments(int offlineTime, EvolutionaryAlgorithm.Strategy strategy) {
         double total100 = 0.;
         double total15 = 0.;
@@ -60,7 +59,7 @@ public class Experiments {
 //        System.out.println(strategy.name() + "\tbias\t" + bias + "\tofflineTime\t" + offlineTime + "\t reward\t" + total);
 //        System.out.println(offlineTime + "\t" + total);
         System.out.println("QBEA\t" + offlineTime + "\t" + strategy.name() + "\t" + total100 + "\t" + total15);
-    }
+    }*/
 
     public static void runAveragedQLearning(Environment.ChangeType changeType) {
         double total100 = 0.;
@@ -83,19 +82,27 @@ public class Experiments {
         System.out.println("QLearning\t" + "\t" + changeType.name() + "\t" + total100 + "\t" + total15);
     }
 
-    public static void runAveragedExperiments(int bias, int offlineTime) {
-        double total = 0.;
+    public static void runAveragedRandomExperiments(Environment.ChangeType changeType) {
+        double total100 = 0.;
+        double total15 = 0.;
+        int offlineTime = 0;
+
         LearningAlgorithm algorithm;
         for (int r = 0; r < repeat; r++) {
-            algorithm = new RandomAlgorithm(new Environment(bias), seeds[r]);
-            total += new Experiment(algorithm, steps, offlineTime).run();
+            algorithm = new RandomAlgorithm(new Environment(100, seeds[r], changeType), seeds[r]);
+            total100 += new Experiment(algorithm, steps, offlineTime).run();
         }
-        total = total / repeat;
-        System.out.println("Random\tbias\t" + bias + "\tofflineTime\t" + offlineTime + "\treward\t" + total);
+        total100 = total100 / repeat;
 
+        for (int r = 0; r < repeat; r++) {
+            algorithm = new RandomAlgorithm(new Environment(15, seeds[r], changeType), seeds[r]);
+            total15 += new Experiment(algorithm, steps, offlineTime).run();
+        }
+        total15 = total15 / repeat;
+        System.out.println("Random\t" + "\t" + changeType.name() + "\t" + total100 + "\t" + total15);
     }
 
-    public static void runAveragedQBEAEnvironmentExperiments(int offlineTime, EvolutionaryAlgorithm.Strategy strategy, Environment.ChangeType changeType) {
+    public static void runAveragedQBEAExperiments(int offlineTime, EvolutionaryAlgorithm.Strategy strategy, Environment.ChangeType changeType) {
         double total100 = 0.;
         double total15 = 0.;
         LearningAlgorithm algorithm;
@@ -128,11 +135,21 @@ public class Experiments {
 //        runAveragedQBEAExperiments(0, EvolutionaryAlgorithm.Strategy.RandomThenBest);
 //        runAveragedQBEAExperiments(1, EvolutionaryAlgorithm.Strategy.OnePlusOne);
 
+
+/*
+        runAveragedRandomExperiments(Environment.ChangeType.Original);
+        runAveragedRandomExperiments(Environment.ChangeType.Cyclic);
+
         runAveragedQLearning(Environment.ChangeType.Original);
         runAveragedQLearning(Environment.ChangeType.Cyclic);
+*/
+
         for (int offlineTime = 0; offlineTime <= 21; offlineTime++) {
-            runAveragedQBEAEnvironmentExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Original);
-            runAveragedQBEAEnvironmentExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+            runAveragedQBEAExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Original);
+//            runAveragedQBEAExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+
+//            runAveragedEDOExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Original);
+//            runAveragedEDOExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
 
 //            runAveragedExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.OnePlusOne);
 //            runAveragedExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest);
