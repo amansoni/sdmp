@@ -22,7 +22,7 @@ public class Experiments {
             -1266264776, 99807007, 5955764, -1946737912, 39620447};
 
 
-    public static void runAveragedEDOExperiments(int offlineTime, EvolutionaryAlgorithm.Strategy strategy, Environment.ChangeType changeType) {
+    public static void runAveragedEDOExperiments(int offlineTime, int steps, EvolutionaryAlgorithm.Strategy strategy, Environment.ChangeType changeType) {
         double total100 = 0.;
         double total15 = 0.;
         LearningAlgorithm algorithm;
@@ -61,7 +61,7 @@ public class Experiments {
         System.out.println("QBEA\t" + offlineTime + "\t" + strategy.name() + "\t" + total100 + "\t" + total15);
     }*/
 
-    public static void runAveragedQLearning(Environment.ChangeType changeType) {
+    public static void runAveragedQLearning(int steps, Environment.ChangeType changeType) {
         double total100 = 0.;
         double total15 = 0.;
         LearningAlgorithm algorithm;
@@ -82,7 +82,7 @@ public class Experiments {
         System.out.println("QLearning\t" + "\t" + changeType.name() + "\t" + total100 + "\t" + total15);
     }
 
-    public static void runAveragedRandomExperiments(Environment.ChangeType changeType) {
+    public static void runAveragedRandomExperiments(int steps, Environment.ChangeType changeType) {
         double total100 = 0.;
         double total15 = 0.;
         int offlineTime = 0;
@@ -102,7 +102,7 @@ public class Experiments {
         System.out.println("Random\t" + "\t" + changeType.name() + "\t" + total100 + "\t" + total15);
     }
 
-    public static void runAveragedQBEAExperiments(int offlineTime, EvolutionaryAlgorithm.Strategy strategy, Environment.ChangeType changeType) {
+    public static void runAveragedQBEAExperiments(int offlineTime, int steps, EvolutionaryAlgorithm.Strategy strategy, Environment.ChangeType changeType) {
         double total100 = 0.;
         double total15 = 0.;
         LearningAlgorithm algorithm;
@@ -144,8 +144,44 @@ public class Experiments {
         runAveragedQLearning(Environment.ChangeType.Cyclic);
 */
 
+//        runAveragedRandomExperiments(200, Environment.ChangeType.Cyclic);
+//        runAveragedRandomExperiments(400, Environment.ChangeType.Cyclic);
+//        runAveragedRandomExperiments(600, Environment.ChangeType.Cyclic);
+//        runAveragedRandomExperiments(800, Environment.ChangeType.Cyclic);
+//        runAveragedRandomExperiments(1000, Environment.ChangeType.Cyclic);
+//
+//        runAveragedQLearning(200, Environment.ChangeType.Cyclic);
+//        runAveragedQLearning(400, Environment.ChangeType.Cyclic);
+//        runAveragedQLearning(600, Environment.ChangeType.Cyclic);
+//        runAveragedQLearning(800, Environment.ChangeType.Cyclic);
+//        runAveragedQLearning(1000, Environment.ChangeType.Cyclic);
+
+/*
+        int offlineTime = 0;
+        runAveragedEDOExperiments(offlineTime, 200, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+        runAveragedEDOExperiments(offlineTime, 400, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+        runAveragedEDOExperiments(offlineTime, 600, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+        runAveragedEDOExperiments(offlineTime, 800, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+        runAveragedEDOExperiments(offlineTime, 1000, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+
+        runAveragedQBEAExperiments(offlineTime, 200, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+        runAveragedQBEAExperiments(offlineTime, 400, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+        runAveragedQBEAExperiments(offlineTime, 600, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+        runAveragedQBEAExperiments(offlineTime, 800, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+        runAveragedQBEAExperiments(offlineTime, 1000, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+*/
+
+/*
+        runAveragedQBEAExperiments(0, 200, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Original);
+        runAveragedQBEAExperiments(0, 400, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Original);
+        runAveragedQBEAExperiments(0, 600, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Original);
+        runAveragedQBEAExperiments(0, 800, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Original);
+        runAveragedQBEAExperiments(0, 1000, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Original);
+*/
+
         for (int offlineTime = 0; offlineTime <= 21; offlineTime++) {
-            runAveragedQBEAExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Original);
+            runAveragedEDOExperiments(offlineTime, 1000, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+
 //            runAveragedQBEAExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
 
 //            runAveragedEDOExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Original);
