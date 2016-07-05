@@ -81,7 +81,7 @@ public class QBEA extends QLearning {
         accumulatedReward += reward;
         State nextState = new State(environment.getState().center);
         // update the learning policy
-        super.updatePolicy(state, nextState, action, reward, step);
+//        super.updatePolicy(state, nextState, action, reward, step);
         updateStateTransition(state, nextState, action);
         state = new State(environment.getState().center);
         return reward;

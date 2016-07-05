@@ -180,9 +180,9 @@ public class Experiments {
 */
 
         for (int offlineTime = 0; offlineTime <= 21; offlineTime++) {
-            runAveragedEDOExperiments(offlineTime, 1000, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+//            runAveragedEDOExperiments(offlineTime, 1000, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
 
-//            runAveragedQBEAExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+//            runAveragedQBEAExperiments(offlineTime, 1000, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
 
 //            runAveragedEDOExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Original);
 //            runAveragedEDOExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
@@ -194,6 +194,42 @@ public class Experiments {
 
 //            runAveragedQBEAExperiments(bias, offlineTime, EvolutionaryAlgorithm.Strategy.SplitTime);
 //            runAveragedExperiments(bias, offlineTime, EvolutionaryAlgorithm.Strategy.OnePlusOne);
+        }
+        calcProbability();
+    }
+
+    public static void calcProbability() {
+        int actions = 21;
+        int state = 30;
+//        double actionstate = actions * state;
+        int n = 2;
+        double t = 0;
+
+        for (int s = 0; s <= state; s++) {
+            double actionstate = actions * s;
+            for (int i = 0; i < actionstate; i++) {
+                double p = actionstate / (actionstate - i);
+                t += p;
+            }
+            System.out.println(s + "\tmean time\t" + t);
+        }
+    }
+
+    public static void calcProbabilityMultiply() {
+        int actions = 21;
+        int state = 21;
+        double actionstate = actions * state;
+        int n = 2;
+        double t = 0;
+
+        for (int s = 0; s < state; s++) {
+            for (int i = 0; i < actions; i++) {
+                double p = actionstate / (actionstate - i);
+//            System.out.println(i + "\t" + p);
+                t += p;
+            }
+//        System.out.println("\tmean time\t" + t);
+            System.out.println(s + "\tmean time\t" + t);
         }
     }
 
