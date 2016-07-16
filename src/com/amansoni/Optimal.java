@@ -11,24 +11,21 @@ public class Optimal extends LearningAlgorithm {
 
     @Override
     public void learn(int totalSteps, int offlineTime) {
-        state = environment.getState();
         for (int i = 0; i < totalSteps; i++) {
-            // select an action
-            Action action = selectAction(offlineTime);
-            // perform the action and get a reward
-            int reward = environment.takeAction(action);
             // accumulate the reward
-            accumulatedReward += reward;
-            State nextState = environment.getState();
-            // update the learning policy
-            state = nextState;
+            accumulatedReward +=  step(i, offlineTime);
         }
 
     }
 
     @Override
     public int step(int step, int offlineTime) {
-        return 0;
+        state = new State(environment.getState().center);
+        Action action = selectAction(offlineTime);
+        // perform the action and get a reward
+        int reward = environment.takeAction(action);
+        state = new State(environment.getState().center);
+        return reward;
     }
 
     @Override

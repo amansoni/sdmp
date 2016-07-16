@@ -30,19 +30,9 @@ public class QLearning extends LearningAlgorithm {
     }
 
     public void learn(int totalSteps, int offlineTime) {
-        state = new State(environment.getState().center);
         for (int i = 0; i < totalSteps; i++) {
-            // select an action
-            Action action = selectAction(offlineTime);
-            // perform the action and get a reward
-            int reward = environment.takeAction(action);
             // accumulate the reward
-            accumulatedReward += reward;
-            State nextState= new State(environment.getState().center);
-            // update the learning policy
-//            System.out.println(" state:" + state.center + " next state:" + nextState.center);
-            updatePolicy(state, nextState, action, reward, i);
-            state = new State(environment.getState().center);
+            accumulatedReward +=  step(i, offlineTime);
         }
     }
 
@@ -52,11 +42,8 @@ public class QLearning extends LearningAlgorithm {
         Action action = selectAction(offlineTime);
         // perform the action and get a reward
         int reward = environment.takeAction(action);
-        // accumulate the reward
-        accumulatedReward += reward;
         State nextState= new State(environment.getState().center);
         // update the learning policy
-//            System.out.println(" state:" + state.center + " next state:" + nextState.center);
         updatePolicy(state, nextState, action, reward, step);
         state = new State(environment.getState().center);
         return reward;

@@ -40,32 +40,13 @@ public class QBEA extends QLearning {
                 map.put(new State(i - offset), new StateTransition(new State(i - offset), priorA));
             }
         }
-        // Iterate over them
-//        for (Map.Entry<State, StateTransition> entry : map.entrySet()) {
-//            System.out.println(entry.getKey() + " => " + entry.getValue());
-//        }
     }
 
     public void learn(int totalSteps, int offlineTime) {
         for (int i = 0; i < totalSteps; i++) {
-            step(i, offlineTime);
+            // accumulate the reward
+            accumulatedReward +=  step(i, offlineTime);
         }
-//        state = new State(environment.getState().center);
-//        for (int i = 0; i < totalSteps; i++) {
-//            // employ ea to search on reward space
-//            searchRewardFunction(i, offlineTime);
-//            // select an action
-//            Action action = new Action(getActionForMaxRewardForState(state) - offset);
-//            // perform the action and get a reward
-//            int reward = environment.takeAction(action);
-//            // accumulate the reward
-//            accumulatedReward += reward;
-//            State nextState = new State(environment.getState().center);
-//            // update the learning policy
-////            super.updatePolicy(state, nextState, action, reward, i);
-//            updateStateTransition(state, nextState, action);
-//            state = new State(environment.getState().center);
-//        }
     }
 
     @Override
@@ -77,11 +58,9 @@ public class QBEA extends QLearning {
         Action action = new Action(getActionForMaxRewardForState(state) - offset);
         // perform the action and get a reward
         int reward = environment.takeAction(action);
-        // accumulate the reward
-        accumulatedReward += reward;
         State nextState = new State(environment.getState().center);
         // update the learning policy
-//        super.updatePolicy(state, nextState, action, reward, step);
+        super.updatePolicy(state, nextState, action, reward, step);
         updateStateTransition(state, nextState, action);
         state = new State(environment.getState().center);
         return reward;
@@ -108,8 +87,6 @@ public class QBEA extends QLearning {
         } else {
             actions = new EvolutionaryAlgorithm(environment, strategy, random, offlineTime, false).getActions();
         }
-//        actions = environment.getActions();
-//        System.out.println("searchRewardFunction:" + timeStep + "\taction length:\t" + actions.length + "\toffline\t" + offlineTime);
         for (Action evalAction : actions) {
             State probableState = estimateNextState(state, evalAction);
             int reward = environment.getReward(evalAction, probableState, evalAction);

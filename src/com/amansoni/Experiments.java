@@ -200,9 +200,9 @@ public class Experiments {
 
     public static void calcProbability() {
         int actions = 21;
-        int state = 30;
+        int state = 2;
 //        double actionstate = actions * state;
-        int n = 2;
+//        int n = 2;
         double t = 0;
 
         for (int s = 0; s <= state; s++) {

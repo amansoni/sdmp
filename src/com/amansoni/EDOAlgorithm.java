@@ -7,8 +7,7 @@ package com.amansoni;
  *         time-linkage between states.
  */
 public class EDOAlgorithm extends LearningAlgorithm {
-    static boolean DEBUG = false;
-
+    // set default strategy to FULL
     EvolutionaryAlgorithm.Strategy strategy = EvolutionaryAlgorithm.Strategy.Full;
 
     public EDOAlgorithm(Environment environment, int seed) {
@@ -23,7 +22,8 @@ public class EDOAlgorithm extends LearningAlgorithm {
     @Override
     public void learn(int totalSteps, int offlineTime) {
         for (int i = 0; i < totalSteps; i++) {
-            step(i, offlineTime);
+            // accumulate the reward
+            accumulatedReward +=  step(i, offlineTime);
         }
     }
 
@@ -31,13 +31,8 @@ public class EDOAlgorithm extends LearningAlgorithm {
     public int step(int step, int offlineTime) {
         // select an action
         Action action = selectAction(offlineTime);
-        if (DEBUG)
-            System.out.println("EDOAlgorithm.step\t" + step + "\taction\t" + action.getValue());
-
         // perform the action and get a reward
         int reward = environment.takeAction(action);
-        // accumulate the reward
-        accumulatedReward += reward;
         return reward;
     }
 
