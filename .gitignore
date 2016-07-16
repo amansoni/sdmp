@@ -12,4 +12,5 @@
 hs_err_pid*
 
 # workspace
-workspace.xml
+.idea/workspace.xml
+docs/~$QBEA.xlsx
