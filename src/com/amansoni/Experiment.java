@@ -21,11 +21,7 @@ public class Experiment {
     }
 
     public int run() {
-        for (int i = 0; i < steps; i++) {
-            learningAlgorithm.step(i, offlineTime);
-            if (false)
-                System.out.println("step:" + i + "\treward:" + learningAlgorithm.getAccumulatedReward());
-        }
+        learningAlgorithm.learn(steps, offlineTime);
         return learningAlgorithm.getAccumulatedReward();
     }
 }

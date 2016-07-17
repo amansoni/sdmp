@@ -211,7 +211,6 @@ public class Experiments {
         System.out.println("QBEA\t" + offlineTime + "\t" + strategy.name() + "\t" + changeType.name() + "\t" + total100 + "\t" + total15);
     }
 
-
     public static void calcProbability() {
         int actions = 21;
         int state = 2;
