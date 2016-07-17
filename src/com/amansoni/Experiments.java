@@ -182,7 +182,7 @@ public class Experiments {
         for (int offlineTime = 0; offlineTime <= 21; offlineTime++) {
 //            runAveragedEDOExperiments(offlineTime, 1000, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
 
-//            runAveragedQBEAExperiments(offlineTime, 1000, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
+            runAveragedQBEAExperiments(offlineTime, 1000, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
 
 //            runAveragedEDOExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Original);
 //            runAveragedEDOExperiments(offlineTime, EvolutionaryAlgorithm.Strategy.RandomThenBest, Environment.ChangeType.Cyclic);
