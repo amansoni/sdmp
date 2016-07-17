@@ -196,12 +196,12 @@ public class Experiments {
         LearningAlgorithm algorithm;
         for (int r = 0; r < repeat; r++) {
             algorithm = new QBEA(new Environment(100, seeds[r], changeType), seeds[r], strategy);
-            total100 += new Experiment(algorithm, steps, offlineTime).run();
+            total100 += new Experiment(changeType, 100, algorithm, steps, offlineTime, seeds[r]).run();
 //            algorithm.printPolicy();
         }
         for (int r = 0; r < repeat; r++) {
             algorithm = new QBEA(new Environment(15, seeds[r], changeType), seeds[r], strategy);
-            total15 += new Experiment(algorithm, steps, offlineTime).run();
+            total15 += new Experiment(changeType, 15, algorithm, steps, offlineTime, seeds[r]).run();
 //            algorithm.printPolicy();
         }
         total100 = total100 / repeat;

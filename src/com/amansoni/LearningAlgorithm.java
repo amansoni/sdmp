@@ -25,11 +25,11 @@ public abstract class LearningAlgorithm {
         return accumulatedReward;
     }
 
-    public void reset(int seed){
+    public void reset(Environment environment, int seed){
         this.seed = seed;
         random = new Random(seed);
         accumulatedReward = 0;
-        this.environment = new Environment(environment.getBias());
+        this.environment = environment;
     }
 
     public abstract void learn(int totalSteps, int offlineTime);

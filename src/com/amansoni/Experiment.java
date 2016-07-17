@@ -10,9 +10,11 @@ package com.amansoni;
  *         Runs all required experiments averaged over 30 runs and reports the accumulated rewards for CPMB 1 & 2.
  */
 public class Experiment {
+    Environment environment;
     LearningAlgorithm learningAlgorithm;
     int steps;
     int offlineTime;
+    int seed;
 
     public Experiment(LearningAlgorithm learningAlgorithm, int steps, int offlineTime) {
         this.learningAlgorithm = learningAlgorithm;
@@ -20,6 +22,14 @@ public class Experiment {
         this.offlineTime = offlineTime;
     }
 
+    public Experiment(Environment.ChangeType changeType, int bias, LearningAlgorithm learningAlgorithm, int steps, int offlineTime, int seed) {
+        this.environment = new Environment(bias, seed, changeType);
+        this.learningAlgorithm = learningAlgorithm;
+        this.learningAlgorithm.reset(environment, seed);
+        this.steps = steps;
+        this.offlineTime = offlineTime;
+        this.seed = seed;
+    }
     public int run() {
         learningAlgorithm.learn(steps, offlineTime);
         return learningAlgorithm.getAccumulatedReward();
