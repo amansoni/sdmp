@@ -25,7 +25,7 @@ public class QLearning extends LearningAlgorithm {
     public QLearning(Environment environment, int seed, double[] params) {
         super(environment, seed);
         this.discountFactor = params[0];
-//        this.epsilon = epsilon;
+        this.epsilon = params[1];
         initPolicy();
     }
 

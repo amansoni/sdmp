@@ -23,7 +23,7 @@ public class Experiment {
     }
 
     public Experiment(Environment.ChangeType changeType, int bias, LearningAlgorithm learningAlgorithm, int steps, int offlineTime, int seed) {
-        this.environment = new Environment(bias, seed, changeType);
+        this.environment = new Environment(bias, changeType);
         this.learningAlgorithm = learningAlgorithm;
         this.learningAlgorithm.reset(environment, seed);
         this.steps = steps;

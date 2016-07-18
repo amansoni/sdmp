@@ -11,7 +11,7 @@ import java.util.Random;
 public class Environment {
     // TODO Expand change types using EDO dynamics paper
     public enum ChangeType {
-        Original, Random, Cyclic
+        Oscillate, Random, Cyclic
     }
 
     private boolean debug = false;
@@ -26,19 +26,18 @@ public class Environment {
     // bias
     private int b;
     private int accumulatedReward = 0;
-    private ChangeType changeType = ChangeType.Original;
-    private int seed = 0;
-    Random random;
+    private ChangeType changeType = ChangeType.Oscillate;
+//    private int seed = 0;
+//    Random random;
 
     public Environment(int bias) {
         b = bias;
         init();
     }
 
-    public Environment(int bias, int seed, ChangeType changeType) {
+    public Environment(int bias, ChangeType changeType) {
         this(bias);
-        this.seed = seed;
-        random = new Random(seed);
+//        random = new Random(seed);
         this.changeType = changeType;
     }
 
@@ -65,7 +64,7 @@ public class Environment {
     private void changeState() {
         switch (this.changeType) {
             case Random:
-                state.center = random.nextInt(NUMBER_OF_ACTIONS) - ACTION_RANGE;
+//                state.center = random.nextInt(NUMBER_OF_ACTIONS) - ACTION_RANGE;
                 break;
             case Cyclic:
                 state.center++;

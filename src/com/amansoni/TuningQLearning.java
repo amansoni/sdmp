@@ -21,7 +21,7 @@ public class TuningQLearning {
     LearningAlgorithm learningAlgorithm;
 
     public TuningQLearning(int seed, int bias, Algorithm algorithm, double[] params) {
-        environment = new Environment(bias, false);
+        environment = new Environment(100, Environment.ChangeType.Cyclic);
         switch (algorithm) {
             case QLearning:
                 learningAlgorithm = new QLearning(environment, seed, params);
@@ -67,41 +67,38 @@ public class TuningQLearning {
         double best15 = 0.;
         double reward100 = 0.;
         double reward15 = 0.;
-        double[] params = new double[]{0.7, 0.5};
+        double[] params = new double[]{0.1, 0.1};
+        double increment = .1;
 
         double optimal100 = createExperimentRun(1, 100, steps, Algorithm.Optimal, params);
         double optimal15 = createExperimentRun(1, 15, steps, Algorithm.Optimal, params);
 
-        Algorithm algorithm = Algorithm.QBEA;
-        for (int i = 0; i < 30; i++) {
+        Algorithm algorithm = Algorithm.QLearning;
+        for (int i = 0; i < 10; i++) {
             System.out.println("Testing:" + i);
-
-
-            reward100 = createExperimentRun(repeat, 100, steps, algorithm, params);
-            reward15 = createExperimentRun(repeat, 15, steps, algorithm, params);
+            params[0] = params[0] + increment;
+            for (int j = 0; j < 10; j++) {
+                params[1] = params[1] + increment;
+                reward100 = createExperimentRun(repeat, 100, steps, algorithm, params);
+                reward15 = createExperimentRun(repeat, 15, steps, algorithm, params);
 
 //            double reward0 = createExperimentRun(repeat, 0, steps, Algorithm.QLearning);
-            if (((optimal15 - reward15) / optimal15 + (optimal100 - reward100) / optimal100) > maxReward) {
-                maxReward = ((optimal15 - reward15) / optimal15 + (optimal100 - reward100) / optimal100);
-                if (algorithm == Algorithm.QBEA)
-                    best = params[1];
-                else
-                    best = params[0];
-            }
-            if (reward100 > best100) {
-                best100 = reward100;
-                System.out.println("Better 100 :" + best100 + " discount factor:" + params[0]);
-            }
-            if (reward15 > best15) {
-                best15 = reward15;
-                System.out.println("Better 15 :" + best15 + " discount factor:" + params[0]);
-            }
-            if (algorithm == Algorithm.QBEA) {
-                params[1] = i * 0.5;
-                if (params[1] == 0)
-                    params[1] = 1.;
-            } else {
-                params[0] = i * 0.5;
+                if (((optimal15 - reward15) / optimal15 + (optimal100 - reward100) / optimal100) > maxReward) {
+                    maxReward = ((optimal15 - reward15) / optimal15 + (optimal100 - reward100) / optimal100);
+                    if (algorithm == Algorithm.QBEA)
+                        best = params[1];
+                    else
+                        best = params[0];
+                }
+                if (reward100 > best100) {
+                    best100 = reward100;
+                    System.out.println("Better 100 :" + best100 + " discount factor:" + params[0]);
+                }
+                if (reward15 > best15) {
+                    best15 = reward15;
+                    System.out.println("Better 15 :" + best15 + " discount factor:" + params[0]);
+                }
+
             }
         }
         System.out.println("Best param:" + best);
