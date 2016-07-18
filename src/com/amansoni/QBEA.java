@@ -1,6 +1,7 @@
 package com.amansoni;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 import com.amansoni.EvolutionaryAlgorithm.Strategy;
 
@@ -16,9 +17,11 @@ public class QBEA extends QLearning {
     int seed;
     Map<State, StateTransition> map = new TreeMap<>();
     Strategy strategy = Strategy.Full;
+    Random EARandom;
 
     public QBEA(Environment environment, int seed) {
         super(environment, seed);
+        EARandom = new Random(seed);
         initMap();
     }
 
@@ -85,7 +88,7 @@ public class QBEA extends QLearning {
         if (RANDOM_SELECT_SINGLE_ACTION){
             actions = new Action[] {environment.getActions()[random.nextInt(environment.getActions().length)]};
         } else {
-            actions = new EvolutionaryAlgorithm(environment, strategy, random, offlineTime, false).getActions();
+            actions = new EvolutionaryAlgorithm(environment, strategy, EARandom, offlineTime, false).getActions();
         }
         for (Action evalAction : actions) {
             State probableState = estimateNextState(state, evalAction);

@@ -86,8 +86,8 @@ public class Experiments {
     }
 
     public static void main(String[] args){
-//        writeBenchmarkFiles();
-        writeExplorationProbilities();
+        writeBenchmarkFiles();
+//        writeExplorationProbilities();
     }
 
     private static void writeExplorationProbilities() {
@@ -99,10 +99,10 @@ public class Experiments {
     public static void writeBenchmarkFiles() {
         String s = "C:\\Users\\Aman\\Documents\\writing\\5648303hjdksq\\data\\";
         writeOutput(new Experiments().run(Environment.ChangeType.Oscillate, 100), s + "cmpbo100.csv");
-        writeOutput(new Experiments().run(Environment.ChangeType.Oscillate, 15), s + "cmpbo15.csv");
+//        writeOutput(new Experiments().run(Environment.ChangeType.Oscillate, 15), s + "cmpbo15.csv");
 
-        writeOutput(new Experiments().run(Environment.ChangeType.Cyclic, 100), s + "cmpbc100.csv");
-        writeOutput(new Experiments().run(Environment.ChangeType.Cyclic, 15), s + "cmpbc15.csv");
+//        writeOutput(new Experiments().run(Environment.ChangeType.Cyclic, 100), s + "cmpbc100.csv");
+//        writeOutput(new Experiments().run(Environment.ChangeType.Cyclic, 15), s + "cmpbc15.csv");
     }
 
     public static void writeOutput(List<String> lines, String path) {
