@@ -96,10 +96,16 @@ public class Experiments {
             double[] QBEAValues = runAveragedExperiments(changeType, bias, offlineTime, Algorithm.QBEA);
 
             double delta = (double) offlineTime / tauFMax;
-            String s = delta + "\t";
+            String s = delta + ",\t";
             s += optimalValues[0] + ",\t" + optimalValues[1] + ",\t";
-            s += randomValues[0] + ",\t" + randomValues[1] + ",\t";
-            s += qLearningValues[0] + ",\t" + qLearningValues[1] + ",\t";
+            // plot standard error for random and Q-Learning only once
+            if (offlineTime == 11){
+                s += randomValues[0] + ",\t" + randomValues[1] + ",\t";
+                s += qLearningValues[0] + ",\t" + qLearningValues[1] + ",\t";
+            } else {
+                s += randomValues[0] + ",\t" + 0.0 + ",\t";
+                s += qLearningValues[0] + ",\t" + 0.0 + ",\t";
+            }
             s += EDOValues[0] + ",\t" + EDOValues[1] + ",\t";
             s += QBEAValues[0] + ",\t" + QBEAValues[1] + ",\t";
             System.out.println(s);
@@ -111,14 +117,14 @@ public class Experiments {
     public static void main(String[] args) {
 //        outputSeeds();
         writeBenchmarkFiles();
-//        writeExplorationProbilities();
+        writeExplorationProbilities();
     }
 
     private static void outputSeeds() {
         Random random = new Random();
         for (int i = 0; i < 100; i++) {
-//            System.out.print(random.nextInt() +",");
-            System.out.print("0.,");
+            System.out.print(random.nextInt() +",");
+//            System.out.print("0.,");
         }
     }
 
@@ -131,10 +137,10 @@ public class Experiments {
     public static void writeBenchmarkFiles() {
         String s = "C:\\Users\\Aman\\Documents\\writing\\5648303hjdksq\\data\\";
         writeOutput(new Experiments().run(Environment.ChangeType.Oscillate, 100), s + "cmpbo100.csv");
-//        writeOutput(new Experiments().run(Environment.ChangeType.Oscillate, 15), s + "cmpbo15.csv");
+        writeOutput(new Experiments().run(Environment.ChangeType.Oscillate, 15), s + "cmpbo15.csv");
 
-//        writeOutput(new Experiments().run(Environment.ChangeType.Cyclic, 100), s + "cmpbc100.csv");
-//        writeOutput(new Experiments().run(Environment.ChangeType.Cyclic, 15), s + "cmpbc15.csv");
+        writeOutput(new Experiments().run(Environment.ChangeType.Cyclic, 100), s + "cmpbc100.csv");
+        writeOutput(new Experiments().run(Environment.ChangeType.Cyclic, 15), s + "cmpbc15.csv");
     }
 
     public static void writeOutput(List<String> lines, String path) {
