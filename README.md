@@ -33,8 +33,6 @@ Soni,Aman, Peter R. Lewis and Ekárt,Anikó. "Offline and Online Time in Sequent
 | --- |
 | Cyclical Environment - Small Bias |
 
-### Cyclical Environment
-
 ## Settings
 
 | Setting | Description | Value |
