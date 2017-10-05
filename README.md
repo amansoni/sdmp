@@ -2,7 +2,7 @@
 
 Code for : Aman Soni, Peter R. Lewis and Anikó Ekárt. "Offline and Online Time in Sequential Decision-Making Problems" Computational Intelligence in Dynamic and Uncertain Environments(CIDUE),2016 IEEE Symposium on. IEEE, 2016.
 
-The hypothesis of this work is a method for performance comparison of algorithms. The motivation was to fill the need to consider resource usage when comparing evolutionary dynamic optimisation algorithms to algorithms from reinforcement learning for a more abstract view of algorithms for sequential decision-making problems.
+The hypothesis of this work is a method for performance comparison of algorithms. The motivation was to fill the need to consider resource usage when comparing evolutionary dynamic optimisation algorithms to algorithms from reinforcement learning. The higher level of abstraction allows algorithm designers a wider selection of algorithms to solve  sequential decision-making problems.
 
 This research is based on:
 
