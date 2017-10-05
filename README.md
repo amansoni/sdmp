@@ -17,21 +17,17 @@ Implementation of the Particle Swarm Optimisation using Restart (RPSO)
 
 Aman Soni, Peter R. Lewis and Anikó Ekárt. "Offline and Online Time in Sequential Decision-Making Problems" Computational Intelligence in Dynamic and Uncertain Environments(CIDUE),2016 IEEE Symposium on. IEEE, 2016.
 
-| ![Big Bias](figures/cmpbo100.png) |
-| --- |
-| Oscilliating Environment - Large Bias |
+### Oscilliating Environment
 
-| ![Small Bias](figures/cmpbo15.png) |
+| Large Bias | Small Bias |
 | --- |
-| Oscilliating Environment - Small Bias |
+| ![Big Bias](figures/cmpbo100.png) | ![Small Bias](figures/cmpbo15.png) |
 
-| ![Big Bias](figures/cmpbo100.png) |
-| --- |
-| Cyclical Environment - Large Bias |
+### Cyclical Environment
 
-| ![Small Bias](figures/cmpbc15.png) |
+| Large Bias | Small Bias |
 | --- |
-| Cyclical Environment - Small Bias |
+| ![Big Bias](figures/cmpbc100.png) | ![Small Bias](figures/cmpbc15.png) |
 
 ## Settings
 
@@ -43,6 +39,7 @@ Aman Soni, Peter R. Lewis and Anikó Ekárt. "Offline and Online Time in Sequent
 ### Random Seeds
 
 | 1245097796 | 1661198952 | 122864260 |
+| --- | --- | ---|
 | -1728364941 | -1610161142| -1553747733| 
 |-1514202174 | 1222408005| -1578471556| 
 |521614943| -389764704| -1649559921| 
