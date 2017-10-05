@@ -1,21 +1,21 @@
 # Sequential Decison Making Problems (SDMPs)
 
-Code for experiments based on work in the following papers:
+Code for : Aman Soni, Peter R. Lewis and Anikó Ekárt. "Offline and Online Time in Sequential Decision-Making Problems" Computational Intelligence in Dynamic and Uncertain Environments(CIDUE),2016 IEEE Symposium on. IEEE, 2016.
+
+This research is based on:
 
 * Fu, Haobo, et al. "What are dynamic optimization problems?." Evolutionary Computation (CEC), 2014 IEEE Congress on. IEEE, 2014.
 * Fu, Haobo, Peter R. Lewis, and Xin Yao. "A Q-learning Based Evolutionary Algorithm for Sequential Decision Making Problems.
 
-Q-Learning is an implementation of Q Learning from Watkins, Christopher John Cornish Hellaby. 
+Q-Learning is an implementation of Q Learning from Watkins, Christopher John Cornish Hellaby.
 Learning from delayed rewards. Diss. University of Cambridge, 1989.
-Link (http://www.cs.rhul.ac.uk/~chrisw/thesis.html)
+[Link](http://www.cs.rhul.ac.uk/~chrisw/thesis.html)
 
 Implementation of the Particle Swarm Optimisation using Restart (RPSO) 
 
 * Clerc, Maurice, and James Kennedy. "The particle swarm-explosion, stability, and convergence in a multidimensional complex space." Evolutionary Computation, IEEE Transactions on 6.1 (2002): 58-73.
 
 ## Outputs
-
-Aman Soni, Peter R. Lewis and Anikó Ekárt. "Offline and Online Time in Sequential Decision-Making Problems" Computational Intelligence in Dynamic and Uncertain Environments(CIDUE),2016 IEEE Symposium on. IEEE, 2016.
 
 ### Oscilliating Environment
 
