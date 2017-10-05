@@ -20,7 +20,7 @@ Implementation of the Particle Swarm Optimisation using Restart (RPSO)
 ### Oscilliating Environment
 
 | Large Bias | Small Bias |
-| --- |
+|:---:|:---:|
 | ![Big Bias](figures/cmpbo100.png) | ![Small Bias](figures/cmpbo15.png) |
 
 ### Cyclical Environment
